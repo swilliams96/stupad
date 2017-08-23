@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -27,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -47,10 +48,18 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
+
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'first-name' => 'required|string|max:255',
+            'last-name' => 'required|string|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'account-type' => [
+                'required',
+                Rule::in(['student', 'landlord']),
+            ],
+            'terms' => 'required|accepted',
         ]);
     }
 
@@ -63,9 +72,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first-name'],
+            'last_name' => $data['last-name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'student' => ($data['account-type'] == 'student'),
+            'landlord' => ($data['account-type'] == 'landlord'),
         ]);
     }
 }

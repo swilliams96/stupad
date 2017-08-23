@@ -821,7 +821,7 @@ div.login-box {
 	padding-bottom: 15px;
 }
 
-#login input, #register input {
+.login-box input:not([type=checkbox]) {
 	display: inline-block;
 	font-size: 16px;
 	font-weight: 400;
@@ -836,7 +836,7 @@ div.login-box {
 	width: 100%;
 }
 
-#register input {
+#register input:not([type=checkbox]):not([type=radio]) {
 	font-size: 14px;
 	height: 40px;
 }
@@ -852,21 +852,21 @@ div.login-box {
 	}
 }
 
-#login button, #register button {
+.login-box button {
 	margin: 20px auto 80px;
 }
 
 
 
 @media (min-width:767px) {
-	#login button, #register button {
-		margin: 20px auto 50px;
+	.login-box button {
+		margin: 5px auto 50px;
 	}
 }
 
-#register input[type=checkbox], #register input[type=radio] { /* terms checkbox */
+.login-box input[type=checkbox], .login-box input[type=radio] { /* terms checkbox */
 	display: inline;
-	width: 16px;
+	width: 16px !important;
 	height: 16px;
 	margin: 10px 5px;
 	position: relative;
@@ -874,7 +874,7 @@ div.login-box {
 	bottom: 1px;
 }
 
-#login label, #register label { /* span instead of label to prevent accidental clicking when clicking a link */
+#register label {
 	font-size: 12px;
 	font-weight: 400;
 	line-height: 2em;

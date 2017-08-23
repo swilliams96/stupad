@@ -11,35 +11,15 @@
 |
 */
 
-Route::get('/', function() {
-    return view('home');
-});
+Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/results', function() {
-    // TODO: implement the search results page
-    return redirect('/');
-});
+Auth::routes();
 
-Route::get('/login', function() {
-    // TODO: implement login page
-    return redirect('/');
-});
+Route::get('/landlord', 'HomeController@landlord')->name('landlord');
 
-Route::get('/register', function() {
-    // TODO: implement login page
-    return redirect('/');
-});
-
-
-
-/****************************/
-/* TODO: CREATE BELOW PAGES */
-/****************************/
-
-Route::get('/landlord', function() {
-    return redirect('/');
-});
-
-Route::get('/login', function() {
-    return redirect('/');
-});
+// TODO: implement below pages
+Route::get('/search', 'HomeController@unimplemented');
+Route::get('/results', 'HomeController@unimplemented');
+Route::get('/profile', 'HomeController@unimplemented');
+Route::get('/terms', 'HomeController@unimplemented')->name('termsandconditions');
+Route::get('/privacy', 'HomeController@unimplemented')->name('privacypolicy');
