@@ -100,4 +100,16 @@
 
     @include('common.footer')
 
+
+    <!-- jQuery Autocomplete -->
+    <script>
+        $( function() {
+            var availableLocations = [ "University of Bath", "Bath Spa University", "University of Bristol" ];
+
+            $( "#locationselect" ).autocomplete({
+                source: availableLocations
+            });
+        } );
+    </script>
+
 @endsection

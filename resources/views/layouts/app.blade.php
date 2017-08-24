@@ -37,18 +37,6 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
 
-    <!-- jQuery Autocomplete -->
-    <script>
-        $( function() {
-            var availableLocations = [ "University of Bath", "Bath Spa University", "University of Bristol" ];
-
-            $( "#locationselect" ).autocomplete({
-                source: availableLocations
-            });
-        } );
-    </script>
-
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -77,7 +65,7 @@
                     </li>
                 @else
                     <li>
-                        <a class="page-scroll nav-btn" href="{{ route('profile') }}">Welcome back, {{ Auth::user()->first_name }}. </a>
+                        <a class="page-scroll nav-btn" href="{{ route('profile') }}">Welcome back, {{ Auth::user()->first_name }} </a>
                     </li>
                     <li>
                         <a class="page-scroll nav-btn nav-btn-muted" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
