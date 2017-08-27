@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@stupad.co.uk'),
+        'name' => env('MAIL_FROM_NAME', 'StuPad'),
     ],
 
     /*
@@ -113,7 +113,7 @@ return [
     */
 
     'markdown' => [
-        'theme' => 'default',
+        'theme' => 'stupad',
 
         'paths' => [
             resource_path('views/vendor/mail'),
