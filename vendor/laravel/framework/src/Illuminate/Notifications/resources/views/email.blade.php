@@ -45,7 +45,7 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-Regards,<br/><br/>>The {{ config('app.name') }} Team
+Regards,<br/><br/>The {{ config('app.name') }} Team
 @endif
 
 {{-- Subcopy --}}
