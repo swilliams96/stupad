@@ -27,7 +27,8 @@
             $color = 'red';
             break;
         default:
-            $color = 'blue';
+            //$color = 'blue';
+            $color = 'red';
     }
 ?>
 @component('mail::button', ['url' => $actionUrl, 'color' => $color])
