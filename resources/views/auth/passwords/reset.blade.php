@@ -20,7 +20,7 @@
                         <form method="POST" action="{{ route('password.request') }}">
                             {{ csrf_field() }}
                             <input type="hidden" name="token" value="{{ $token }}">
-                            <input type="email" id="email" type="email" placeholder="Email" value="{{ $email or old('email') }}" {{ $errors->has('email') ? 'class="has-error"' : '' }} required autofocus/>
+                            <input type="email" id="email" name="email" placeholder="Email" value="{{ $email or old('email') }}" {{ $errors->has('email') ? 'class="has-error"' : '' }} required autofocus/>
                             <input id="password" type="password" name="password" placeholder="New Password" required>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirm New Password" required>
                             <span id="password-helper-text">* Must be at least 8 characters long.</span>
