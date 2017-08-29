@@ -794,9 +794,7 @@ a .subtle-link {
 	}
 }
 
-
-
-div.login-box {
+.login-box {
 	min-height: 340px;
 	text-align: center;
 	margin: 0;
@@ -806,19 +804,23 @@ div.login-box {
 	background-color: white
 }
 
-#login div.login-box {
+#login .login-box {
 	min-height: 340px;
 }
 
-#register div.login-box {
+#register .login-box {
 	min-height: 550px;
 }
 
-#login h1, #register h1 {
+.login-box h1 {
 	font-size: 24px;
 	font-weight: 700;
 	color: #777;
 	padding-bottom: 15px;
+}
+
+.login-box p {
+    font-size: 12px; width: 90%; margin: 10px auto;
 }
 
 .login-box input:not([type=checkbox]) {
@@ -846,7 +848,7 @@ div.login-box {
 }
 
 @media (min-width:767px) {
-	#login div.login-box, #register div.login-box {
+	.login-box {
 		margin: 30px 50px 0;
 		padding: 20px 70px;
 	}
@@ -855,8 +857,6 @@ div.login-box {
 .login-box button {
 	margin: 20px auto 80px;
 }
-
-
 
 @media (min-width:767px) {
 	.login-box button {
