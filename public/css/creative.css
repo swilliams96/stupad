@@ -801,7 +801,7 @@ a .subtle-link {
 	padding: 20px;
 	/*border: 2px solid #bbb;*/
 	border-radius: 6px;
-	background-color: white
+	background-color: #fff;
 }
 
 #login .login-box {
@@ -948,14 +948,33 @@ span.register-login-prompt {
 
 
 #search {
-	height: 100%;
-	padding-top: 120px;
+	min-height: 100%;
+	padding: 80px 0 30px;
 }
 
 #search form.filters {
 	width: 90%;
 	max-width: 600px;
 	margin: 0 auto;
+}
+
+@media(min-width:767px) {
+    #search {
+        padding-top: 100px;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        background-image: url(../img/bg/section-bg-1.jpg);
+        background-color: #888;
+    }
+
+    #search form.filters {
+        background-color: #f7f7f7;
+        border-radius: 6px;
+    }
 }
 
 #search form.filters input[type="text"]{
@@ -1049,7 +1068,7 @@ span.register-login-prompt {
 form.filters {
 	padding: 0 20px 20px;
 	margin-bottom: 20px;
-	background-color: #eee;
+    background-color: #eee;
 	border: solid 1px #ddd;
 	border-radius: 3px;
 	font-size: 12px;

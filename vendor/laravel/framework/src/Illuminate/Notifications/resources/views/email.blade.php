@@ -4,7 +4,7 @@
 # {{ $greeting }}
 @else
 @if ($level == 'error')
-# Oops!
+# Whoops!
 @else
 # Hello!
 @endif
@@ -27,8 +27,7 @@
             $color = 'red';
             break;
         default:
-            //$color = 'blue';
-            $color = 'red';
+            $color = 'blue';
     }
 ?>
 @component('mail::button', ['url' => $actionUrl, 'color' => $color])
@@ -46,7 +45,7 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-Regards,<br/><br/>The {{ config('app.name') }} Team
+Regards,<br>{{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}

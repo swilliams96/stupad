@@ -15,11 +15,13 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
+Route::get('/search', 'SearchController@search')->name('search');
+Route::get('/results', 'SearchController@results')->name('results');
+
 Route::get('/landlord', 'HomeController@landlord')->name('landlord');
 
 // TODO: implement below pages
-Route::get('/search', 'HomeController@unimplemented');
-Route::get('/results', 'HomeController@unimplemented');
+Route::get('/results', 'SearchController@results')->name('results');
 Route::get('/profile', 'HomeController@unimplemented')->name('profile');
 Route::get('/terms', 'HomeController@unimplemented')->name('termsandconditions');
 Route::get('/privacy', 'HomeController@unimplemented')->name('privacypolicy');
