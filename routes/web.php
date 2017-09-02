@@ -16,7 +16,8 @@ Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/search', 'SearchController@search')->name('search');
-Route::get('/results', 'SearchController@results')->name('results');
+Route::post('/results', 'SearchController@results')->name('results');
+Route::get('/results/{locationslug}', 'SearchController@showresults');
 
 Route::get('/landlord', 'HomeController@landlord')->name('landlord');
 
