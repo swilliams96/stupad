@@ -44,7 +44,7 @@ class SearchController extends Controller
         }
 
         $request_location = $request->location;
-        $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->get();
+        $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
 
         foreach ($location_list as $row) {
             if ($row->name == $request_location) {  // Check full names first ...

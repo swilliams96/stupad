@@ -198,7 +198,7 @@
                             $("#bathrooms-min-label").html("");
                             $("#bathrooms-max-label").html(options_bathrooms[5-1]);
                         } else {
-                            $("#bathrooms-min-label").html(options_bathrooms[ui.values[0]]);
+                            $("#bathrooms-min-label").html(options_bathrooms[ui.values[0]-1]);
                             $("#bathrooms-max-label").html("");
                         }
                     } else if (ui.values[0] == 1 && ui.values[1] == 5) {
