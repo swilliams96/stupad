@@ -17,16 +17,17 @@ class SearchController extends Controller
 
 
     public function results(Request $request) {
-
+        // Cache variables (except location)
         $rent_min = $request->rent_min;
         $rent_max = $request->rent_max;
         $bedrooms_min = $request->bedrooms_min;
         $bedrooms_max = $request->bedrooms_max;
         $bathrooms_min = $request->bathrooms_min;
         $bathrooms_max = $request->bathrooms_max;
+        $distance = $request->distance;
+        $place = $request->place;
 
-        // TODO: Check if location is in the database table of valid locations
-        // TODO: Integrate tables for ids and corresponding labels (studio, 1 bedroom, 2 bedrooms, etc.)
+        // TODO: Integrate tables for ids and corresponding labels (studio, 1 bedroom, 2 bedrooms, etc.) instead of hardcoding
         $validator = Validator::make($request->all(), [
             'location' => 'bail|required|max:255',
             'rent_min' => 'required|integer|min:5|max:' . $rent_min,
@@ -36,12 +37,18 @@ class SearchController extends Controller
             'bathrooms_min' => 'required|integer|min:1|max:' . $bathrooms_max,
             'bathrooms_max' => 'required|integer|max:5|min:' . $bathrooms_min,
             'distance' => 'required|integer|min:10|max:60',
-            'institution' => 'required|string|in:campus,town',
+            'place' => 'required|string|in:campus,town',
         ]);
 
         if ($validator->fails()) {
             return back();
         }
+
+        // For local development environment debugging:
+        /*
+            $location_list = array();
+            $found_slug = 'slug';
+        */
 
         $request_location = $request->location;
         $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
@@ -66,7 +73,7 @@ class SearchController extends Controller
                 ->with('bathrooms_min', $bathrooms_min)
                 ->with('bathrooms_max', $bathrooms_max)
                 ->with('distance', $distance)
-                ->with('institution', $institution);
+                ->with('place', $place);
         }
 
         // TODO: redirect to 'did you mean X' page below
@@ -78,11 +85,11 @@ class SearchController extends Controller
         return 'showing results for ' . $locationslug . '...<br/><br/>'
             . 'rent min: £' . $request->session()->get('rent_min', 0)
             . '<br/>rent max: £' . $request->session()->get('rent_max', 0)
-            . '<br/>bed min: £' . $request->session()->get('bedrooms_min', 0)
-            . '<br/>bed max: £' . $request->session()->get('bedrooms_max', 0)
-            . '<br/>bath min: £' . $request->session()->get('bathrooms_min', 0)
-            . '<br/>bath max: £' . $request->session()->get('bathrooms_max', 0)
+            . '<br/>bed min: ' . $request->session()->get('bedrooms_min', 0)
+            . '<br/>bed max: ' . $request->session()->get('bedrooms_max', 0)
+            . '<br/>bath min: ' . $request->session()->get('bathrooms_min', 0)
+            . '<br/>bath max: ' . $request->session()->get('bathrooms_max', 0)
             . '<br/>distance: ' . $request->session()->get('distance', 0) . ' mins'
-            . '    to ' . $request->session()->get('institution', 0);
+            . '    to ' . $request->session()->get('place', "");
     }
 }

@@ -44,7 +44,7 @@
 
                         <h3 style="width: 100%;">
                             <span><i class="fa fa-map-marker fa-1 fa-pad-5 sr-icons"></i>Dist. from</span>
-                            <select id="institution" name="institution">
+                            <select id="place" name="place">
                                 <option value="campus">Campus</option>
                                 <option value="town">Town Centre</option>
                             </select>
@@ -99,6 +99,7 @@
 
     <!-- SLIDERS -->
     <script>
+        // TODO: SET DEFAULTS TO THE SESSION DATA WHERE SESSION DATA IS SET
         $(function() {
             var rent_defaults = [100, 250];
             var rent_max = 500;
@@ -239,5 +240,7 @@
 
         });
     </script>
+
+    <!-- TODO: IMPLEMENT LOCATION SUGGESTIONS -->
 
 @endsection
