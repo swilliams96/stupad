@@ -13,7 +13,7 @@ class SearchController extends Controller
 {
 
     public function search(Request $request) {
-        return view('search');
+        return view('search')->with('location', $request->location);
     }
 
 

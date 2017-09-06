@@ -6,9 +6,8 @@
             <div class="header-content-inner">
                 <h1 id="homeHeading">Easy Accommodation for Students</h1>
                 <hr>
-                <form action="./results">
-                    {{ csrf_field() }}
-                    <input type="text" id="locationselect" name="location" placeholder="What university are you at?"/>
+                <form method="GET" action="{{ route('search') }}">
+                    <input type="text" id="locationselect" name="location" placeholder="What university are you at?" class="location-autocomplete"/>
                     <button class="btn btn-primary btn-xl" type="submit">Search</button>
                 </form>
 
@@ -31,7 +30,7 @@
                     <div class="service-box">
                         <i class="fa fa-4x fa-search text-primary sr-icons"></i>
                         <h3>Smart Searching</h3>
-                        <p class="text-muted">Search criteria made with students in mind.</p>
+                        <p class="text-muted">Search criteria built with students in mind.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center">
@@ -65,7 +64,7 @@
                     <p>
                         As a student it was always hard to find the perfect house to live in. Like every uni student I didn't have time to search
                         through hundreds of different websites and listings, so I created <span class="stu">STU</span><span class="pad">PAD</span>
-                        to help make it easier for busy students to find accommodation.
+                        to help make it easier for busy students to search for accommodation.
                     </p>
                 </div>
             </div>
@@ -88,7 +87,7 @@
                             <i class="fa fa-5x fa-home text-primary sr-icons"></i>
                             <i class="fa fa-5x fa-home text-primary sr-icons icon-fade"></i>
                             <p class="text-muted">
-                                Click <span class="subtle-link">here</span> to visit our Landlord Portal and find out more about how
+                                Click <span class="subtle-link">here</span> to visit our Landlord Portal and discover how
                                 easy it is to get your property in front of students looking to rent.
                             </p>
                         </div>
