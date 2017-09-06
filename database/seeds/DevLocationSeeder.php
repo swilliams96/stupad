@@ -16,7 +16,7 @@ class DevLocationSeeder extends Seeder
         DB::table('locations')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        // Insert the data
+        // Insert the locations data
         DB::table('locations')->insert([
             ['name' => 'Bath Town', 'short_name' => 'Bath', 'slug' => 'bath-town', 'area_id' => 1, 'active' => true, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')],
             ['name' => 'University of Bath', 'short_name' => 'Uni of Bath', 'slug' => 'bath', 'area_id' => 1, 'active' => true, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')],

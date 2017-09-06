@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Validator;
 use DB;
+use Cookie;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class SearchController extends Controller
 
 
     public function results(Request $request) {
-        // Cache variables (except location)
+        // Cache form variables
+        $request_location = strtolower($request->location);
         $rent_min = $request->rent_min;
         $rent_max = $request->rent_max;
         $bedrooms_min = $request->bedrooms_min;
@@ -44,21 +46,25 @@ class SearchController extends Controller
             return back();
         }
 
-        // For local development environment debugging:
-        /*
-            $location_list = array();
-            $found_slug = 'slug';
-        */
+        // Store our last search in cookies to ensure the search is saved for a day (1440 minutes)
+        Cookie::queue('lastsearch_location', $request_location, 1440);
+        Cookie::queue('lastsearch_rent_min', $rent_min, 1440);
+        Cookie::queue('lastsearch_rent_max', $rent_max, 1440);
+        Cookie::queue('lastsearch_bedrooms_min', $bedrooms_min, 1440);
+        Cookie::queue('lastsearch_bedrooms_max', $bedrooms_max, 1440);
+        Cookie::queue('lastsearch_bathrooms_min', $bathrooms_min, 1440);
+        Cookie::queue('lastsearch_bathrooms_max', $bathrooms_max, 1440);
+        Cookie::queue('lastsearch_distance', $distance, 1440);
+        Cookie::queue('lastsearch_place', $place, 1440);
 
-        $request_location = $request->location;
+        // For local development environment debugging:
+        // $location_list = array();
+        //  $found_slug = 'slug';
+
         $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
 
         foreach ($location_list as $row) {
-            if ($row->name == $request_location) {  // Check full names first ...
-                $found_slug = $row->slug;
-                break;
-            }
-            if ($row->short_name == $request_location) {
+            if (strtolower($row->name) == $request_location || strtolower($row->short_name) == $request_location) {
                 $found_slug = $row->slug;
                 break;
             }
@@ -82,14 +88,24 @@ class SearchController extends Controller
 
 
     public function showresults(Request $request, $locationslug) {
-        return 'showing results for ' . $locationslug . '...<br/><br/>'
-            . 'rent min: £' . $request->session()->get('rent_min', 0)
+        return 'showing results for ' . $locationslug . '...<br/><br/></br><b>SESSION DATA:</b>'
+            . '<br/>rent min: £' . $request->session()->get('rent_min', 0)
             . '<br/>rent max: £' . $request->session()->get('rent_max', 0)
             . '<br/>bed min: ' . $request->session()->get('bedrooms_min', 0)
             . '<br/>bed max: ' . $request->session()->get('bedrooms_max', 0)
             . '<br/>bath min: ' . $request->session()->get('bathrooms_min', 0)
             . '<br/>bath max: ' . $request->session()->get('bathrooms_max', 0)
             . '<br/>distance: ' . $request->session()->get('distance', 0) . ' mins'
-            . '    to ' . $request->session()->get('place', "");
+            . '    to ' . $request->session()->get('place', "")
+            . '<br/><br/></br><b>COOKIE DATA:</b>'
+            . '<br/>location: ' . $request->cookie('lastsearch_location')
+            . '<br/>rent min: £' . $request->cookie('lastsearch_rent_min', 0)
+            . '<br/>rent max: £' . $request->cookie('lastsearch_rent_max', 0)
+            . '<br/>bed min: ' . $request->cookie('lastsearch_bedrooms_min', 0)
+            . '<br/>bed max: ' . $request->cookie('lastsearch_bedrooms_max', 0)
+            . '<br/>bath min: ' . $request->cookie('lastsearch_bathrooms_min', 0)
+            . '<br/>bath max: ' . $request->cookie('lastsearch_bathrooms_max', 0)
+            . '<br/>distance: ' . $request->cookie('lastsearch_distance', 0) . ' mins'
+            . '    to ' . $request->cookie('lastsearch_place');
     }
 }
