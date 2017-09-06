@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class SearchController extends Controller
 {
 
-    public function search() {
+    public function search(Request $request) {
         return view('search');
     }
 

@@ -13,7 +13,7 @@
 
                         {{ csrf_field() }}
 
-                        <input type="text" id="location" name="location" placeholder="Where are you searching?"/>
+                        <input type="text" id="location" name="location" placeholder="Where are you searching?" value="{{ Cookie::get('lastsearch_location', '') }}"/>
 
                         <h3><i class="fa fa-gbp fa-pad-5 sr-icons"></i>Rent (per week)</h3>
                         <div id="rent-slider" class="slider"></div>
@@ -45,8 +45,8 @@
                         <h3 style="width: 100%;">
                             <span><i class="fa fa-map-marker fa-1 fa-pad-5 sr-icons"></i>Dist. from</span>
                             <select id="place" name="place">
-                                <option value="campus">Campus</option>
-                                <option value="town">Town Centre</option>
+                                <option value="campus"{{ Cookie::get('lastsearch_place') == 'campus' ? 'selected' : '' }}>Campus</option>
+                                <option value="town"{{ Cookie::get('lastsearch_place') == 'town' ? 'selected' : '' }}>Town Centre</option>
                             </select>
                             <!--
                             <span style="padding-left: 4px;">by</span>
@@ -66,31 +66,6 @@
 
                         <button class="btn btn-primary btn-xl" type="submit">Search</button>
 
-                        <!--
-                            <h3>
-                                <i class="fa fa-map-marker fa-1 fa-pad-5 sr-icons"></i>Method of transport
-                                <select id="transport" name="transport">
-                                    <option value="bus">Bus</option>
-                                    <option value="walk">Walking</option>
-                                    <option value="cycle">Cycling</option>
-                                </select>
-                            </h3>
-
-
-                            <h3><i class="fa fa-bed fa-pad-5 sr-icons"></i>No. Bedrooms</h3>
-                            <label><input type="checkbox" name="beds_0" value="beds_0">Studio</label>
-                            <label><input type="checkbox" name="beds_1" value="beds_1">1 bedroom</label>
-                            <label><input type="checkbox" name="beds_2" value="beds_2">2 bedrooms</label>
-                            <label><input type="checkbox" name="beds_3" value="beds_3">3 bedrooms</label>
-                            <label><input type="checkbox" name="beds_4" value="beds_4">4 bedrooms</label>
-                            <label><input type="checkbox" name="beds_5+" value="beds_5+">5+ bedrooms</label>
-
-                            <h3><i class="fa fa-bath fa-1 fa-pad-5 sr-icons"></i>No. Bathrooms</h3>
-                            <label><input type="checkbox" name="beds_1" value="beds_1">1 bathroom</label>
-                            <label><input type="checkbox" name="beds_2" value="beds_2">2 bathrooms</label>
-                            <label><input type="checkbox" name="beds_3+" value="beds_3+">3+ bathrooms</label>
-                        -->
-
                     </form>
                 </div>
             </div>
@@ -101,7 +76,10 @@
     <script>
         // TODO: SET DEFAULTS TO THE SESSION DATA WHERE SESSION DATA IS SET
         $(function() {
-            var rent_defaults = [100, 250];
+            var rent_defaults = [
+                {{ Cookie::get('lastsearch_rent_min', 100) }},
+                {{ Cookie::get('lastsearch_rent_max', 250) }}
+            ];
             var rent_max = 500;
             var currency = "£";
             $("#rent-min-label").html(currency + rent_defaults[0]);
@@ -144,7 +122,10 @@
             });
 
             var options_bedrooms = ["Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms", "5+ bedrooms"];
-            var bedroom_defaults = [2, 4];
+            var bedroom_defaults = [
+                {{ Cookie::get('lastsearch_bedrooms_min', 2) }},
+                {{ Cookie::get('lastsearch_bedrooms_max', 4) }}
+            ];
             $("#bedrooms-min-label").html(options_bedrooms[bedroom_defaults[0]]);
             $("#bedrooms-max-label").html(options_bedrooms[bedroom_defaults[1]]);
             $("#bedrooms-slider").slider({
@@ -177,7 +158,10 @@
             });
 
             var options_bathrooms = ["1 bathroom", "2 bathrooms", "3 bathrooms", "4 bathrooms", "5+ bathrooms"];
-            var bathroom_defaults = [1, 4];
+            var bathroom_defaults = [
+                {{ Cookie::get('lastsearch_bathrooms_min', 1) }},
+                {{ Cookie::get('lastsearch_bathrooms_max', 4) }}
+            ];
             $("#bathrooms-min-label").html(options_bathrooms[bathroom_defaults[0]-1]);
             $("#bathrooms-max-label").html(options_bathrooms[bathroom_defaults[1]-1]);
             $("#bathrooms-slider").slider({
@@ -209,7 +193,7 @@
                 }
             });
 
-            var distance_default = 45;
+            var distance_default = {{ Cookie::get('lastsearch_distance', 45) }};
             var distance_max = 60;
             var measurement = " mins";
             $("#distance-label").html("<" + distance_default + measurement);
