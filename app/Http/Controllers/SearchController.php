@@ -117,6 +117,6 @@ class SearchController extends Controller
             $names = ['University of Bath', 'Bath Spa University', 'University of Bristol', 'University of West England', 'Bath Town', 'Bristol Town'];
             return $names;
         }
-        return DB::table('locations')->pluck('name')->where('active', true);
+        return DB::table('locations')->where('active', true)->pluck('name');
     }
 }

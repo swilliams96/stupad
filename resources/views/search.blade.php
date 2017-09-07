@@ -72,6 +72,8 @@
         </div>
     </section>
 
+    @include('common.autocomplete')
+
     <!-- SLIDERS -->
     <script>
         // TODO: SET DEFAULTS TO THE SESSION DATA WHERE SESSION DATA IS SET
@@ -224,7 +226,5 @@
 
         });
     </script>
-
-    @include('common.autocomplete')
 
 @endsection

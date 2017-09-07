@@ -1,6 +1,6 @@
     <!-- jQuery Autocomplete -->
     <script>
-        $( function() {
+        $(function() {
             var availableLocations = [
                 @php
                     if (isset($all_locations)) {
@@ -12,8 +12,8 @@
 
             ];
 
-            $( ".location-autocomplete" ).autocomplete({
+            $(".location-autocomplete").autocomplete({
                 source: availableLocations
             });
-        } );
+        });
     </script>
