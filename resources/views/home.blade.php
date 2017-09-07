@@ -72,7 +72,7 @@
     </section>
 
     <section id="landlord-container">
-        <a href="./landlord" class="area-link">
+        <a href="{{ route('landlord') }}" class="area-link">
             <section id="landlord">
                 <div class="container">
                     <div class="row">
@@ -99,16 +99,6 @@
 
     @include('common.footer')
 
-
-    <!-- jQuery Autocomplete -->
-    <script>
-        $( function() {
-            var availableLocations = [ "University of Bath", "Bath Spa University", "University of Bristol" ];
-
-            $( "#locationselect" ).autocomplete({
-                source: availableLocations
-            });
-        } );
-    </script>
+    @include('common.autocomplete')
 
 @endsection

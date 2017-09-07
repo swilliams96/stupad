@@ -13,7 +13,7 @@
 
                         {{ csrf_field() }}
 
-                        <input type="text" id="location" name="location" placeholder="Where are you searching?" value="{{ $location !== null ? $location : Cookie::get('lastsearch_location', '') }}"/>
+                        <input type="text" id="location" name="location" placeholder="Where are you searching?" class='location-autocomplete' value="{{ $location !== null ? $location : Cookie::get('lastsearch_location', '') }}"/>
 
                         <h3><i class="fa fa-gbp fa-pad-5 sr-icons"></i>Rent (per week)</h3>
                         <div id="rent-slider" class="slider"></div>
@@ -225,6 +225,6 @@
         });
     </script>
 
-    <!-- TODO: IMPLEMENT LOCATION SUGGESTIONS -->
+    @include('common.autocomplete')
 
 @endsection

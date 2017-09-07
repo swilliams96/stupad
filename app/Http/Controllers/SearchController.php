@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\App;
 use Validator;
 use DB;
 use Cookie;
@@ -13,7 +14,9 @@ class SearchController extends Controller
 {
 
     public function search(Request $request) {
-        return view('search')->with('location', $request->location);
+        return view('search')
+            ->with('location', $request->location)
+            ->with('all_locations', self::getlocations());
     }
 
 
@@ -107,5 +110,13 @@ class SearchController extends Controller
             . '<br/>bath max: ' . $request->cookie('lastsearch_bathrooms_max', 0)
             . '<br/>distance: ' . $request->cookie('lastsearch_distance', 0) . ' mins'
             . '    to ' . $request->cookie('lastsearch_place');
+    }
+
+    public static function getlocations() {
+        if (App::environment('local')) {
+            $names = ['University of Bath', 'Bath Spa University', 'University of Bristol', 'University of West England', 'Bath Town', 'Bristol Town'];
+            return $names;
+        }
+        return DB::table('locations')->pluck('name')->where('active', true);
     }
 }
