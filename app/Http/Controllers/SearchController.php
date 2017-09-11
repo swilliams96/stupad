@@ -142,7 +142,7 @@ class SearchController extends Controller
             $area_id = 1;
             $listings = null;
         } else {
-            $area_id = DB::table('locations')->select('area_id')->where('slug', $location_slug)->first();
+            $area_id = DB::table('locations')->where('slug', $location_slug)->value('area_id');
             if ($area_id == null) redirect('/search');
             $listings = DB::table('listings')
                 ->where('area_id', $area_id)
