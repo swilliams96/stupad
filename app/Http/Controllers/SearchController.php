@@ -151,7 +151,7 @@ class SearchController extends Controller
                 ->whereBetween('rent_value', [$rent_min, $rent_max])
                 ->whereBetween('bedrooms', [$bedrooms_min, $bedrooms_max])
                 ->whereBetween('bathrooms', [$bathrooms_min, $bathrooms_max])
-                ->where(function($query) {
+                ->where(function($query) use ($distance) {
                     $query->where('town_distance', '<=', $distance);
                     $query->orWhereNull('town_distance');
                 })->get();
