@@ -414,10 +414,6 @@ header .header-content .header-content-inner p {
 	margin-top: 20px;
 }
 
-.btn.btn-search:hover {
-	background-color: #e7e7e7;
-}
-
 .btn-grey {
   color: #555;
   background-color: #ccc;
@@ -993,7 +989,8 @@ span.register-login-prompt {
 
 
 #results {
-	min-height: 775px;
+    min-height: 800px;
+	/*min-height: calc(100% - 216px);*/
 	padding: 60px 0 40px;
 }
 
@@ -1068,7 +1065,8 @@ span.register-login-prompt {
 form.filters {
 	padding: 0 20px 20px;
 	margin-bottom: 20px;
-    background-color: #eee;
+    /*background-color: #eee;*/
+    background-color: #f7f7f7;
 	border: solid 1px #ddd;
 	border-radius: 3px;
 	font-size: 12px;
@@ -1138,6 +1136,7 @@ form.filters .max-label {
 @media (min-width:767px) {
 	form.filters {
 		margin-top: 43px;
+        transition: margin-top 0.3s;
 	}
 	
 	form.filters label {
@@ -1264,12 +1263,21 @@ div.listing-details span.rent-amount {
 }
 
 
-div.listing div.description {
+div.listing div.description, div.listing.no-results p {
 	font-size: 14px;
 	font-weight: 100;
 	color: #777;
-	display: inline;
 }
+
+div.listing div.description {
+    display: inline;
+}
+
+div.listing.no-results p {
+    margin-top: 3px;
+    margin-bottom: 6px;
+}
+
 
 ul.listing-icons {
 	margin: 10px 0;

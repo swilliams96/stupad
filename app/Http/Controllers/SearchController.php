@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 use Validator;
 use DB;
 use Cookie;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class SearchController extends Controller
 
     public function results(Request $request) {
         // Cache form variables
-        $request_location = strtolower($request->location);
+        $request_location = $request->location;
         $rent_min = $request->rent_min;
         $rent_max = $request->rent_max;
         $bedrooms_min = $request->bedrooms_min;
@@ -46,28 +47,63 @@ class SearchController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back();
+            return 'failed validator';
         }
 
-        // Store our last search in cookies to ensure the search is saved for a day (1440 minutes)
-        Cookie::queue('lastsearch_location', $request_location, 1440);
-        Cookie::queue('lastsearch_rent_min', $rent_min, 1440);
-        Cookie::queue('lastsearch_rent_max', $rent_max, 1440);
-        Cookie::queue('lastsearch_bedrooms_min', $bedrooms_min, 1440);
-        Cookie::queue('lastsearch_bedrooms_max', $bedrooms_max, 1440);
-        Cookie::queue('lastsearch_bathrooms_min', $bathrooms_min, 1440);
-        Cookie::queue('lastsearch_bathrooms_max', $bathrooms_max, 1440);
-        Cookie::queue('lastsearch_distance', $distance, 1440);
-        Cookie::queue('lastsearch_place', $place, 1440);
+        $COOKIE_LIFETIME_DAYS = 30;
+        Cookie::queue('lastsearch_location', $request_location, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_rent_min', $rent_min, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_rent_max', $rent_max, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_bedrooms_min', $bedrooms_min, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_bedrooms_max', $bedrooms_max, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_bathrooms_min', $bathrooms_min, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_bathrooms_max', $bathrooms_max, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_distance', $distance, 1440 * $COOKIE_LIFETIME_DAYS);
+        Cookie::queue('lastsearch_place', $place, 1440 * $COOKIE_LIFETIME_DAYS);
 
-        // For local development environment debugging:
-        // $location_list = array();
-        //  $found_slug = 'slug';
+        // Default location list for offline testing purposes
+        if (App::environment('local')) {
+            $location_list = json_decode(
+                    '[
+                    {
+                        "name":"Bath Town",
+                        "short_name":"Bath",
+                        "slug":"bath"
+                    },
+                    {
+                        "name":"University of Bath",
+                        "short_name":"Uni of Bath",
+                        "slug":"bath-uni"
+                    },
+                    {
+                        "name":"Bath Spa University",
+                        "short_name":"Bath Spa",
+                        "slug":"bath-spa-uni"
+                    },
+                    {
+                        "name":"University of Bristol",
+                        "short_name":"Uni of Bristol",
+                        "slug":"bristol-uni"
+                    },
+                    {
+                        "name":"University of West England",
+                        "short_name":"UWE",
+                        "slug":"uwe"
+                    },
+                    {
+                        "name":"Bristol Town",
+                        "short_name":"Bristol",
+                        "slug":"bristol"
+                    }
+                ]'
+            );
+        } else {
+            $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
+        }
 
-        $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
-
+        $request_location = strtolower($request->location);
         foreach ($location_list as $row) {
-            if (strtolower($row->name) == $request_location || strtolower($row->short_name) == $request_location) {
+            if ($request_location == strtolower($row->name) || $request_location == strtolower($row->short_name) || $request_location == strtolower($row->slug)) {
                 $found_slug = $row->slug;
                 break;
             }
@@ -90,8 +126,44 @@ class SearchController extends Controller
     }
 
 
-    public function showresults(Request $request, $locationslug) {
-        return 'showing results for ' . $locationslug . '...<br/><br/></br><b>SESSION DATA:</b>'
+    public function showresults(Request $request, $location_slug) {
+        // Cache search variables (from session if they exist, if not use cookies of last search)
+        $rent_min = $request->session()->get('rent_min', $request->cookie('lastsearch_rent_min'));
+        $rent_max = $request->session()->get('rent_max', $request->cookie('lastsearch_rent_max'));
+        $bedrooms_min = $request->session()->get('bedrooms_min', $request->cookie('lastsearch_bedrooms_min'));
+        $bedrooms_max = $request->session()->get('bedrooms_max', $request->cookie('lastsearch_bedrooms_max'));
+        $bathrooms_min = $request->session()->get('bathrooms_min', $request->cookie('lastsearch_bathrooms_min'));
+        $bathrooms_max = $request->session()->get('bathrooms_max', $request->cookie('lastsearch_bathrooms_max'));
+        $distance = $request->session()->get('distance', $request->cookie('lastsearch_distance'));
+        $place = $request->session()->get('place', $request->cookie('lastsearch_place'));
+
+        // Get active listings that fit our search criteria
+        if (App::environment('local')) {
+            $area_id = 1;
+            $listings = null;
+        } else {
+            $area_id = DB::table('locations')->select('area_id')->where('slug', $location_slug)->first();
+            if ($area_id == null) redirect('/search');
+            $listings = DB::table('listings')
+                ->where('area_id', $area_id)
+                ->where('active_datetime', '<=', Carbon::now())
+                ->where('inactive_datetime', '>=', Carbon::now())
+                ->whereBetween('rent_value', [$rent_min, $rent_max])
+                ->whereBetween('bedrooms', [$bedrooms_min, $bedrooms_max])
+                ->whereBetween('bathrooms', [$bathrooms_min, $bathrooms_max])
+                ->where(function($query) {
+                    $query->where('town_distance', '<=', $distance);
+                    $query->orWhereNull('town_distance');
+                })->get();
+        }
+
+        return view('results')
+            ->with('listings', $listings)
+            ->with('location_name', $location_slug);
+        // TODO: find out proper area name using a new 'area' database where locations belong to areas and use this for 'location_name' instead of just the slug
+
+        /*
+        return 'showing results for ' . $location_slug . '...<br/><br/></br><b>SESSION DATA:</b>'
             . '<br/>rent min: £' . $request->session()->get('rent_min', 0)
             . '<br/>rent max: £' . $request->session()->get('rent_max', 0)
             . '<br/>bed min: ' . $request->session()->get('bedrooms_min', 0)
@@ -110,6 +182,7 @@ class SearchController extends Controller
             . '<br/>bath max: ' . $request->cookie('lastsearch_bathrooms_max', 0)
             . '<br/>distance: ' . $request->cookie('lastsearch_distance', 0) . ' mins'
             . '    to ' . $request->cookie('lastsearch_place');
+        */
     }
 
     public static function getlocations() {

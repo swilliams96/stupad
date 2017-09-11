@@ -5,7 +5,7 @@
                 @php
                     if (isset($all_locations)) {
                         foreach ($all_locations as $location_name) {
-                            echo '"' . $location_name . '"' . ($location_name !== end($all_locations) ? ', ' : '');
+                            echo '"' . $location_name . '", ';
                         }
                     }
                 @endphp
