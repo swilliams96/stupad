@@ -13,9 +13,15 @@ class DevListingSeeder extends Seeder
     public function run()
     {
         // Reset the ID column to start from 1 again...
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        DB::table('listings')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        if (env('DB_CONNECTION') == 'sqlite') {
+            DB::statement('PRAGMA foreign_keys=OFF');
+            DB::table('listings')->truncate();
+            DB::statement('PRAGMA foreign_keys=ON');
+        } else {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            DB::table('listings')->truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        }
 
         // Insert listings data
         DB::table('listings')->insert([

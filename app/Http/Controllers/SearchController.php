@@ -61,45 +61,7 @@ class SearchController extends Controller
         Cookie::queue('lastsearch_distance', $distance, 1440 * $COOKIE_LIFETIME_DAYS);
         Cookie::queue('lastsearch_place', $place, 1440 * $COOKIE_LIFETIME_DAYS);
 
-        // Default location list for offline testing purposes
-        if (App::environment('local')) {
-            $location_list = json_decode(
-                    '[
-                    {
-                        "name":"Bath Town",
-                        "short_name":"Bath",
-                        "slug":"bath"
-                    },
-                    {
-                        "name":"University of Bath",
-                        "short_name":"Uni of Bath",
-                        "slug":"bath-uni"
-                    },
-                    {
-                        "name":"Bath Spa University",
-                        "short_name":"Bath Spa",
-                        "slug":"bath-spa-uni"
-                    },
-                    {
-                        "name":"University of Bristol",
-                        "short_name":"Uni of Bristol",
-                        "slug":"bristol-uni"
-                    },
-                    {
-                        "name":"University of West England",
-                        "short_name":"UWE",
-                        "slug":"uwe"
-                    },
-                    {
-                        "name":"Bristol Town",
-                        "short_name":"Bristol",
-                        "slug":"bristol"
-                    }
-                ]'
-            );
-        } else {
-            $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
-        }
+        $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
 
         $request_location = strtolower($request->location);
         foreach ($location_list as $row) {
@@ -138,24 +100,19 @@ class SearchController extends Controller
         $place = $request->session()->get('place', $request->cookie('lastsearch_place'));
 
         // Get active listings that fit our search criteria
-        if (App::environment('local')) {
-            $area_id = 1;
-            $listings = null;
-        } else {
-            $area_id = DB::table('locations')->where('slug', $location_slug)->value('area_id');
-            if ($area_id == null) redirect('/search');
-            $listings = DB::table('listings')
-                ->where('area_id', $area_id)
-                ->where('active_datetime', '<=', Carbon::now())
-                ->where('inactive_datetime', '>=', Carbon::now())
-                ->whereBetween('rent_value', [$rent_min, $rent_max])
-                ->whereBetween('bedrooms', [$bedrooms_min, $bedrooms_max])
-                ->whereBetween('bathrooms', [$bathrooms_min, $bathrooms_max])
-                ->where(function($query) use ($distance) {
-                    $query->where('town_distance', '<=', $distance);
-                    $query->orWhereNull('town_distance');
-                })->get();
-        }
+        $area_id = DB::table('locations')->where('slug', $location_slug)->value('area_id');
+        if ($area_id == null) redirect('/search');
+        $listings = DB::table('listings')
+            ->where('area_id', $area_id)
+            ->where('active_datetime', '<=', Carbon::now())
+            ->where('inactive_datetime', '>=', Carbon::now())
+            ->whereBetween('rent_value', [$rent_min, $rent_max])
+            ->whereBetween('bedrooms', [$bedrooms_min, $bedrooms_max])
+            ->whereBetween('bathrooms', [$bathrooms_min, $bathrooms_max])
+            ->where(function($query) use ($distance) {
+                $query->where('town_distance', '<=', $distance);
+                $query->orWhereNull('town_distance');
+            })->get();
 
         return view('results')
             ->with('listings', $listings)
@@ -186,10 +143,6 @@ class SearchController extends Controller
     }
 
     public static function getlocations() {
-        if (App::environment('local')) {
-            $names = ['University of Bath', 'Bath Spa University', 'University of Bristol', 'University of West England', 'Bath Town', 'Bristol Town'];
-            return $names;
-        }
         return DB::table('locations')->where('active', true)->pluck('name');
     }
 }
