@@ -9,21 +9,21 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'first_name', 'last_name', 'email', 'password', 'student', 'landlord'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
+
+    public function listings() {
+        return $this->hasMany('listings', 'landlord_id');
+    }
+
+    public function activelistings() {
+        return $this->listings()
+            ->whereDate('active_datetime', '<=', Carbon::now())
+            ->whereDate('inactive_datetime', '>=', Carbon::now());
+    }
 }

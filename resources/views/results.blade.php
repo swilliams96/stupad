@@ -63,13 +63,13 @@
                 <!-- MAIN CONTENT -->
                 <div class="content col-lg-9" >
                 @if (count($listings) == 0)
-                    <h2 class="section-heading">No results found for {{ $location_name }}...</h2>
+                    <h2 class="section-heading">No results found for {{ $area_name }}...</h2>
                     <div class="listing no-results">
-                        <p>Unfortunately we couldn't find any results matching your search criteria in the {{ $location_name }} area.</p>
+                        <p>Unfortunately we couldn't find any results matching your search criteria in the {{ $area_name }} area.</p>
                         <p>Why not try searching again for something slightly different, or try looking <a href="{{ route('search') }}">somewhere else</a> instead.</p>
                     </div>
                 @else
-                    <h2 class="section-heading">Properties in {{ $location_name }}... <span class="count">({{ count($listings) }})</span></h2>
+                    <h2 class="section-heading">Properties in {{ $area_name }}... <span class="count">({{ count($listings) }})</span></h2>
 
                 @foreach ($listings as $listing)
                     <div class="listing">
@@ -132,7 +132,7 @@
 
     <!-- SLIDERS -->
     <script>
-        // TODO: SET DEFAULTS TO THE SESSION DATA WHERE SESSION DATA IS SET
+        // TODO: SET DEFAULTS TO THE SESSION DATA IF SESSION DATA IS SET
         $(function() {
             var rent_defaults = [
                 {{ Cookie::get('lastsearch_rent_min', 100) }},

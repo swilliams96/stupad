@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
+use App\Listing;
+use App\University;
 use Illuminate\Support\Facades\App;
 use Validator;
 use DB;
@@ -61,30 +64,21 @@ class SearchController extends Controller
         Cookie::queue('lastsearch_distance', $distance, 1440 * $COOKIE_LIFETIME_DAYS);
         Cookie::queue('lastsearch_place', $place, 1440 * $COOKIE_LIFETIME_DAYS);
 
-        $location_list = DB::table('locations')->select('name', 'short_name', 'slug')->where('active', true)->get();
+        $loc = University::where('name', 'like', $request_location)
+            ->orWhere('short_name', 'like', $request_location)
+            ->orWhere('slug', 'like', $request_location)
+            ->first();
+        if ($loc == null) return 'no valid location found'; // TODO: redirect to "did you mean X" page
 
-        $request_location = strtolower($request->location);
-        foreach ($location_list as $row) {
-            if ($request_location == strtolower($row->name) || $request_location == strtolower($row->short_name) || $request_location == strtolower($row->slug)) {
-                $found_slug = $row->slug;
-                break;
-            }
-        }
-
-        if (isset($found_slug)) {
-            return redirect('/results/' . $found_slug)
-                ->with('rent_min', $rent_min)
-                ->with('rent_max', $rent_max)
-                ->with('bedrooms_min', $bedrooms_min)
-                ->with('bedrooms_max', $bedrooms_max)
-                ->with('bathrooms_min', $bathrooms_min)
-                ->with('bathrooms_max', $bathrooms_max)
-                ->with('distance', $distance)
-                ->with('place', $place);
-        }
-
-        // TODO: redirect to 'did you mean X' page below
-        return 'search page successfully posted<br/>no valid location found';
+        return redirect('/results/' . $loc->slug)
+            ->with('rent_min', $rent_min)
+            ->with('rent_max', $rent_max)
+            ->with('bedrooms_min', $bedrooms_min)
+            ->with('bedrooms_max', $bedrooms_max)
+            ->with('bathrooms_min', $bathrooms_min)
+            ->with('bathrooms_max', $bathrooms_max)
+            ->with('distance', $distance)
+            ->with('place', $place);
     }
 
 
@@ -100,10 +94,9 @@ class SearchController extends Controller
         $place = $request->session()->get('place', $request->cookie('lastsearch_place'));
 
         // Get active listings that fit our search criteria
-        $area_id = DB::table('locations')->where('slug', $location_slug)->value('area_id');
-        if ($area_id == null) redirect('/search');
-        $listings = DB::table('listings')
-            ->where('area_id', $area_id)
+        $uni = University::where('slug', $location_slug)->first();
+        if($uni == null) return redirect('/search');
+        $listings = Listing::where('area_id', $uni->area->id)
             ->where('active_datetime', '<=', Carbon::now())
             ->where('inactive_datetime', '>=', Carbon::now())
             ->whereBetween('rent_value', [$rent_min, $rent_max])
@@ -116,33 +109,11 @@ class SearchController extends Controller
 
         return view('results')
             ->with('listings', $listings)
-            ->with('location_name', $location_slug);
-        // TODO: find out proper area name using a new 'area' database where locations belong to areas and use this for 'location_name' instead of just the slug
-
-        /*
-        return 'showing results for ' . $location_slug . '...<br/><br/></br><b>SESSION DATA:</b>'
-            . '<br/>rent min: £' . $request->session()->get('rent_min', 0)
-            . '<br/>rent max: £' . $request->session()->get('rent_max', 0)
-            . '<br/>bed min: ' . $request->session()->get('bedrooms_min', 0)
-            . '<br/>bed max: ' . $request->session()->get('bedrooms_max', 0)
-            . '<br/>bath min: ' . $request->session()->get('bathrooms_min', 0)
-            . '<br/>bath max: ' . $request->session()->get('bathrooms_max', 0)
-            . '<br/>distance: ' . $request->session()->get('distance', 0) . ' mins'
-            . '    to ' . $request->session()->get('place', "")
-            . '<br/><br/></br><b>COOKIE DATA:</b>'
-            . '<br/>location: ' . $request->cookie('lastsearch_location')
-            . '<br/>rent min: £' . $request->cookie('lastsearch_rent_min', 0)
-            . '<br/>rent max: £' . $request->cookie('lastsearch_rent_max', 0)
-            . '<br/>bed min: ' . $request->cookie('lastsearch_bedrooms_min', 0)
-            . '<br/>bed max: ' . $request->cookie('lastsearch_bedrooms_max', 0)
-            . '<br/>bath min: ' . $request->cookie('lastsearch_bathrooms_min', 0)
-            . '<br/>bath max: ' . $request->cookie('lastsearch_bathrooms_max', 0)
-            . '<br/>distance: ' . $request->cookie('lastsearch_distance', 0) . ' mins'
-            . '    to ' . $request->cookie('lastsearch_place');
-        */
+            ->with('location_name', $uni->name)
+            ->with('area_name', $uni->area->name);
     }
 
     public static function getlocations() {
-        return DB::table('locations')->where('active', true)->pluck('name');
+        return University::where('active', true)->pluck('name');
     }
 }

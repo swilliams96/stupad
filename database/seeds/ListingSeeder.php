@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class DevListingSeeder extends Seeder
+class ListingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
