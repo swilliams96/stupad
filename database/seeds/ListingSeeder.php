@@ -29,7 +29,7 @@ class ListingSeeder extends Seeder
                 'active_datetime' => Carbon::now(),
                 'inactive_datetime' => Carbon::now()->addDays(14),
                 'title' => 'Sydney Place',
-                'landlord_id' => 2,
+                'landlord_id' => 1,
                 'rent_value' => 110,
                 'rent_period' => 'week',
                 'description' => 'First floor apartment featuring neutral décor and floor coverings. The furnished accommodation includes a spacious sitting room with period fireplace and full height sash windows, kitchen with granite work tops, gas hob/cooker/extractor, fridge/freezer and washing machine, spacious double bedroom with built in storage and recently fitted shower room with waterfall shower. Further benefits such as gas central heating and residents permit parking. Conveniently located within a level walk of the city centre. Would ideally suit a single professional applicant or couple, with post graduates and mature students considered.',
