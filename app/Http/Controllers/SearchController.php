@@ -16,7 +16,6 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-
     public function search(Request $request) {
         return view('search')
             ->with('location', $request->location)

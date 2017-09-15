@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('/search', 'SearchController@search')->name('search');
 Route::post('/results', 'SearchController@results')->name('results');
 Route::get('/results/{location_slug}', 'SearchController@showresults');
+Route::get('/listing/{listing_id}/{listing_slug?}', 'ListingController@show');
 
 Route::get('/landlord', 'HomeController@landlord')->name('landlord');
 

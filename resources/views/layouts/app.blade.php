@@ -27,6 +27,9 @@
     <script src="{{asset("vendor/magnific-popup/jquery.magnific-popup.min.js")}}"></script>
     <link href="{{asset("vendor/magnific-popup/magnific-popup.css")}}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="{{asset('js/jquery.fancybox.min.js')}}"></script>
+    <link href="{{asset('css/jquery.fancybox.min.css')}}" rel="stylesheet">
+
 
     <!-- Theme CSS & JavaScript -->
     <script src="{{asset("js/creative.min.js")}}"></script>

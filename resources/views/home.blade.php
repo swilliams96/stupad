@@ -99,6 +99,6 @@
 
     @include('common.footer')
 
-    @include('common.autocomplete')
+    @include('scripts.autocomplete')
 
 @endsection
