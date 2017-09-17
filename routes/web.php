@@ -20,9 +20,12 @@ Route::post('/results', 'SearchController@results')->name('results');
 Route::get('/results/{location_slug}', 'SearchController@showresults');
 Route::get('/listing/{listing_id}/{listing_slug?}', 'ListingController@show');
 
+Route::get('/dashboard/profile', 'DashboardController@showprofile')->name('profile');
+Route::post('/dashboard/profile', 'DashboardController@updateprofile');
+Route::post('/dashboard/updatepassword', 'DashboardController@updatepassword');
+
 Route::get('/landlord', 'HomeController@landlord')->name('landlord');
 
 // TODO: implement below pages
-Route::get('/profile', 'HomeController@unimplemented')->name('profile');
 Route::get('/terms', 'HomeController@unimplemented')->name('termsandconditions');
 Route::get('/privacy', 'HomeController@unimplemented')->name('privacypolicy');

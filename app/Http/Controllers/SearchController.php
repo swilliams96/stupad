@@ -49,7 +49,7 @@ class SearchController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return 'failed validator';
+            return 'ERROR: failed validator.';
         }
 
         $COOKIE_LIFETIME_DAYS = 30;
