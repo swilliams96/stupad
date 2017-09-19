@@ -391,7 +391,7 @@ header .header-content .header-content-inner p {
   background-color: #222;
 }
 
-.btn-primary {
+.btn.btn-primary {
   color: #fff;
   background-color: #D64439;
   border-color: #D64439;
@@ -400,10 +400,10 @@ header .header-content .header-content-inner p {
   transition: all .2s;
 }
 
-.btn-secondary {
+.btn.btn-secondary {
   color: #D64439;
   background-color: #fff;
-  border: 2px solid #D64439 !important;
+  border: 2px solid #D64439;
   -webkit-transition: all .2s;	
   -moz-transition: all .2s;
   transition: all .2s;
@@ -1252,7 +1252,7 @@ div.listing-details span.rent-amount {
 	border-radius: 8px;*/
 }
 
-@media (min-width: 767px) {
+@media (min-width: 1200px) {
 	div.listing div.listing-details h3 {
 		width: 80%;
 		margin: 0 0 8px;
@@ -1743,6 +1743,11 @@ div.listing div.listing-footer {
 	}
 }
 
+.dashboard {
+    margin: 0;
+    height: 100%;
+    display: table-row;
+}
 
 .leftsidebar, .mainpage {
 	padding: 50px 0 0;
@@ -1773,9 +1778,16 @@ div.listing div.listing-footer {
 }
 
 .leftsidebar ul li {
+    font-size: 15px;
 	padding-bottom: 12px;
 	font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 	font-weight: 600;
+}
+
+.leftsidebar ul li.currentpage {
+    font-weight: 700;
+    color: #333;
+    text-decoration: underline;
 }
 
 .leftsidebar a {
@@ -1783,7 +1795,8 @@ div.listing div.listing-footer {
 }
 
 .leftsidebar a:hover {
-	color: #666;
+	color: #777;
+    text-decoration: none;
 }
 
 .mainpage {
@@ -1791,8 +1804,16 @@ div.listing div.listing-footer {
 }
 
 .mainpage h1 {
+    display: inline;
 	font-size: 28px;
 	margin: 17px 0 0;
+    padding-bottom: 15px;
+}
+
+.mainpage p {
+    font-size: 15px;
+    font-weight: 100;
+    color: #444;
 }
 
 .mainpage input {
@@ -1825,4 +1846,27 @@ div.listing div.listing-footer {
 .mainpage label {
 	margin: 8px 0 0 2px;
 	font-size: 12px;
+}
+
+.mainpage .listing {
+    max-width: 1000px;
+}
+
+.dashboard .btn.btn-dashboard {
+    display: inline;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: 4px 8px;
+}
+
+.mainpage #new-listing-btn {
+    padding: 7px 4px 4px;
+    display: inline;
+    float: right;
+}
+
+.mainpage .listing-footer a {
+    display: inline-block;
+    margin: 0 4px;
 }

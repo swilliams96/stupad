@@ -14,7 +14,7 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function showprofile(Request $request) {
+    public function profile(Request $request) {
         return view('profile');
     }
 
@@ -51,5 +51,23 @@ class DashboardController extends Controller
         }
 
         return back()->withErrors()->with('results', 'fail_password');
+    }
+
+    public function mylistings(Request $request) {
+        $listings = Auth::user()->listings;
+        return view('mylistings')
+            ->with('listings', $listings);
+    }
+
+    public function newlisting(Request $request) {
+
+    }
+
+    public function editlisting(Request $request) {
+        return 'editing listing';
+    }
+
+    public function deletelisting(Request $request) {
+        return 'delete listing? are you sure?';
     }
 }

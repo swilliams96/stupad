@@ -18,7 +18,8 @@ class User extends Authenticatable
     ];
 
     public function listings() {
-        return $this->hasMany('listings', 'landlord_id');
+
+        return $this->hasMany(Listing::class, 'landlord_id')->orderBy('created_at', 'desc');
     }
 
     public function activelistings() {

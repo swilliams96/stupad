@@ -2,8 +2,9 @@
             <div class="col-lg-3 leftsidebar">
                 <h1><i class="fa fa-cog fa-pad-5 sr-icons"></i>Settings</h1>
                 <ul>
-                    <li>{!! $page == 'profile' ? '<b>Edit Profile</b>' : '<a href="#">Edit Profile</a>' !!}</li>
-                    <li><a href="#">Messages</a></li>
-                    <li><a href="#">Transaction History</a></li>
+                    {!! $page == 'profile' ? '<li class="currentpage">Edit Profile</li>' : ('<li><a href="' . route('profile') . '">Edit Profile</a></li>') !!}
+                    {!! $page == 'messages' ? '<li class="currentpage">Messages</li>' : ('<li><a href="' . route('messages') . '">Messages</a></li>') !!}
+                    {!! Auth::user()->landlord ? ($page == 'mylistings' ? '<li class="currentpage">My Listings</li>' : '<li><a href="' . route('mylistings') . '">My Listings</a></li>') : '' !!}
+                    {!! Auth::user()->landlord ? ($page == 'savedlistings' ? '<li class="currentpage">Saved Listings</li>' : '<li><a href="' . route('savedlistings') . '">Saved Listings</a></li>') : '' !!}
                 </ul>
             </div>
