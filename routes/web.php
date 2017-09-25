@@ -11,7 +11,6 @@ Auth::routes();
 Route::get('/search', 'SearchController@search')->name('search');
 Route::post('/results', 'SearchController@results')->name('results');
 Route::get('/results/{location_slug}', 'SearchController@showresults');
-Route::get('/listing/{listing_id}/{listing_slug?}', 'ListingController@show');
 
 // DASHBOARD CONTROLLER
 Route::get('/dashboard/profile', 'DashboardController@profile')->name('profile');
@@ -28,6 +27,12 @@ Route::get('/dashboard/listings/edit/{listing_id}', 'DashboardController@editlis
 Route::get('/dashboard/listings/delete/{listing_id}', 'DashboardController@deletelisting');
 
 Route::get('/dashboard/saved', 'DashboardController@savedlistings')->name('savedlistings');
+
+// LISTING CONTROLLER
+Route::get('/listing/{listing_id}/{listing_slug?}', 'ListingController@show');
+Route::get('/listings/{listing_id}/{listing_slug?}', 'ListingController@show');
+Route::resource('listing', 'ListingController');
+Route::resource('listings', 'ListingController');
 
 // TODO: UNIMPLEMENTED PAGES
 Route::get('/terms', 'HomeController@unimplemented')->name('termsandconditions');

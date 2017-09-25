@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeyToListingsTable extends Migration
+class ChangeRentValueToDecimal extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddForeignKeyToListingsTable extends Migration
     public function up()
     {
         Schema::table('listings', function (Blueprint $table) {
-            $table->foreign('landlord_id')->references('id')->on('users');
+            $table->decimal('rent_value')->after('landlord_id')->change();
         });
     }
 
@@ -26,7 +26,7 @@ class AddForeignKeyToListingsTable extends Migration
     public function down()
     {
         Schema::table('listings', function (Blueprint $table) {
-            $table->dropForeign('listings_landlord_id_foreign');
+            $table->integer('rent_value')->change();
         });
     }
 }

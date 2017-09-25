@@ -6,7 +6,7 @@ use App\Area;
 use App\Listing;
 use App\University;
 use Illuminate\Support\Facades\App;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use DB;
 use Cookie;
 use Carbon\Carbon;

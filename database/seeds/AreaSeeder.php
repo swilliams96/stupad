@@ -24,9 +24,9 @@ class AreaSeeder extends Seeder
 
         // Insert the locations data
         DB::table('areas')->insert([
-            ['name' => 'Bath', 'suffix' => 'town', 'active' => true],
-            ['name' => 'Bristol', 'suffix' => 'city', 'active' => true],
-            ['name' => 'Exeter', 'suffix' => 'town', 'active' => false],
+            ['name' => 'Bath', 'suffix' => 'town', 'active' => true, 'admin_district' => 'Bath and North East Somerset', 'postcode_list' => 'BA,SN12,SN13'],
+            ['name' => 'Bristol', 'suffix' => 'city', 'active' => true, 'admin_district' => 'Bristol, City of', 'postcode_list' => 'BS'],
+            ['name' => 'Exeter', 'suffix' => 'town', 'active' => false, 'admin_district' => 'Exeter', 'postcode_list' => ''],
         ]);
     }
 }

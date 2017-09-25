@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
 {
-    protected $fillable = ['title', 'landlord_id', 'rent_value', 'rent_period', 'description', 'area_id', 'lat', 'lng', 'bedrooms', 'bathrooms', 'town_distance', 'furnished', 'bills_included', 'pets_allowed' ];
+    protected $fillable = ['title', 'landlord_id', 'rent_value', 'rent_period', 'description', 'short_description', 'area_id', 'lat', 'lng', 'bedrooms', 'bathrooms', 'town_distance', 'furnished', 'bills_included', 'pets_allowed', 'address1', 'address2', 'town', 'postcode', 'header_image' ];
 
     public function area() {
         return $this->belongsTo(Area::class);
@@ -14,6 +14,14 @@ class Listing extends Model
 
     public function landlord() {
         return $this->belongsTo(User::class, 'landlord_id');
+    }
+
+    public function images() {
+        return $this->hasMany(ListingImage::class)->orderBy('created_at', 'desc');
+    }
+
+    public function header() {
+        return $this->hasOne(ListingImage::class)->where('image_number', '=', $this->header_image);
     }
 
 

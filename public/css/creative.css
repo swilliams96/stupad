@@ -535,7 +535,7 @@ nav a span.pad {
 	color: rgb(239, 116, 107);
 }
 
-nav *::selection , #results form.filters *::selection, ul.listing-icons li::selection, .login-box h1::selection, .login-box *:not(input)::selection, #search *::selection {
+nav *::selection , #results form.filters *::selection, ul.listing-icons li::selection, .login-box h1::selection, .login-box *:not(input)::selection, #search *::selection, .no-select *:not(input):not(textarea)::selection {
 	background-color: rgba(0,0,0,0);
 	color: inherit;
 }
@@ -574,7 +574,7 @@ nav a.nav-btn-login  {
 }
 
 
-input, select {
+input, select, textarea {
 	color: #000;
 	font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -1556,6 +1556,7 @@ div.listing div.listing-footer {
 	font-size: 14px;
 	color: #444;
 	font-weight: 100;
+    margin-bottom: 10px;
 }
 
 .listing-page-gallery * {
@@ -1816,14 +1817,20 @@ div.listing div.listing-footer {
     color: #444;
 }
 
-.mainpage input {
+.mainpage label {
+    display: block;
+    margin: 8px 0 0 2px;
+    font-size: 12px;
+}
+
+.mainpage input:not([type=file]), .mainpage textarea, .mainpage select, .mainpage .input {
 	display: block;
 	font-size: 14px;
 	font-weight: 400;
 	min-width: 400px;
 	margin: 3px 0;
 	height: 36px;
-	padding: 12px;
+	padding: 7px 10px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	color: #555;
@@ -1831,33 +1838,69 @@ div.listing div.listing-footer {
 	text-align: left;
 }
 
-.mainpage input::placeholder {
+.mainpage input::placeholder, .mainpage textarea::placeholder {
 	color: #bbb;
 }
 
+.mainpage textarea {
+    min-height: 200px;
+    min-width: 600px;
+}
+
+.mainpage select {
+    height: 36px;
+    min-width: 90px;
+    display: inline-block;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 7px 10px;
+}
+
 .mainpage button {
-	margin: 10px 0 25px;
-	padding: 10px;
+    margin: 10px 0 25px;
+    padding: 10px;
     text-align: center;
-	border-radius: 15px;
+    border-radius: 15px;
     width: 100px;
 }
 
-.mainpage label {
-	margin: 8px 0 0 2px;
-	font-size: 12px;
+.mainpage .input {
+    max-width: 400px;
+}
+
+.mainpage .space-top {
+    margin-top: 25px;
 }
 
 .mainpage .listing {
     max-width: 1000px;
 }
 
-.dashboard .btn.btn-dashboard {
-    display: inline;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    padding: 4px 8px;
+.mainpage div.listing-footer {
+    clear: left;
+}
+
+.mainpage #rentvalue {
+    display: inline-block;
+    min-width: 90px;
+    width: 90px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.mainpage div.properties-table {
+    display: table;
+    width: 400px;
+}
+
+.mainpage div.properties-table div {
+    display: table-cell;
+}
+
+.mainpage .listing-footer a {
+    display: inline-block;
+    margin: 0 4px;
 }
 
 .mainpage #new-listing-btn {
@@ -1866,7 +1909,27 @@ div.listing div.listing-footer {
     float: right;
 }
 
-.mainpage .listing-footer a {
-    display: inline-block;
-    margin: 0 4px;
+.mainpage .input.image-upload {
+    height: 200px;
+    width: 400px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.mainpage .image-preview {
+    float: left;
+    max-height: 140px;
+    margin: 4px;
+}
+
+.mainpage #preview {
+    width: 999999px;
+}
+
+.mainpage .error {
+    max-width: 600px;
+    display: block;
+    margin-top: 20px;
+    margin-left: 4px;
 }

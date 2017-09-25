@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Listing;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class DashboardController extends Controller
 {
@@ -60,7 +64,10 @@ class DashboardController extends Controller
     }
 
     public function newlisting(Request $request) {
+        if (!Auth::user()->landlord)
+            return view('profile');
 
+        return view('newlisting');
     }
 
     public function editlisting(Request $request) {

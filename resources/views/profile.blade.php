@@ -9,7 +9,7 @@
 
 
             <!-- MAIN PAGE -->
-            <div class="col-lg-9 mainpage no-float">
+            <div class="col-lg-6 mainpage no-float no-select">
                 <h1>Account Details</h1>
                 <form method="POST">
                     {{ csrf_field() }}
@@ -33,6 +33,8 @@
                 </form>
 
             </div>
+
+            <div class="col-lg-3 no-float"></div>
 
         </div>
     </div>

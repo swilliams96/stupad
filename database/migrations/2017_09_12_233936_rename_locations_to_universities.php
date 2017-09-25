@@ -30,7 +30,7 @@ class RenameLocationsToUniversities extends Migration
     public function down()
     {
         Schema::table('universities', function (Blueprint $table) {
-            $table->dropForeign('area_id')->references('id')->on('areas');
+            $table->dropForeign('universities_area_id_foreign');
             $table->timestamps();
         });
         if (Schema::hasTable('universities')) {

@@ -45,8 +45,8 @@
                         <h3 style="width: 100%;">
                             <span><i class="fa fa-map-marker fa-1 fa-pad-5 sr-icons"></i>Dist. from</span>
                             <select id="place" name="place">
-                                <option value="campus"{{ Cookie::get('lastsearch_place') == 'campus' ? 'selected' : '' }}>Campus</option>
-                                <option value="town"{{ Cookie::get('lastsearch_place') == 'town' ? 'selected' : '' }}>Town Centre</option>
+                                <option value="campus"{{ Cookie::get('lastsearch_place') == 'campus' ? ' selected' : '' }}>Campus</option>
+                                <option value="town"{{ Cookie::get('lastsearch_place') == 'town' ? ' selected' : '' }}>Town Centre</option>
                             </select>
                         </h3>
                         <div id="distance-slider" class="slider"></div>
@@ -75,14 +75,14 @@
                     <div class="listing">
                         <div class="listing-image col-lg-4">
                             <a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">
-                                <img src="/listing-images/{{ $listing->id }}/755c8dc7-4a87-4112-a8f9-73f3681d08b9.jpg" />
+                                <img src="{{ $listing->header->file() }}" />
                             </a>
                         </div>
 
                         <div class="listing-details col-lg-8">
                             <h3><a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a></h3>
 
-                            <span class="rent-amount">£{{ $listing->rent_period == 'week' ? ($listing->rent_value . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
+                            <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 
                             <div class="description">
                                 {{ $listing->short_description }} ...
