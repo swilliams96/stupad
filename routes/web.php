@@ -18,7 +18,7 @@ Route::post('/dashboard/profile', 'DashboardController@updateprofile');
 Route::post('/dashboard/updatepassword', 'DashboardController@updatepassword');
 
 Route::get('/dashboard/messages', 'DashboardController@messages')->name('messages');
-Route::get('/dashboard/messages/{message_id?}', 'DashboardController@viewmessage');
+Route::get('/dashboard/messages/{message_id}', 'DashboardController@viewmessage');
 Route::post('/dashboard/messages/{message_id}', 'DashboardController@sendmessage');
 
 Route::get('/dashboard/listings', 'DashboardController@mylistings')->name('mylistings');
