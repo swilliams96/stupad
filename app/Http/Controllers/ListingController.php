@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use App\Listing;
+use App\ListingImage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
@@ -184,8 +186,11 @@ class ListingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $slug)
     {
+        if (isset($slug) && ($slug == 'activate' || $slug == 'deactivate'))
+            return redirect(route('mylistings'));
+
         $listing = Listing::find($id);
         $active = true;
 
@@ -241,6 +246,29 @@ class ListingController extends Controller
         //
     }
 
+    public function activate(Request $request, $id) {
+        $listing = Listing::findOrFail($id);
+        if (Auth::user() == $listing->owner) {
+            $listing->active_datetime = Carbon::now();
+            if ($listing->inactive_datetime == null || $listing->inactive_datetime <= Carbon::now()->addDays(1)) {
+                $listing->inactive_datetime = Carbon::now()->addDays(14);
+            }
+            $listing->save();
+        }
+        return redirect(route('mylistings'));
+    }
+
+    public function deactivate(Request $request, $id) {
+        $listing = Listing::findOrFail($id);
+        if (Auth::user() == $listing->owner) {
+            $listing->active_datetime = null;
+            $listing->save();
+        }
+        return redirect(route('mylistings'));
+    }
+
+
+
     function summarise(string $long, int $length = 190)
     {
         $long = preg_replace('/\s+/', ' ', trim($long));
@@ -258,8 +286,6 @@ class ListingController extends Controller
 
         return $short;
     }
-
-
 
     function new_guid() {
         if (function_exists('com_create_guid') === true)

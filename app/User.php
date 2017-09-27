@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -25,5 +26,12 @@ class User extends Authenticatable
         return $this->listings()
             ->whereDate('active_datetime', '<=', Carbon::now())
             ->whereDate('inactive_datetime', '>=', Carbon::now());
+    }
+
+    public function inactivelistings() {
+        return $this->listings()
+            ->whereDate('active_datetime', '>', Carbon::now())
+            ->orWhereDate('inactive_datetime', '<', Carbon::now())
+            ->orWhere('active_datetime', '=', null);
     }
 }

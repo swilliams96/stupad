@@ -25,14 +25,18 @@ Route::get('/dashboard/listings', 'DashboardController@mylistings')->name('mylis
 Route::get('/dashboard/listings/new', 'DashboardController@newlisting')->name('newlisting');
 Route::get('/dashboard/listings/edit/{listing_id}', 'DashboardController@editlisting');
 Route::get('/dashboard/listings/delete/{listing_id}', 'DashboardController@deletelisting');
+//Route::get('/dashboard/listings/activate/{id}', 'DashboardController@activate');
+//Route::get('/dashboard/listings/activate/{id}', 'DashboardController@deactivate');
 
 Route::get('/dashboard/saved', 'DashboardController@savedlistings')->name('savedlistings');
 
 // LISTING CONTROLLER
-Route::get('/listing/{listing_id}/{listing_slug?}', 'ListingController@show');
-Route::get('/listings/{listing_id}/{listing_slug?}', 'ListingController@show');
+Route::get('/listing/{listing_id}/{slug?}', 'ListingController@show');
+Route::get('/listings/{listing_id}/{slug?}', 'ListingController@show');
 Route::resource('listing', 'ListingController');
 Route::resource('listings', 'ListingController');
+Route::post('/listings/{id}/activate', 'ListingController@activate');
+Route::post('/listings/{id}/deactivate', 'ListingController@deactivate');
 
 // TODO: UNIMPLEMENTED PAGES
 Route::get('/terms', 'HomeController@unimplemented')->name('termsandconditions');

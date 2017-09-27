@@ -58,9 +58,11 @@ class DashboardController extends Controller
     }
 
     public function mylistings(Request $request) {
-        $listings = Auth::user()->listings;
+        $activelistings = Auth::user()->activelistings;
+        $inactivelistings = Auth::user()->inactivelistings;
         return view('mylistings')
-            ->with('listings', $listings);
+            ->with('listings_active', $activelistings)
+            ->with('listings_inactive', $inactivelistings);
     }
 
     public function newlisting(Request $request) {

@@ -1283,6 +1283,14 @@ div.listing.no-results p {
     margin-bottom: 6px;
 }
 
+div.listing.listing-inactive {
+    background-color: #eee;
+    background: -webkit-linear-gradient(#eee 50%, #fff);
+    background: -o-linear-gradient(#eee 50%, #fff);
+    background: -moz-linear-gradient(#eee 50%, #fff);
+    background: linear-gradient(#eee 50%, #fff);
+}
+
 
 ul.listing-icons {
 	margin: 10px 0;
@@ -1751,9 +1759,7 @@ div.listing div.listing-footer {
 }
 
 .leftsidebar, .mainpage {
-	padding: 50px 0 0;
-	min-height: 100%;
-    display: table-cell;
+    padding: 40px 0 0;
     float: none;
 }
 
@@ -1763,8 +1769,9 @@ div.listing div.listing-footer {
 }
 
 .leftsidebar {
-	text-align: center;
- 	background-color: #ccc;
+    text-align: center;
+    background-color: #ccc;
+    padding-bottom: 30px;
 }
 
 .leftsidebar h1 {
@@ -1801,12 +1808,26 @@ div.listing div.listing-footer {
 }
 
 .mainpage {
-	padding-left: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+@media(min-width: 767px) {
+    .leftsidebar, .mainpage {
+        min-height: 100%;
+        display: table-cell;
+        float: none;
+    }
+
+    .mainpage {
+        padding-left: 50px;
+        padding-right: 0;
+    }
 }
 
 .mainpage h1 {
     display: inline;
-	font-size: 28px;
+	font-size: 24px;
 	margin: 17px 0 0;
     padding-bottom: 15px;
 }
@@ -1866,7 +1887,7 @@ div.listing div.listing-footer {
 }
 
 .mainpage .input {
-    max-width: 400px;
+    /*max-width: 400px;*/
 }
 
 .mainpage .space-top {
@@ -1874,7 +1895,7 @@ div.listing div.listing-footer {
 }
 
 .mainpage .listing {
-    max-width: 1000px;
+    /*max-width: 1000px;*/
 }
 
 .mainpage div.listing-footer {
@@ -1933,3 +1954,23 @@ div.listing div.listing-footer {
     margin-top: 20px;
     margin-left: 4px;
 }
+
+.mainpage div.listing div.listing-footer {
+    height: 50px;
+}
+
+.mainpage div.listing span.badge {
+    margin-bottom: 2px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.mainpage div.listing span.badge.inactive {
+    background-color: #615857;
+}
+
+.mainpage div.listing span.badge.sponsored {
+    background-color: #D64439;
+}
+
+

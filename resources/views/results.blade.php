@@ -85,7 +85,7 @@
                             <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 
                             <div class="description">
-                                {{ $listing->short_description }} ...
+                                {{ $listing->short_description }}
                             </div>
 
                             <div class="listing-footer">
