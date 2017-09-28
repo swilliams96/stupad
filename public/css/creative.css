@@ -1567,6 +1567,32 @@ div.listing div.listing-footer {
     margin-bottom: 10px;
 }
 
+.listing-page-info {
+    padding: 0;
+}
+
+.listing-page-info li {
+    display: inline-block;
+    width: 100%;
+    list-style: none;
+    padding: 5px 0 0;
+    font-weight: 100;
+    font-size: 12px;
+}
+
+.listing-page-info i {
+    float: left;
+    width: 40px;
+    text-align: center;
+}
+
+@media (min-width: 767px) {
+    .listing-page-info li {
+        width: 49%;
+        font-size: 14px;
+    }
+}
+
 .listing-page-gallery * {
 	transition: width 0.4s;
 	transition: height 0.4s;
@@ -1607,13 +1633,12 @@ div.listing div.listing-footer {
 }
 
 .additional-images {
-	display: inline;
-	overflow: scroll;
+	display: inline-block;
 	text-align: center;
 }
 
 .additional-images img {
-	width: 79.25px;
+	width: 80px;
 	height: 45px;
 	margin: 4px 0 0;
 	padding: 0;
