@@ -1198,10 +1198,6 @@ div.listing div.listing-details, div.listing div.listing-image {
 }
 
 @media (min-width:767px) {
-	div.listing {
-		height: 250px;
-	}
-	
 	div.listing div.listing-details {
 		display: inline;
 	}
@@ -1215,6 +1211,12 @@ div.listing div.listing-details, div.listing div.listing-image {
 	div.listing div.listing-image img:hover {
 		/*opacity: 0.9;*/
 	}
+}
+
+@media (min-width:1200px) {
+    div.listing {
+        height: 250px;
+    }
 }
 
 div.listing div.listing-image img {
@@ -1837,7 +1839,7 @@ div.listing div.listing-footer {
     padding-right: 20px;
 }
 
-@media(min-width: 767px) {
+@media(min-width: 1200px) {
     .leftsidebar, .mainpage {
         min-height: 100%;
         display: table-cell;

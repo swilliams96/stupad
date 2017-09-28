@@ -267,6 +267,11 @@ class ListingController extends Controller
         return redirect(route('mylistings'));
     }
 
+    public function save(Request $request, $id) {
+        // TODO: favourite listings
+        return response('OK', 200);
+    }
+
 
 
     function summarise(string $long, int $length = 190)

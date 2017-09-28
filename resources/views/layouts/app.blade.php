@@ -66,9 +66,8 @@
                         <a class="page-scroll nav-btn nav-btn-muted" href="{{ route('register') }}">Register</a>
                     </li>
                 @else
-                    <li>
-                        <a class="page-scroll nav-btn" href="{{ route('profile') }}">Welcome back, {{ Auth::user()->first_name }} </a>
-                    </li>
+                    <li><a class="page-scroll nav-btn" href="{{ route('search') }}">Search</a></li>
+                    <li><a class="page-scroll nav-btn" href="{{ Auth::user()->landlord ? route('mylistings') : route('savedlistings') }}">Dashboard</a></li>
                     <li>
                         <a class="page-scroll nav-btn nav-btn-muted" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Log Out

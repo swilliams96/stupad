@@ -35,8 +35,10 @@ Route::get('/listing/{listing_id}/{slug?}', 'ListingController@show');
 Route::get('/listings/{listing_id}/{slug?}', 'ListingController@show');
 Route::resource('listing', 'ListingController');
 Route::resource('listings', 'ListingController');
-Route::post('/listings/{id}/activate', 'ListingController@activate');
-Route::post('/listings/{id}/deactivate', 'ListingController@deactivate');
+Route::post('/listing/{id}/activate', 'ListingController@activate');
+Route::post('/listing/{id}/deactivate', 'ListingController@deactivate');
+Route::post('/listings/{id}/save', 'ListingController@save');
+Route::post('/listings/{id}/unsave', 'ListingController@unsave');
 
 // TODO: UNIMPLEMENTED PAGES
 Route::get('/terms', 'HomeController@unimplemented')->name('termsandconditions');
