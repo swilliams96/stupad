@@ -973,7 +973,7 @@ span.register-login-prompt {
     }
 
     #search form.filters {
-        background-color: #f7f7f7;
+        background-color: #eee;
         border-radius: 6px;
     }
 }
@@ -1070,8 +1070,7 @@ span.register-login-prompt {
 form.filters {
 	padding: 0 20px 20px;
 	margin-bottom: 20px;
-    /*background-color: #eee;*/
-    background-color: #f7f7f7;
+    background-color: #eee;
 	border: solid 1px #ddd;
 	border-radius: 3px;
 	font-size: 12px;
@@ -1797,7 +1796,7 @@ div.listing div.listing-footer {
 
 .leftsidebar {
     text-align: center;
-    background-color: #ccc;
+    background-color: #ddd;
     padding-bottom: 30px;
 }
 

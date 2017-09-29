@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Listing;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\CalculateTownDistances::class
     ];
 
     /**
@@ -24,8 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('towndistances:calculate')
+            ->everyTenMinutes()
+            ->sendOutputTo(base_path('storage/logs/schedule_output.log'), true);
     }
 
     /**

@@ -81,6 +81,7 @@
                                     zoomControl: true,
                                     streetViewControl: false,
                                     mapTypeControl: false,
+                                    fullscreenControl: false,
                                     scrollwheel: false,
                                     gestureHandling: 'cooperative',
                                     signInControl: false,
@@ -120,7 +121,6 @@
                                 if (!window.matchMedia( "(min-width: 767px)" ).matches) {	// assume mobile
                                     console.log("Mobile device detected - hiding map zoom controls.");
                                     map.setOptions( { zoomControl: false } );
-                                    map.setOptions( { fullscreenControl: true } );
                                 }
                             }
                         </script>
