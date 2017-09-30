@@ -17,13 +17,13 @@
                 @foreach ($listings_active as $listing)
                 <div class="listing">
                     <div class="listing-image col-lg-3">
-                        <a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">
+                        <a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">
                             <img src="{{ $listing->header->file() }}" />
                         </a>
                     </div>
 
                     <div class="listing-details col-lg-9">
-                        <h3><a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a></h3>
+                        <h3><a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a></h3>
 
                         <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 
@@ -43,7 +43,7 @@
                         <div class="listing-footer">
                             Listing Options:
                             <a href="#" class="deactivation-link" listing-id={{ $listing->id }}><i class="fa fa-power-off fa-pad-5 sr-icons"></i>Deactivate</a>&middot;
-                            <a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}"><i class="fa fa-eye fa-pad-5 sr-icons"></i>View</a>&middot;
+                            <a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}"><i class="fa fa-eye fa-pad-5 sr-icons"></i>View</a>&middot;
                             <a href="/dashboard/listings/edit/{{ $listing->id }}"><i class="fa fa-pencil-square-o fa-pad-5 sr-icons"></i>Edit</a>&middot;
                             <a href="/dashboard/listings/delete/{{ $listing->id }}"><i class="fa fa-trash-o fa-pad-5 sr-icons"></i>Delete</a>
                             <br/>
@@ -62,13 +62,13 @@
                 @foreach ($listings_inactive as $listing)
                         <div class="listing listing-inactive">
                             <div class="listing-image col-lg-3">
-                                <a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">
+                                <a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">
                                     <img src="{{ $listing->header->file() }}" />
                                 </a>
                             </div>
 
                             <div class="listing-details col-lg-9">
-                                <h3><a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a> <span class="badge inactive" title="Listing will not appear in search results.">Inactive</span></h3>
+                                <h3><a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a> <span class="badge inactive" title="Listing will not appear in search results.">Inactive</span></h3>
 
                                 <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 
@@ -88,7 +88,7 @@
                                 <div class="listing-footer">
                                     Listing Options:
                                     <a href="#" class="activation-link" listing-id={{ $listing->id }}><i class="fa fa-power-off fa-pad-5 sr-icons"></i>Activate</a>&middot;
-                                    <a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}"><i class="fa fa-eye fa-pad-5 sr-icons"></i>View</a>&middot;
+                                    <a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}"><i class="fa fa-eye fa-pad-5 sr-icons"></i>View</a>&middot;
                                     <a href="/dashboard/listings/edit/{{ $listing->id }}"><i class="fa fa-pencil-square-o fa-pad-5 sr-icons"></i>Edit</a>&middot;
                                     <a href="/dashboard/listings/delete/{{ $listing->id }}"><i class="fa fa-trash-o fa-pad-5 sr-icons"></i>Delete</a>
                                 </div>

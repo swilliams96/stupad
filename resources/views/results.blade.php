@@ -74,13 +74,13 @@
                 @foreach ($listings as $listing)
                     <div class="listing">
                         <div class="listing-image col-lg-4">
-                            <a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">
+                            <a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">
                                 <img src="{{ $listing->header->file() }}" />
                             </a>
                         </div>
 
                         <div class="listing-details col-lg-8">
-                            <h3><a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a></h3>
+                            <h3><a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a></h3>
 
                             <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 
@@ -89,7 +89,7 @@
                             </div>
 
                             <div class="listing-footer">
-                                <a href="/listing/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">More details...</a>
+                                <a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">More details...</a>
                             </div>
 
                             <ul class="listing-icons">

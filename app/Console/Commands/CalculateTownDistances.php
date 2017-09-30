@@ -50,12 +50,9 @@ class CalculateTownDistances extends Command
         }
 
         $count = count($listings);
-        if ($count > 0) {
-            $this->info(Carbon::now()->format('[Y-m-d H:i:s] ') . $count . ' listings with no previously calculated town distance found.');
-        } else {
-            $this->info(Carbon::now()->format('[Y-m-d H:i:s] ') . 'No listings with no previously calculated town distance found.Town distances calculation complete.');
-            $this->info(Carbon::now()->format('[Y-m-d H:i:s] ') . 'Town distances calculation complete.');
-        }
+        $count > 0
+            ? $this->info(Carbon::now()->format('[Y-m-d H:i:s] ') . $count . ' listings with no previously calculated town distance found.')
+            : $this->info(Carbon::now()->format('[Y-m-d H:i:s] ') . 'No listings with no previously calculated town distance found.');
 
         $count_success = 0; $count_failed = 0;
         foreach ($listings as $listing) {
@@ -68,6 +65,7 @@ class CalculateTownDistances extends Command
             $this->line(Carbon::now()->format('[Y-m-d H:i:s] ') . '    ' . $listing->postcode . ' to ' . $listing->area->name . ' : ' . $town_distance . ' minutes');
 
             $listing->town_distance = $town_distance;
+            $listing->updated_at = Carbon::now();
             $success = $listing->save();
 
             $success ? $count_success++ : $count_failed++;
