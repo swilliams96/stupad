@@ -67,16 +67,22 @@ class DashboardController extends Controller
 
     public function newlisting(Request $request) {
         if (!Auth::user()->landlord)
-            return view('profile');
+            return redirect(route('profile'));
 
         return view('newlisting');
     }
 
-    public function editlisting(Request $request) {
-        return 'editing listing';
+    public function editlisting(Request $request, $id) {
+        $listing = Listing::find($id);
+
+        if (Auth::user() != $listing->owner || $listing == null)
+            return redirect(route('mylistings'));
+
+        return view('editlisting')
+            ->with('listing', $listing);
     }
 
-    public function deletelisting(Request $request) {
+    public function deletelisting(Request $request, $id) {
         return 'delete listing? are you sure?';
     }
 }

@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="listing-details col-lg-9">
-                        <h3><a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a></h3>
+                        <h3><a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}" class="draggable">{{ $listing->title }}</a></h3>
 
                         <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 
@@ -68,7 +68,7 @@
                             </div>
 
                             <div class="listing-details col-lg-9">
-                                <h3><a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}">{{ $listing->title }}</a> <span class="badge inactive" title="Listing will not appear in search results.">Inactive</span></h3>
+                                <h3><a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}" class="draggable">{{ $listing->title }}</a> <span class="badge inactive" title="Listing will not appear in search results.">Inactive</span></h3>
 
                                 <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 

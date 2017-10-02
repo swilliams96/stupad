@@ -47,7 +47,7 @@
                 }
             });
 
-            var options_bedrooms = ["Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms", "5+ bedrooms"];
+            var options_bedrooms = ["Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms", "5 bedrooms", "6+ bedrooms"];
             var bedroom_defaults = [
                 {{ Cookie::get('lastsearch_bedrooms_min', 2) }},
                 {{ Cookie::get('lastsearch_bedrooms_max', 4) }}
@@ -56,7 +56,7 @@
             $("#bedrooms-max-label").html(options_bedrooms[bedroom_defaults[1]]);
             $("#bedrooms-slider").slider({
                 min: 0,
-                max: 5,
+                max: 6,
                 range: true,
                 values: bedroom_defaults,
                 slide: function(event, ui) {
@@ -69,14 +69,14 @@
                         if (ui.values[1] == 0) {
                             $("#bedrooms-min-label").html(options_bedrooms[0]);
                             $("#bedrooms-max-label").html("");
-                        } else if (ui.values[0] == 5) {
+                        } else if (ui.values[0] == 6) {
                             $("#bedrooms-min-label").html("");
-                            $("#bedrooms-max-label").html(options_bedrooms[5]);
+                            $("#bedrooms-max-label").html(options_bedrooms[6]);
                         } else {
                             $("#bedrooms-min-label").html(options_bedrooms[ui.values[0]]);
                             $("#bedrooms-max-label").html("");
                         }
-                    } else if (ui.values[0] == 0 && ui.values[1] == 5) {
+                    } else if (ui.values[0] == 0 && ui.values[1] == 6) {
                         $("#bedrooms-min-label").html("Any");
                         $("#bedrooms-max-label").html("");
                     }

@@ -1,0 +1,1 @@
+<script async defer>$(document).ready(function() { $('a, img').not('.draggable').attr('draggable', 'false'); });</script>

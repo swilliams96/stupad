@@ -85,4 +85,5 @@
     @yield('content')
 
 </body>
+@include('scripts.disabledraggable')
 </html>

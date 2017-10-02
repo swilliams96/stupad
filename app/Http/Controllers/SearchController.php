@@ -41,7 +41,7 @@ class SearchController extends Controller
             'rent_min' => 'required|integer|min:5|max:' . $rent_min,
             'rent_max' => 'required|integer|max:500|min:' . $rent_max,
             'bedrooms_min' => 'required|integer|min:0|max:' . $bedrooms_max,
-            'bedrooms_max' => 'required|integer|max:5|min:' . $bedrooms_min,
+            'bedrooms_max' => 'required|integer|max:6|min:' . $bedrooms_min,
             'bathrooms_min' => 'required|integer|min:1|max:' . $bathrooms_max,
             'bathrooms_max' => 'required|integer|max:5|min:' . $bathrooms_min,
             'distance' => 'required|integer|min:10|max:60',
@@ -81,7 +81,7 @@ class SearchController extends Controller
     }
 
 
-    public function showresults(Request $request, $location_slug) {
+    public function showresults(Request $request, $slug) {
         // Cache search variables (from session if they exist, if not use cookies of last search)
         $rent_min = $request->session()->get('rent_min', $request->cookie('lastsearch_rent_min'));
         $rent_max = $request->session()->get('rent_max', $request->cookie('lastsearch_rent_max'));
@@ -92,8 +92,11 @@ class SearchController extends Controller
         $distance = $request->session()->get('distance', $request->cookie('lastsearch_distance'));
         $place = $request->session()->get('place', $request->cookie('lastsearch_place'));
 
+        if ($bedrooms_max == 6) $bedrooms_max = 99;
+        if ($bathrooms_max == 5) $bathrooms_max = 99;
+
         // Get active listings that fit our search criteria
-        $uni = University::where('slug', $location_slug)->first();
+        $uni = University::where('slug', $slug)->first();
         if($uni == null) return redirect('/search');
         $listings = Listing::where('area_id', $uni->area->id)
             ->where('active_datetime', '<=', Carbon::now())
