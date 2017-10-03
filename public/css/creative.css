@@ -19,7 +19,6 @@ header,header .header-content {
 body,html {
   height: 100%;
   width: 100%;
-  /*overflow-x: hidden;*/
 }
 
 body {
@@ -206,8 +205,8 @@ header {
   min-height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
+    -o-background-size: cover;
   background-size: cover;
-  -o-background-size: cover;
   background-attachment: fixed;	/* added for parallax scrolling */
   background-position: center;
   background-color: #4A423F;
@@ -359,7 +358,6 @@ header .header-content .header-content-inner p {
 }
 
 .text-primary {
-  /* icon color */
   color: #D64439;
 }
 
@@ -462,14 +460,12 @@ header .header-content .header-content-inner p {
   color: #fff;
   text-shadow: none;
   background-color: rgba(40, 40, 40, 0.8);
-  /*background: #222;*/
 }
 
 ::selection {
   color: #fff;
   text-shadow: none;
   background-color: rgba(40, 40, 40, 0.8);
-  /*background: #222;*/
 }
 
 img::selection {
@@ -485,13 +481,6 @@ img::-moz-selection {
 
 
 
-
-
-
-
-/***************************/
-/**** CUSTOM STYLING *******/
-/***************************/
 
 .stu, .pad, .pad2 {
 	text-transform: uppercase;
@@ -800,7 +789,6 @@ a .subtle-link {
 	text-align: center;
 	margin: 0;
 	padding: 20px;
-	/*border: 2px solid #bbb;*/
 	border-radius: 6px;
 	background-color: #fff;
 }
@@ -918,11 +906,9 @@ span.register-login-prompt {
 	color: #777;
 }
 
-@media (max-width:766px) {
+@media (max-width:767px) {
 	div.error i {
 		display: none;
-		/* display: block;
-		padding-bottom: 5px; */
 	}
 }
 
@@ -995,7 +981,6 @@ span.register-login-prompt {
 
 #results {
     min-height: 800px;
-	/*min-height: calc(100% - 216px);*/
 	padding: 60px 0 40px;
 }
 
@@ -1021,8 +1006,6 @@ span.register-login-prompt {
 	}
 
 	#results div.content {
-		/*min-width: 900px;
-		max-width: 1000px;*/
 		padding: 5px;
 	}
 }
@@ -1066,6 +1049,7 @@ span.register-login-prompt {
 .ui-widget-content .ui-state-active {
 	background-color: #f7afa0;
 }
+
 
 form.filters {
 	padding: 0 20px 20px;
@@ -1183,11 +1167,6 @@ div.listing {
 	background-color: #fff;
 	padding: 10px 0 20px 0;
 	margin-bottom: 15px;
-	/*-webkit-box-shadow: 1px 3px 10px -5px rgba(0,0,0,0.6);
-	-moz-box-shadow: 1px 3px 10px -5px rgba(0,0,0,0.6);
-	-o-box-shadow: 1px 3px 10px -5px rgba(0,0,0,0.6);
-	box-shadow: 1px 3px 10px -5px rgba(0,0,0,0.6);*/
-	/*border-radius: 8px;*/
 }
 
 div.listing div.listing-details, div.listing div.listing-image {
@@ -1206,10 +1185,6 @@ div.listing div.listing-details, div.listing div.listing-image {
 		display: block;
 		margin: 0 auto;
 	}
-	
-	div.listing div.listing-image img:hover {
-		/*opacity: 0.9;*/
-	}
 }
 
 @media (min-width:1200px) {
@@ -1222,7 +1197,6 @@ div.listing div.listing-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	/*border-radius: 2px;*/
 	transition: all 0.2s;
 	-webkit-box-shadow: 1px 3px 10px -5px rgba(0,0,0,0.6);
 	-moz-box-shadow: 1px 3px 10px -5px rgba(0,0,0,0.6);
@@ -1249,8 +1223,6 @@ div.listing-details span.rent-amount {
 	font-weight: 600;
 	color: rgba(85,85,85,.8);
 	padding: 5px 10px 10px 0;
-	/*border: 2px solid #bbb;
-	border-radius: 8px;*/
 }
 
 @media (min-width: 1200px) {
@@ -1299,7 +1271,6 @@ ul.listing-icons {
 	width: 100%;
 	text-align: center;
 	min-height: 65px;
-	/*height: 100px;*/
 }
 
 ul.listing-icons li {
@@ -1336,12 +1307,8 @@ ul.listing-icons li {
 div.listing div.listing-footer {
 	font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 	font-size: 12px;
-    /*position: absolute;*/
 	height: 25px;
 	padding-top: 5px;
-    /*bottom: 10px;
-    left: 10px;*/
-	/*text-align: right;*/
 }
 
 
@@ -1386,9 +1353,6 @@ div.listing div.listing-footer {
 	line-height: 2em;
 }
 
-
-
-/* LISTING PAGE */
 
 #listing-page-header  {
 	padding: 0;
@@ -1444,7 +1408,6 @@ div.listing div.listing-footer {
 }
 
 #listing-page-header  h1 {
-	/*padding: 290px 0 0;*/
 	margin: 0;
 	color: #fff;
 	text-shadow: 1px 3px 10px rgba(0,0,0,.75);
@@ -1459,10 +1422,6 @@ div.listing div.listing-footer {
 #listing-page-header  h2 {
 	padding: 15px 0 0;
 	margin: 0;
-	/*color: #D64439;*/
-	/*color: rgba(214,68,57,0.5);*/
-	/*color: #EA5544;*/
-	/*color: #F58278;*/
 	color: rgba(235,235,235,.85);
 	text-shadow: 1px 2px 8px rgba(0,0,0,.5);
 	text-align: center;
@@ -1545,14 +1504,11 @@ div.listing div.listing-footer {
 .listing-page-buttons a.btn-save-listing, .listing-page-buttons a.btn-save-listing:visited {
 	background-color: #fff;
 	border: 2px solid #F1958C;
-	/*border: 2px solid #D64439;*/
-	/*color: #D64439;*/
 	color: #F1958C;
 	transition: color 0.15s;
 }
 
 .listing-page-buttons a.btn-save-listing:hover, .listing-page-buttons a.btn-save-listing:active {
-	/*color: #ee3b27;*/
 	color: #EF6153;
 	border-color: #EF6153;
 }
@@ -1663,7 +1619,6 @@ div.listing div.listing-footer {
 }
 
 
-/* FANCYBOX THUMBNAIL STYLING */
 .fancybox-thumbs {
   top: auto;
   width: auto;
@@ -1912,10 +1867,6 @@ div.listing div.listing-footer {
     width: 100px;
 }
 
-.mainpage .input {
-    /*max-width: 400px;*/
-}
-
 .mainpage .space-top {
     margin-top: 25px;
 }
@@ -1995,4 +1946,55 @@ div.listing div.listing-footer {
     background-color: #D64439;
 }
 
+.mainpage .existing-images {
+    width: 400px;
+}
 
+.mainpage .existing-images .image {
+    margin: 5px 3px;
+    display: block;
+    height: 200px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.15s;
+}
+
+.mainpage .existing-images .image input {
+    display: none;
+}
+
+.mainpage .existing-images .image .buttons {
+    font-size: 28px;
+    display: inline;
+    float: right;
+    padding: 4px 8px 5px 10px;
+    -webkit-border-radius: 0 0 0 30%;
+    -moz-border-radius: 0 0 0 30%;
+    border-radius: 0 0 0 30%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mainpage .existing-images .image .buttons a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.mainpage .existing-images .image .buttons a i {
+    width: 36px;
+    height: 36px;
+    text-align: center;
+}
+
+.mainpage .existing-images .image .buttons a:hover {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.mainpage #button-delete-all {
+    font-size: 12px;
+}
+
+.mainpage #button-delete-all i {
+    font-size: 14px;
+}

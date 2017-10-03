@@ -17,7 +17,7 @@ class Listing extends Model
     }
 
     public function images() {
-        return $this->hasMany(ListingImage::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(ListingImage::class)->orderBy('image_number');
     }
 
     public function header() {
