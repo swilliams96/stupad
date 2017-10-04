@@ -111,14 +111,15 @@
                     <label for="images[]" class="space-top">Existing Gallery Images:</label>
                     <div class="existing-images">
                         @foreach ($listing->images as $image)
-                            <div class="image" style="background-image: url('{{ $image->file() }}');">
-                                <div class="buttons">
-                                    <a href="#" class="button-toggle-delete" title="Delete"><i class="fa fa-trash sr-icons"></i></a>
-                                </div>
-                                <input type="checkbox" class="checkbox-deleted" name="existingimages.{{ $image->image_number }}.deleted"/>
-                                <input type="checkbox" class="checkbox-header" name="existingimages.{{ $image->image_number }}.header"{{ $image == $listing->header ? ' checked' : '' }}/>
+                        <div class="image image-number-{{ $image->image_number }}" style="background-image: url('{{ $image->file() }}');">
+                            <div class="buttons">
+                                <a href="#" class="button-set-header" title="Set as header image"><i class="fa fa-photo fa-2x sr-icons"></i></a>
+                                <a href="#" class="button-toggle-delete" title="Delete image"><i class="fa fa-trash fa-2x sr-icons"></i></a>
                             </div>
+                            <input type="checkbox" class="checkbox-deleted" name="existingimages.{{ $image->image_number }}.deleted"/>
+                        </div>
                         @endforeach
+                        <input type="hidden" id="input-header-image" name="headerimage" value="{{ $listing->header->image_number }}"/>
                     </div>
                     <a href="#" id="button-delete-all"><i class="fa fa-trash fa-pad-5 sr-icons"></i>Delete all existing images.</a>
 
@@ -131,7 +132,7 @@
                     </div>
                     <p style="font-size: 12px;">Use Shift and Control keys to select multiple images.</p>
 
-                    <button class="btn btn-primary btn-xl space-top">Create</button>
+                    <button class="btn btn-primary btn-xl space-top" id="save-button">Save</button>
                 </form>
             </div>
 

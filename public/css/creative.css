@@ -1951,7 +1951,7 @@ div.listing div.listing-footer {
 }
 
 .mainpage .existing-images .image {
-    margin: 5px 3px;
+    margin: 8px 3px;
     display: block;
     height: 200px;
     -webkit-background-size: cover;
@@ -1967,24 +1967,27 @@ div.listing div.listing-footer {
 }
 
 .mainpage .existing-images .image .buttons {
-    font-size: 28px;
+    font-size: 14px;
     display: inline;
     float: right;
-    padding: 4px 8px 5px 10px;
-    -webkit-border-radius: 0 0 0 30%;
-    -moz-border-radius: 0 0 0 30%;
-    border-radius: 0 0 0 30%;
+    padding: 10px 8px 6px 12px;
+    -webkit-border-radius: 0 0 0 10px;
+    -moz-border-radius: 0 0 0 10px;
+    border-radius: 0 0 0 12px;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 .mainpage .existing-images .image .buttons a {
     color: rgba(255, 255, 255, 0.8);
+    line-height: 36px;
 }
 
 .mainpage .existing-images .image .buttons a i {
     width: 36px;
     height: 36px;
     text-align: center;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .mainpage .existing-images .image .buttons a:hover {
