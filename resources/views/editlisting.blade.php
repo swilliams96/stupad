@@ -106,9 +106,9 @@
                     </div>
 
                     <label for="description" class="space-top">Description:</label>
-                    <textarea rows="6" cols="20" name="description" required>{{ str_replace('\n', "\n\n", $listing->description) }}</textarea>
+                    <textarea rows="8" cols="20" name="description" required>{{ str_replace('\n', "\n\n", $listing->description) }}</textarea>
 
-                    <label for="images[]" class="space-top">Existing Gallery Images:</label>
+                    <label class="space-top">Existing Gallery Images:</label>
                     <div class="existing-images">
                         @foreach ($listing->images as $image)
                         <div class="image image-number-{{ $image->image_number }}" style="background-image: url('{{ $image->file() }}');">
@@ -124,10 +124,11 @@
                     <a href="#" id="button-delete-all"><i class="fa fa-trash fa-pad-5 sr-icons"></i>Delete all existing images.</a>
 
                     <label for="images[]" class="space-top">New Gallery Images:</label>
-                    <div class="input image-upload">
+                    <div class="input image-upload-box">
                         <input type="file" name="images[]" id="images" accept="image/jpeg, image/png" multiple title="test"/>
-                        <div id="preview">
-
+                        <div id="preview-container">
+                            <div id="preview">
+                            </div>
                         </div>
                     </div>
                     <p style="font-size: 12px;">Use Shift and Control keys to select multiple images.</p>

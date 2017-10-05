@@ -110,13 +110,14 @@
                     </div>
 
                     <label for="description" class="space-top">Description:</label>
-                    <textarea rows="6" cols="20" name="description" required></textarea>
+                    <textarea rows="8" cols="20" name="description" required></textarea>
 
                     <label for="images[]" class="space-top">Gallery Images:</label>
-                    <div class="input image-upload">
+                    <div class="input image-upload-box">
                         <input type="file" name="images[]" id="images" accept="image/jpeg, image/png" multiple required/>
-                        <div id="preview">
-
+                        <div id="preview-container">
+                            <div id="preview">
+                            </div>
                         </div>
                     </div>
                     <p style="font-size: 12px;">Use Shift and Control keys to select multiple images.</p>
@@ -127,47 +128,7 @@
 
             <div class="col-lg-3 no-float"></div>
 
-            <script>
-                $(document).ready(function () {
-                    if(window.File && window.FileList && window.FileReader) {       // Check File API support
-                        $('#images').change(function (event) {
-                            var files = event.target.files;
-                            $('#preview').html('');
-                            for(var i = 0; i < files.length; i++) {
-                                var file = files[i];
-
-                                if(!file.type.match('image')) continue;
-
-                                var picReader = new FileReader();
-
-                                picReader.onload = function (event) {
-                                    $('#preview').append('<img class="image-preview" src="' + event.target.result + '"/>');
-                                };
-
-                                picReader.readAsDataURL(file);
-                            }
-                        });
-
-                        var files = $('#images').target().files;
-                        $('#preview').html('');
-                        for(var i = 0; i < files.length; i++) {
-                            var file = files[i];
-
-                            if(!file.type.match('image')) continue;
-
-                            var picReader = new FileReader();
-
-                            picReader.onload = function (event) {
-                                $('#preview').append('<img class="image-preview" src="' + event.target.result + '"/>');
-                            };
-
-                            picReader.readAsDataURL(file);
-                        }
-                    } else {
-                        console.log("Your browser does not support File API");
-                    }
-                });
-            </script>
+            @include('scripts.imageupload')
 
         </div>
     </div>

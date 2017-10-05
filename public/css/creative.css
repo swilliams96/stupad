@@ -1473,6 +1473,20 @@ div.listing div.listing-footer {
 	margin: 30px 0 4px;
 }
 
+.mainpage div.listing span.badge {
+    margin-bottom: 2px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.mainpage div.listing span.badge.inactive {
+    background-color: #615857;
+}
+
+.mainpage div.listing span.badge.sponsored {
+    background-color: #D64439;
+}
+
 .listing-page-buttons {
 	margin-bottom: 20px;
 	text-align: center;
@@ -1739,6 +1753,19 @@ div.listing div.listing-footer {
     display: table-row;
 }
 
+@media(min-width: 1200px) {
+    .leftsidebar, .mainpage {
+        min-height: 100%;
+        display: table-cell;
+        float: none;
+    }
+
+    .mainpage {
+        padding-left: 50px;
+        padding-right: 0;
+    }
+}
+
 .leftsidebar, .mainpage {
     padding: 40px 0 0;
     float: none;
@@ -1793,19 +1820,6 @@ div.listing div.listing-footer {
     padding-right: 20px;
 }
 
-@media(min-width: 1200px) {
-    .leftsidebar, .mainpage {
-        min-height: 100%;
-        display: table-cell;
-        float: none;
-    }
-
-    .mainpage {
-        padding-left: 50px;
-        padding-right: 0;
-    }
-}
-
 .mainpage h1 {
     display: inline;
 	font-size: 24px;
@@ -1829,7 +1843,6 @@ div.listing div.listing-footer {
 	display: block;
 	font-size: 14px;
 	font-weight: 400;
-	min-width: 400px;
 	margin: 3px 0;
 	height: 36px;
 	padding: 7px 10px;
@@ -1845,13 +1858,16 @@ div.listing div.listing-footer {
 }
 
 .mainpage textarea {
-    min-height: 200px;
-    min-width: 600px;
+    max-height: 200px;
+    max-width: 600px;
+    width: 100%;
+    height: 200px;
 }
 
 .mainpage select {
     height: 36px;
-    min-width: 90px;
+    max-width: 90px;
+    width: 100%;
     display: inline-block;
     margin-left: 5px;
     border: 1px solid #ccc;
@@ -1885,7 +1901,8 @@ div.listing div.listing-footer {
 
 .mainpage div.properties-table {
     display: table;
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
 }
 
 .mainpage div.properties-table div {
@@ -1903,28 +1920,45 @@ div.listing div.listing-footer {
     float: right;
 }
 
-.mainpage .input.image-upload {
+.mainpage .input.image-upload-box {
     height: 200px;
-    width: 400px;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
+    max-width: 86vw;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .mainpage .input.image-upload-box {
+        max-width: 400px;
+    }
+}
+
+.mainpage .input.image-upload-box #images {
+    max-width: 250px;
 }
 
 .mainpage .image-preview {
     float: left;
+    display: inline;
     max-height: 140px;
     margin: 4px;
 }
 
 .mainpage #preview {
-    width: 999999px;
+    width: 50px;
+    height: 148px;
+}
+
+.mainpage #preview-container {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 
 .mainpage .error {
     max-width: 600px;
+    width: 100%;
     display: block;
-    margin-top: 20px;
+    margin-top: 12px;
     margin-left: 4px;
 }
 
@@ -1932,22 +1966,9 @@ div.listing div.listing-footer {
     height: 50px;
 }
 
-.mainpage div.listing span.badge {
-    margin-bottom: 2px;
-    font-weight: 400;
-    text-transform: uppercase;
-}
-
-.mainpage div.listing span.badge.inactive {
-    background-color: #615857;
-}
-
-.mainpage div.listing span.badge.sponsored {
-    background-color: #D64439;
-}
-
 .mainpage .existing-images {
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
 }
 
 .mainpage .existing-images .image {

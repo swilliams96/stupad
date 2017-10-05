@@ -9,13 +9,15 @@
 
                                 if(!file.type.match('image')) continue;
 
-                                var picReader = new FileReader();
+                                var reader = new FileReader();
 
-                                picReader.onload = function (event) {
-                                    $('#preview').append('<img class="image-preview" src="' + event.target.result + '"/>');
+                                reader.onload = function (event) {
+                                    $('#preview').append('<img class="image-preview" src="' + event.target.result + '" draggable="false"/>');
                                 };
 
-                                picReader.readAsDataURL(file);
+                                $('#preview').css('width', (i+1)*275);
+
+                                reader.readAsDataURL(file);
                             }
                         });
 
@@ -26,13 +28,15 @@
 
                             if(!file.type.match('image')) continue;
 
-                            var picReader = new FileReader();
+                            var reader = new FileReader();
 
-                            picReader.onload = function (event) {
-                                $('#preview').append('<img class="image-preview" src="' + event.target.result + '"/>');
+                            reader.onload = function (event) {
+                                $('#preview').append('<img class="image-preview" src="' + event.target.result + '" draggable="false"/>');
                             };
 
-                            picReader.readAsDataURL(file);
+                            $('#preview').css('width', (i+1)*275);
+
+                            reader.readAsDataURL(file);
                         }
                     } else {
                         console.log("Your browser does not support File API!");
