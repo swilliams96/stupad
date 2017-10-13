@@ -83,6 +83,12 @@ class DashboardController extends Controller
     }
 
     public function deletelisting(Request $request, $id) {
-        return 'delete listing? are you sure?';
+        $listing = Listing::find($id);
+
+        if (Auth::user() != $listing->owner || $listing == null)
+            return redirect(route('mylistings'));
+
+        return view('deletelisting')
+            ->with('listing', $listing);
     }
 }

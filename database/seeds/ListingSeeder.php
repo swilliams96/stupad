@@ -27,7 +27,7 @@ class ListingSeeder extends Seeder
         DB::table('listings')->insert([
             [
                 'active_datetime' => Carbon::now(),
-                'inactive_datetime' => Carbon::now()->addDays(14),
+                'inactive_datetime' => Carbon::now()->addDays(env('LISTING_RENEW_DAYS', 14)),
                 'title' => 'Sydney Place',
                 'landlord_id' => 1,
                 'rent_value' => 110,

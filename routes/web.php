@@ -31,8 +31,11 @@ Route::get('/dashboard/saved', 'DashboardController@savedlistings')->name('saved
 // LISTING CONTROLLER
 Route::get('/listings/{listing_id}/{slug?}', 'ListingController@show');
 Route::resource('listings', 'ListingController');
+
 Route::post('/listings/{id}/activate', 'ListingController@activate');
 Route::post('/listings/{id}/deactivate', 'ListingController@deactivate');
+Route::post('/listings/{id}/renew', 'ListingController@renew');
+
 Route::post('/listings/{id}/save', 'ListingController@save');
 Route::post('/listings/{id}/unsave', 'ListingController@unsave');
 

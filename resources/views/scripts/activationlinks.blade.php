@@ -12,4 +12,11 @@
             form.appendTo($('body')).submit();
             return false;
         });
+
+        $('a.renew-activation-link').click(function() {
+            var url = '/listings/' + $(this).attr('listing-id') + '/renew';
+            var form = $('<form action="' + url + '" method="POST">{{ csrf_field() }}</form>');
+            form.appendTo($('body')).submit();
+            return false;
+        });
     </script>

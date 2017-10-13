@@ -113,15 +113,16 @@
                     return false;
                 })
 
-                $('#save-button').click(function() {
+                /*$('#save-button').click(function() {
                     if ($('#input-header-image').val() == 0) {
                         const error = $(
                             '<div class="error">' +
-                            '   <i class="fa fa-warning fa-lg fa-pad-5"></i><b>Error:</b> Listing must have a header image. Please select an image that has not been deleted or upload a new one.' +
+                            '   <i class="fa fa-warning fa-lg fa-pad-5"></i><b>Error:</b> Listings must have a header image. Please select an image that has not been deleted or upload a new one.' +
                             '</div>'
                         );
-                        error.insertBefore($('.existing-images'));
+                        $('#error-container').html(error);
+                        $("html, body").animate({ scrollTop: $('#error-container').offset().top - 100 }, 500);
                         return false;
                     }
-                });
+                });*/
             </script>

@@ -41,19 +41,19 @@
                         <option{{ $listing->rent_period == 'month' ? ' selected' : '' }}>month</option>
                     </select>
 
-                    <label for="address1" class="space-top">Address 1:</label>
-                    <input type="text" name="address1" value="{{ $listing->address1 }}" required/>
+                    <label for="address1" class="space-top">Address 1:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <input type="text" name="address1" value="{{ $listing->address1 }}" disabled/>
 
-                    <label for="address2">Address 2:</label>
-                    <input type="text" name="address2" value="{{ $listing->address2 }}"/>
+                    <label for="address2">Address 2:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <input type="text" name="address2" value="{{ $listing->address2 }}" disabled/>
 
-                    <label for="town">Town/City:</label>
-                    <input type="text" name="town" value="{{ $listing->town }}" required/>
+                    <label for="town">Town/City:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <input type="text" name="town" value="{{ $listing->town }}" disabled/>
 
-                    <label for="postcode">Postcode:</label>
-                    <input type="text" name="postcode" value="{{ $listing->postcode }}" required/>
+                    <label for="postcode">Postcode:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <input type="text" name="postcode" value="{{ $listing->postcode }}" disabled/>
 
-                    <div class="properties-table space-top">
+                    <div class="properties-table split-content-2 space-top">
                         <div>
                             <label for="bedrooms"><i class="fa fa-bed fa-pad-5 fa-pad-5l sr-icons"></i>Bedrooms:</label>
                             <select name="bedrooms" required>
@@ -109,6 +109,7 @@
                     <textarea rows="8" cols="20" name="description" required>{{ str_replace('\n', "\n\n", $listing->description) }}</textarea>
 
                     <label class="space-top">Existing Gallery Images:</label>
+                    <div id="error-container"></div>
                     <div class="existing-images">
                         @foreach ($listing->images as $image)
                         <div class="image image-number-{{ $image->image_number }}" style="background-image: url('{{ $image->file() }}');">
@@ -119,7 +120,7 @@
                             <input type="checkbox" class="checkbox-deleted" name="existingimages.{{ $image->image_number }}.deleted"/>
                         </div>
                         @endforeach
-                        <input type="hidden" id="input-header-image" name="headerimage" value="{{ $listing->header->image_number }}"/>
+                        <input type="hidden" id="input-header-image" name="header_image" value="{{ $listing->header->image_number }}"/>
                     </div>
                     <a href="#" id="button-delete-all"><i class="fa fa-trash fa-pad-5 sr-icons"></i>Delete all existing images.</a>
 

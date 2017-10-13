@@ -19,19 +19,21 @@ class User extends Authenticatable
     ];
 
     public function listings() {
-        return $this->hasMany(Listing::class, 'landlord_id')->orderBy('created_at', 'desc');
+        return $this->hasMany(Listing::class, 'landlord_id')->orderBy('updated_at', 'desc');
     }
 
     public function activelistings() {
-        return $this->listings()
+        return $this->hasMany(Listing::class, 'landlord_id')
             ->whereDate('active_datetime', '<=', Carbon::now())
-            ->whereDate('inactive_datetime', '>=', Carbon::now());
+            ->whereDate('inactive_datetime', '>=', Carbon::now())
+            ->orderBy('inactive_datetime', 'asc');
     }
 
     public function inactivelistings() {
-        return $this->listings()
+        return $this->hasMany(Listing::class, 'landlord_id')
             ->whereDate('active_datetime', '>', Carbon::now())
             ->orWhereDate('inactive_datetime', '<', Carbon::now())
-            ->orWhere('active_datetime', '=', null);
+            ->orWhere('active_datetime', '=', null)
+            ->orderBy('updated_at', 'desc');
     }
 }

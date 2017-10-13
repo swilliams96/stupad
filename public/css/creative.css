@@ -103,6 +103,10 @@ aside {
     display: table;
 }
 
+.float-right {
+    float: right;
+}
+
 .navbar-default {
   background-color: #fff;
   border-color: rgba(34,34,34,.05);
@@ -586,6 +590,10 @@ i.fa-pad-7l {
 }
 i.fa-pad-10l {
 	padding-left: 10px;
+}
+
+i.fa-pad-5t {
+    padding-top: 5px;
 }
 
 
@@ -1169,6 +1177,12 @@ div.listing {
 	margin-bottom: 15px;
 }
 
+@media (min-width:1200px) {
+    div.listing {
+        height: 250px;
+    }
+}
+
 div.listing div.listing-details, div.listing div.listing-image {
 	vertical-align: top;
 	padding: 10px;
@@ -1185,12 +1199,6 @@ div.listing div.listing-details, div.listing div.listing-image {
 		display: block;
 		margin: 0 auto;
 	}
-}
-
-@media (min-width:1200px) {
-    div.listing {
-        height: 250px;
-    }
 }
 
 div.listing div.listing-image img {
@@ -1694,10 +1702,11 @@ div.listing div.listing-footer {
 	font-weight: 100;
 }
 
-#notfound .small-text {
+p.small-text {
 	display: block;
-	font-size: 12px;
+	font-size: 12px !important;
 }
+
 #notfound form {
 	width: 90%;
 	min-height: 40px;
@@ -1837,6 +1846,7 @@ div.listing div.listing-footer {
     display: block;
     margin: 8px 0 0 2px;
     font-size: 12px;
+    max-width: 400px;
 }
 
 .mainpage input:not([type=file]), .mainpage textarea, .mainpage select, .mainpage .input {
@@ -1844,6 +1854,8 @@ div.listing div.listing-footer {
 	font-size: 14px;
 	font-weight: 400;
 	margin: 3px 0;
+    width: 100%;
+    max-width: 400px;
 	height: 36px;
 	padding: 7px 10px;
 	border: 1px solid #ccc;
@@ -1858,10 +1870,11 @@ div.listing div.listing-footer {
 }
 
 .mainpage textarea {
-    max-height: 200px;
-    max-width: 600px;
     width: 100%;
+    max-width: 600px;
+    min-width: 250px;
     height: 200px;
+    min-height: 200px;
 }
 
 .mainpage select {
@@ -1872,7 +1885,12 @@ div.listing div.listing-footer {
     margin-left: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 7px 10px;
+    padding: 7px 0 7px 6px;
+}
+
+.mainpage input:disabled {
+    background-color: #f5f3f2;
+    color: #999897;
 }
 
 .mainpage button {
@@ -1900,13 +1918,21 @@ div.listing div.listing-footer {
 }
 
 .mainpage div.properties-table {
-    display: table;
     max-width: 400px;
     width: 100%;
 }
 
 .mainpage div.properties-table div {
-    display: table-cell;
+    display: inline-block;
+    min-width: 130px;
+}
+
+.mainpage div.properties-table.split-content-2 div {
+    min-width: 48%;
+}
+
+.mainpage div.properties-table.split-content-2 div select {
+    min-width: 90%;
 }
 
 .mainpage .listing-footer a {
@@ -2021,4 +2047,12 @@ div.listing div.listing-footer {
 
 .mainpage #button-delete-all i {
     font-size: 14px;
+}
+
+.mainpage #delete-confirmation {
+    width: 1em;
+    height: 1em;
+    display: inline;
+    margin: 0 8px 2px 20px;
+    vertical-align: middle;
 }

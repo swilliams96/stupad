@@ -8,11 +8,13 @@ use App\ListingImage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\Rule;
+use function MongoDB\BSON\toJSON;
 use function Sodium\add;
 
 class ListingController extends Controller
@@ -220,7 +222,7 @@ class ListingController extends Controller
      */
     public function edit($id)
     {
-        //
+        return redirect('/dashboard/listings/edit/' . $id);
     }
 
     /**
@@ -232,26 +234,193 @@ class ListingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:64',
+            'rent_value' => 'required|integer|min:0',
+            'rent_period' => [
+                'required',
+                'string',
+                Rule::in(['week', 'month']),
+            ],
+            'bedrooms' => 'required|integer|min:0|max:8',
+            'bathrooms' => 'required|integer|min:0|max:6',
+            'furnished' => 'required|boolean',
+            'bills' => 'required|boolean',
+            'pets' => 'required|boolean',
+            'description' => 'required|string|max:4096',
+            'header_image' => 'required|integer|min:0',
+            'images' => 'nullable',
+            'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
+        ],
+            [
+                'title.max' => 'Your title is too long! Please use less than 64 characters.',
+                'postcode.*' => 'Please enter a valid UK postcode.',
+                'description.max' => 'Your description is too long! Please use less than 4096 characters.',
+                'images.*.image' => 'Image uploads must be either JPEG or PNG format.',
+                'images.*.mimes' => 'Image uploads must be either JPEG or PNG format.',
+                'images.*.max' => 'Image uploads must be less than 5MB in size.',
+            ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors())->withInput();
+        }
+
+        $listing = Listing::find($id);
+
+        if (Auth::user() != $listing->owner || $listing == null)
+            return redirect(route('mylistings'));
+
+        // Manually check file extensions of uploaded files
+        if ($request->images !== null) {
+            foreach ($request->file('images') as $file) {
+                $ext = $file->clientExtension();
+                if (!in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                    $bag = new MessageBag();
+                    $bag->add('images.invalidext', 'Please ensure images are in either JPEG or PNG format.');
+                    return back()->withInput()->with('errors', session()->get('errors', new ViewErrorBag())->put('default', $bag));
+                }
+            }
+        }
+
+        // Cache the image that we want to set as the header image in case we change the image_number later
+        if ($request->header_image != 0)
+            $header_image_name = $listing->images()->where('image_number', $request->header_image)->value('file_name');
+
+        // If no new images have been uploaded then make sure we haven't deleted every existing image
+        if ($request->images == null) {
+            $all_deleted = true;
+            for ($i = 1; $i <= count($listing->images); $i++)
+                if ($request->get('existingimages_' . $i . '_deleted') == null)
+                    $all_deleted = false;
+
+            if ($all_deleted) {
+                $bag = new MessageBag();
+                $bag->add('images.deletedall', 'Listings must have a header image. Please select an image that has not been deleted or upload a new one.');
+                return back()->withInput()->with('errors', session()->get('errors', new ViewErrorBag())->put('default', $bag));
+            }
+        }
+
+        // Update the listing variables (except header image)
+        if ($request->rent_period == 'month')
+            $request->rent_value = round($request->rent_value * 12 / 52, 2);
+
+        $short_description = $this->summarise($request->description);
+        $description = str_replace(["\r\n", "\r", "\n"], '\n', $request->description);
+
+        $listing->saveOrFail([
+            'title' => $request->title,
+            'rent_value' => $request->rent_value,
+            'rent_period' => $request->rent_period,
+            'description' => $description,
+            'short_description' => $short_description,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'furnished' => $request->furnished,
+            'bills_included' => $request->bills,
+            'pets_allowed' => $request->pets,
+        ]);
+
+        // Delete images that were flagged for deletion
+        for ($i = 1; $i <= count($listing->images); $i++) {
+            if ($request->get('existingimages_' . $i . '_deleted') != null) {
+                $listing->images()->where('image_number', $i)->delete();
+            }
+        }
+
+        $listing = Listing::find($id);      // Refresh our listing model
+
+        // Recalculate existing listing image_number values
+        $i = 1;
+        $images = $listing->images;
+        foreach($images as $image) {
+            $image->image_number = $i;
+            $image->save();
+            $i++;
+        }
+
+        // Upload any new images with image_number calculated as next lowest available integer
+        if ($request->images !== null) {
+            foreach ($request->file('images') as $file) {
+                $ext = $file->clientExtension();
+                $name = $this->new_guid() . '.' . $ext;
+                $path = Storage::disk('public')->putFileAs('listing_images/' . $listing->id, $file, $name);
+
+                if (is_string($path)) {
+                    $listing->images()->create([
+                        'image_number' => $i,
+                        'file_name' => $name,
+                    ]);
+                    $i++;
+                } else {
+                    $listing->images()->where('file_name', $name)->delete();
+                    return 'An error occurred:<br/>$path=' . $path . '<br/>$name=' . $name . '<br/>$i=' . $i;
+                }
+            }
+        }
+
+        // Set header_image to either the supplied image_number or otherwise just to the first image
+        $request->header_image == 0
+            ? $listing->header_image = 1
+            : $listing->header_image = $listing->images()->where('file_name', $header_image_name)->value('image_number');
+        $listing->save();
+
+        return redirect(route('mylistings'));
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'confirmation' => 'required|accepted',
+            'password' => 'required|string',
+        ],
+            [
+                'confirmation.accepted' => 'Please confirm that you would like to delete this listing.',
+            ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors())->withInput();
+        }
+
+        if (!Hash::check($request->password, Auth::user()->getAuthPassword())) {
+            $bag = new MessageBag();
+            $bag->add('password.incorrect', 'Incorrect password.');
+            return back()->withInput()->with('errors', session()->get('errors', new ViewErrorBag())->put('default', $bag));
+        }
+
+        $listing = Listing::find($id);
+
+        if (Auth::user() != $listing->owner || $listing == null)
+            return redirect(route('mylistings'));
+
+
+        // Delete the images, then the listing!
+        $success_images = $listing->images()->delete();
+        $success_listing = $listing->delete();
+
+        if (!$success_images || !$success_listing)
+            return 'An error occured when deleting this listing. Please contact support!';
+
+
+        return redirect(route('mylistings'));
     }
+
+
+    // LISTING ACTIVATION
 
     public function activate(Request $request, $id) {
         $listing = Listing::findOrFail($id);
         if (Auth::user() == $listing->owner) {
             $listing->active_datetime = Carbon::now();
-            if ($listing->inactive_datetime == null || $listing->inactive_datetime <= Carbon::now()->addDays(1)) {
-                $listing->inactive_datetime = Carbon::now()->addDays(14);
+            if ($listing->inactive_datetime == null || $listing->inactive_datetime <= Carbon::now()->addHours(env('LISTING_RENEW_HOURS_BEFORE', 24))) {
+                $listing->inactive_datetime = Carbon::now()->addDays(env('LISTING_RENEW_DAYS', 14));
             }
             $listing->save();
         }
@@ -267,12 +436,31 @@ class ListingController extends Controller
         return redirect(route('mylistings'));
     }
 
-    public function save(Request $request, $id) {
-        // TODO: favourite listings
-        return response('OK', 200);
+    public function renew(Request $request, $id) {
+        $listing = Listing::findOrFail($id);
+        if (Auth::user() == $listing->owner) {
+            $listing->active_datetime = Carbon::now();
+            if ($listing->inactive_datetime == null || $listing->inactive_datetime <= Carbon::now()->addHours(env('LISTING_RENEW_HOURS_BEFORE', 24))) {
+                $listing->inactive_datetime = Carbon::parse($listing->inactive_datetime)->addDays(env('LISTING_RENEW_DAYS', 14));
+            }
+            $listing->save();
+        }
+        return redirect(route('mylistings'));
     }
 
 
+    // FAVOURITE LISTINGS
+
+    public function save(Request $request, $id) {
+        // TODO: favourite listings
+        return response('OK', 200).toJSON();
+    }
+
+
+
+
+
+    // SUPPORT FUNCTIONS
 
     function summarise(string $long, int $length = 190)
     {

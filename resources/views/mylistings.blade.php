@@ -28,7 +28,7 @@
                         <span class="rent-amount">£{{ $listing->rent_period == 'week' ? (round($listing->rent_value) . 'pw') : (round($listing->rent_value * 52 / 12) . 'pcm') }}</span>
 
                         <div class="description">
-                            {{ $listing->short_description }} ...
+                            {{ $listing->short_description }}
                         </div>
 
                         <ul class="listing-icons">
@@ -47,7 +47,8 @@
                             <a href="/dashboard/listings/edit/{{ $listing->id }}"><i class="fa fa-pencil-square-o fa-pad-5 sr-icons"></i>Edit</a>&middot;
                             <a href="/dashboard/listings/delete/{{ $listing->id }}"><i class="fa fa-trash-o fa-pad-5 sr-icons"></i>Delete</a>
                             <br/>
-                            This listing will no longer appear in searches from <b>{{ Carbon\Carbon::parse($listing->inactive_datetime)->setTimezone('Europe/London')->format('d/m/Y \a\t H:i') }}</b>.
+                            This listing will no longer appear in searches from <b{!! Carbon\Carbon::parse($listing->inactive_datetime) > Carbon\Carbon::now()->addHours(env('LISTING_RENEW_HOURS_BEFORE', 24)) ? ' title="Cannot be renewed until ' . env('LISTING_RENEW_HOURS_BEFORE', 24) . 'h before."' : '' !!}>{{ Carbon\Carbon::parse($listing->inactive_datetime)->setTimezone('Europe/London')->format('d/m/Y \a\t H:i') }}</b>.
+                            {!! Carbon\Carbon::parse($listing->inactive_datetime) <= Carbon\Carbon::now()->addHours(env('LISTING_RENEW_HOURS_BEFORE', 24)) ? '(<a href="#" class="renew-activation-link" listing-id=' . $listing->id . '><i class="fa fa-calendar-plus-o fa-pad-5"></i>Extend for ' . env('LISTING_RENEW_DAYS', 14) . ' days</a>)' : '' !!}
                         </div>
                     </div>
                 </div>
