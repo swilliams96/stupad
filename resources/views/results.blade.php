@@ -43,11 +43,13 @@
                         <input type="hidden" id="bathrooms-max" name="bathrooms_max" value="0">
 
                         <h3 style="width: 100%;">
-                            <span><i class="fa fa-map-marker fa-1 fa-pad-5 sr-icons"></i>Dist. from</span>
+                            <span><i class="fa fa-map-marker fa-1 fa-pad-5 sr-icons"></i>Dist. from town</span>
+                            <!--
                             <select id="place" name="place">
                                 <option value="campus"{{ Cookie::get('lastsearch_place') == 'campus' ? ' selected' : '' }}>Campus</option>
                                 <option value="town"{{ Cookie::get('lastsearch_place') == 'town' ? ' selected' : '' }}>Town Centre</option>
                             </select>
+                            -->
                         </h3>
                         <div id="distance-slider" class="slider"></div>
                         <div class="slider-labels">

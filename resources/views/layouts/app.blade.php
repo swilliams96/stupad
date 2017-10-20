@@ -11,6 +11,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta property="og:site_name" content="StuPad"/>
+
+@stack('seotags')
 
     <!-- jQuery -->
     <script src="{{asset("js/jquery-3.2.1.min.js")}}"></script>

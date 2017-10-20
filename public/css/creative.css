@@ -205,6 +205,17 @@ aside {
   }
 }
 
+
+/* POPOVER STYLING */
+.popover {
+    border: 1px solid #F1958C;
+}
+.popover.bottom > .arrow {
+    border-bottom-color: #F1958C;
+}
+
+
+
 header {
   min-height: auto;
   -webkit-background-size: cover;
@@ -1259,6 +1270,20 @@ div.listing div.description {
     display: inline;
 }
 
+.mainpage div.listing span.badge {
+    margin-bottom: 2px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.mainpage div.listing span.badge.inactive {
+    background-color: #615857;
+}
+
+.mainpage div.listing span.badge.sponsored {
+    background-color: #D64439;
+}
+
 div.listing.no-results p {
     margin-top: 3px;
     margin-bottom: 6px;
@@ -1481,20 +1506,6 @@ div.listing div.listing-footer {
 	margin: 30px 0 4px;
 }
 
-.mainpage div.listing span.badge {
-    margin-bottom: 2px;
-    font-weight: 400;
-    text-transform: uppercase;
-}
-
-.mainpage div.listing span.badge.inactive {
-    background-color: #615857;
-}
-
-.mainpage div.listing span.badge.sponsored {
-    background-color: #D64439;
-}
-
 .listing-page-buttons {
 	margin-bottom: 20px;
 	text-align: center;
@@ -1518,21 +1529,41 @@ div.listing div.listing-footer {
 		padding: 10px 0px;
 		height: 40px;
 	}
-	.listing-page-buttons a.btn-save-listing {
-		padding: 8px 0px;	/* make one smaller to counteract the 2px border size */
+	.listing-page-buttons a.btn-white {
+		padding: 8px 0px;	/* make padding smaller to counteract the 2px border size */
 	}
 }
 
-.listing-page-buttons a.btn-save-listing, .listing-page-buttons a.btn-save-listing:visited {
+.listing-page-buttons a.btn-white, .listing-page-buttons a.btn-white:visited {
 	background-color: #fff;
 	border: 2px solid #F1958C;
 	color: #F1958C;
 	transition: color 0.15s;
 }
 
-.listing-page-buttons a.btn-save-listing:hover, .listing-page-buttons a.btn-save-listing:active {
+.listing-page-buttons a.btn-white:hover, .listing-page-buttons a.btn-white:active {
 	color: #EF6153;
 	border-color: #EF6153;
+}
+
+.popover .share-icon {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    margin: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-size: cover;
+    background-color: cornflowerblue;
+}
+
+.popover .share-icon * {
+    fill: green;
+}
+
+.popover .share-icon svg path {
+    fill: #D64439;
 }
 
 .listing-page-description h2 {
@@ -1776,7 +1807,7 @@ p.small-text {
 }
 
 .leftsidebar, .mainpage {
-    padding: 40px 0 0;
+    padding: 44px 0 0;
     float: none;
 }
 

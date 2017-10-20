@@ -122,7 +122,12 @@
             var distance_default = {{ Cookie::get('lastsearch_distance', 45) }};
             var distance_max = 60;
             var measurement = " mins";
-            $("#distance-label").html("<" + distance_default + measurement);
+            if(distance_default == distance_max) {
+                $("#distance-label").html("Any distance");
+            } else {
+                $("#distance-label").html("<" + distance_default + measurement);
+            }
+
             $("#distance-slider").slider({
                 min: 10,
                 max: distance_max,

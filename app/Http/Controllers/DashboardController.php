@@ -67,7 +67,7 @@ class DashboardController extends Controller
 
     public function newlisting(Request $request) {
         if (!Auth::user()->landlord)
-            return redirect(route('profile'));
+            return redirect(route('savedlistings'));
 
         return view('newlisting');
     }
@@ -90,5 +90,14 @@ class DashboardController extends Controller
 
         return view('deletelisting')
             ->with('listing', $listing);
+    }
+
+    public function savedlistings(Request $request) {
+        $savedlistings = collect(Auth::user()->savedlistings)->map(function ($record) {
+            return Listing::find($record->listing);
+        });
+
+        return view('savedlistings')
+            ->with('savedlistings', $savedlistings);
     }
 }

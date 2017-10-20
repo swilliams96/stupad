@@ -36,4 +36,16 @@ class User extends Authenticatable
             ->orWhere('active_datetime', '=', null)
             ->orderBy('updated_at', 'desc');
     }
+
+    public function savedlistings() {
+        return $this->hasMany(SavedListing::class, 'user')
+            ->whereNull('unsaved_datetime')
+            ->orderBy('saved_datetime', 'desc');
+    }
+
+    public function unsavedlistings() {
+        return $this->hasMany(SavedListing::class, 'user')
+            ->whereNotNull('unsaved_datetime')
+            ->orderBy('unsaved_datetime', 'desc');
+    }
 }

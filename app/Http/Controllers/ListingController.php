@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Area;
 use App\Listing;
 use App\ListingImage;
+use App\SavedListing;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -186,17 +187,21 @@ class ListingController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $slug)
+    public function show($id, $slug = null)
     {
-        if (isset($slug) && ($slug == 'activate' || $slug == 'deactivate'))
-            return redirect(route('mylistings'));
+        if ($slug !== null) {
+            if (in_array($slug, ['activate', 'deactivate']))
+                return redirect(route('mylistings'));
+        }
 
         $listing = Listing::find($id);
         $active = true;
 
         if ($listing == null) {
+            // TODO: 404
             return 'No listing found.';
         }
 
@@ -207,11 +212,18 @@ class ListingController extends Controller
 
         if ($inactive_carbon <= Carbon::now() || $active_carbon >= Carbon::now()) $active = false;
 
+        $record = SavedListing::where('user', '=', Auth::id())
+            ->where('listing', '=', $id)
+            ->whereNull('unsaved_datetime')
+            ->first();
+
+        $saved = ($record == null ? false : true);
+
         return view('listing')
             ->with('listing', $listing)
             ->with('description', $description)
-            ->with('active', $active);
-        // TODO: ->with('listing_images', $listing_images); from listingimages table
+            ->with('active', $active)
+            ->with('saved', $saved);
     }
 
     /**
@@ -452,8 +464,57 @@ class ListingController extends Controller
     // FAVOURITE LISTINGS
 
     public function save(Request $request, $id) {
-        // TODO: favourite listings
-        return response('OK', 200).toJSON();
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'Not logged in.',
+            ]);
+        }
+
+        $record = SavedListing::where('user', '=', $request->user()->id)
+            ->where('listing', '=', $id)
+            ->first();
+
+        if ($record == null) {
+            $record = $request->user()->savedlistings()->create([
+                'user' => $request->user()->id,
+                'listing' => $id,
+                'saved_datetime' => Carbon::now(),
+                'unsaved_datetime' => null,
+            ]);
+        } else {
+            $record->saved_datetime = Carbon::now();
+            $record->unsaved_datetime = null;
+            $record->saveOrFail();
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully saved listing.',
+        ]);
+    }
+
+    public function unsave(Request $request, $id) {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'Not logged in.',
+            ]);
+        }
+
+        $record = SavedListing::where('user', '=', $request->user()->id)
+            ->where('listing', '=', $id)
+            ->first();
+
+        if ($record != null) {
+            $record->unsaved_datetime = Carbon::now();
+            $record->saveOrFail();
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully unsaved listing.',
+        ]);
     }
 
 

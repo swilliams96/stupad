@@ -13,22 +13,30 @@
                 <h1>Account Details</h1>
                 <form method="POST">
                     {{ csrf_field() }}
+
                     <label for="firstname">First Name:</label>
                     <input type="text" name="firstname" value="{{ Auth::user()->first_name }}"/>
+
                     <label for="lastname">Last Name:</label>
                     <input type="text" name="lastname" value="{{ Auth::user()->last_name }}"/>
+
                     <label for="email">Email Address:</label>
                     <input type="text" name="email" value="{{ Auth::user()->email }}"/>
+
                     <button class="btn btn-primary btn-xl">Save</button>
                 </form>
 
                 <h1>Change Your Password</h1>
                 <form action='/dashboard/updatepassword' method="POST">
                     {{ csrf_field() }}
-                    <input type="password" name="old-password" id="old-password" placeholder="Current Password" style="margin-bottom: 10px;"/>
+                    <label for="old-password">Current Password:</label>
+                    <input type="password" name="old-password" id="old-password" placeholder="Current Password"/>
+
+                    <label for="password">New Password:</label>
                     <input type="password" name="password" id="password" placeholder="New Password"/>
                     <input type="password" name="password_confirmation" id="password-confirm" placeholder="Confirm New Password"/>
                     <span id="password-helper-text">* Must be at least 8 characters long.</span>
+
                     <button class="btn btn-primary btn-xl">Update</button>
                 </form>
 

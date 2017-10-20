@@ -45,7 +45,7 @@ class SearchController extends Controller
             'bathrooms_min' => 'required|integer|min:1|max:' . $bathrooms_max,
             'bathrooms_max' => 'required|integer|max:5|min:' . $bathrooms_min,
             'distance' => 'required|integer|min:10|max:60',
-            'place' => 'required|string|in:campus,town',
+            'place' => 'nullable|string|in:campus,town',    // change from nullable to required when implemented
         ]);
 
         if ($validator->fails()) {
