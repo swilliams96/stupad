@@ -219,11 +219,21 @@ class ListingController extends Controller
 
         $saved = ($record == null ? false : true);
 
+        $sharebuttonshtml = view('common.sharebuttons')->render();
+        $sharebuttonshtml = str_replace('"', '&quot;', $sharebuttonshtml);
+        $sharebuttonshtml = str_replace(["\n", "\r", '    '], '', $sharebuttonshtml);
+        $sharebuttonshtml = str_replace('SHARE_URL', 'stupad.co.uk/listings/' . $listing->id, $sharebuttonshtml);
+        $sharebuttonshtml = str_replace('SHARE_TITLE', $listing->title, $sharebuttonshtml);
+        $sharebuttonshtml = str_replace('SHARE_IMG_URL', $listing->header->file(), $sharebuttonshtml);
+        $sharebuttonshtml = str_replace('SHARE_TEXT', 'Check out this great house I found on StuPad!', $sharebuttonshtml);
+        $sharebuttonshtml = str_replace('SHARE_SHORT_DESC', $listing->short_description, $sharebuttonshtml);
+
         return view('listing')
             ->with('listing', $listing)
             ->with('description', $description)
             ->with('active', $active)
-            ->with('saved', $saved);
+            ->with('saved', $saved)
+            ->with('sharebuttonshtml', $sharebuttonshtml);
     }
 
     /**

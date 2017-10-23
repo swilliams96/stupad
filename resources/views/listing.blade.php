@@ -15,7 +15,9 @@
                     <a class="listing-back-link" href="{{ Cookie::has('lastsearch_location') ? (route('results') . '/' . App\University::where('name', Cookie::get('lastsearch_location'))->first()->slug) : route('search') }}"><i class="fa fa-chevron-left fa-pad-5"></i>Back to search ...</a>
 
                     <div class="listing-page-buttons">
-                        <a href="javascript: return false;" class="btn btn-save-listing btn-xl">Share<i class="fa fa-share-alt fa-pad-5l"></i></a>
+                        <a href="#" class="btn btn-white btn-xl" id="share-button" tabindex="0" role="button" data-html="true" data-trigger="focus" data-placement="bottom" data-toggle="popover" data-content="{{ $sharebuttonshtml }}">
+                            Share<i class="fa fa-share-alt fa-pad-5l"></i>
+                        </a>
                         @if ($saved)
                         <a href="#" class="btn btn-white btn-xl" id="unsave-listing-button">Unsave<i class="fa fa-heart fa-pad-5l"></i></a>
                         @else
@@ -136,8 +138,35 @@
         });
     </script>
 
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        })
+
+        $()
+    </script>
+
     @include('scripts.savebuttons')
+
+    <script>
+        $('#share-button').on('click', function() {
+            return false;
+        })
+    </script>
 
     @include('common.footer')
 
 @endsection
+
+@push('seotags')
+    <meta property="og:title" content="{{ $listing->title }}"/>
+    <meta property="og:description" content="{{ $listing->short_description }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="www.stupad.co.uk/listings/{{ $listing->id }}"/>
+    <meta property="og:image" content="{{ $listing->header->file() }}"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ $listing->title }}">
+    <meta name="twitter:description" content="{{ $listing->short_description }}">
+    <meta name="twitter:image" content="{{ $listing->header->file() }}">
+    <meta name="twitter:domain" content="StuPad.co.uk">
+@endpush
