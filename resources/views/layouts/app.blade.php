@@ -13,6 +13,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta property="og:site_name" content="StuPad"/>
 
+    <meta property="fb:app_id" content="151197575489333"/>
 @stack('seotags')
 
     <!-- jQuery -->

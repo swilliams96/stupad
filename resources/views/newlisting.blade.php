@@ -40,19 +40,19 @@
                         <option>month</option>
                     </select>
 
-                    <label for="address1" class="space-top">Address 1:</label>
+                    <label for="address1" class="space-top">Address 1:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="This information will not be shown to anyone until you share it with them."></i></label>
                     <input type="text" name="address1" required/>
 
-                    <label for="address2">Address 2:</label>
+                    <label for="address2">Address 2:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="This information will not be shown to anyone until you share it with them."></i></label>
                     <input type="text" name="address2"/>
 
-                    <label for="town">Town/City:</label>
+                    <label for="town">Town/City:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="This information will not be shown to anyone until you share it with them."></i></label>
                     <input type="text" name="town" required/>
 
-                    <label for="postcode">Postcode:</label>
+                    <label for="postcode">Postcode:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="This information will not be shown to anyone until you share it with them."></i></label>
                     <input type="text" name="postcode" required/>
 
-                    <div class="properties-table space-top">
+                    <div class="properties-table split-content-2 space-top">
                         <div>
                             <label for="bedrooms"><i class="fa fa-bed fa-pad-5 fa-pad-5l sr-icons"></i>Bedrooms:</label>
                             <select name="bedrooms" required>
@@ -129,6 +129,8 @@
             <div class="col-lg-3 no-float"></div>
 
             @include('scripts.imageupload')
+
+            @include('scripts.tooltips')
 
         </div>
     </div>

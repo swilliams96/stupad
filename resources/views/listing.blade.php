@@ -162,11 +162,14 @@
     <meta property="og:title" content="{{ $listing->title }}"/>
     <meta property="og:description" content="{{ $listing->short_description }}"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="www.stupad.co.uk/listings/{{ $listing->id }}"/>
+    <meta property="og:url" content="https://www.stupad.co.uk/listings/{{ $listing->id }}"/>
     <meta property="og:image" content="{{ $listing->header->file() }}"/>
+    <meta property="og:image:width" content="{{ getimagesize($listing->header->file())[0] }}"/>
+    <meta property="og:image:height" content="{{ getimagesize($listing->header->file())[1] }}"/>
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="{{ $listing->title }}">
     <meta name="twitter:description" content="{{ $listing->short_description }}">
     <meta name="twitter:image" content="{{ $listing->header->file() }}">
     <meta name="twitter:domain" content="StuPad.co.uk">
+    <meta name="twitter:site" content="StuPad.co.uk">
 @endpush

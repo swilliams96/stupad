@@ -5,7 +5,7 @@
     <div class="container fullwidth fullheight">
         <div class="row" style="margin: 0; height: 100%; display: table-row;">
 
-        @include('common.dashboardsidebar', ['page' => 'newlisting'])
+        @include('common.dashboardsidebar', ['page' => 'editlisting'])
 
 
         <!-- MAIN PAGE -->
@@ -41,16 +41,16 @@
                         <option{{ $listing->rent_period == 'month' ? ' selected' : '' }}>month</option>
                     </select>
 
-                    <label for="address1" class="space-top">Address 1:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <label for="address1" class="space-top">Address 1:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="To change this field please create a new listing or contact support."></i></label>
                     <input type="text" name="address1" value="{{ $listing->address1 }}" disabled/>
 
-                    <label for="address2">Address 2:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <label for="address2">Address 2:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="To change this field please create a new listing or contact support."></i></label>
                     <input type="text" name="address2" value="{{ $listing->address2 }}" disabled/>
 
-                    <label for="town">Town/City:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <label for="town">Town/City:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="To change this field please create a new listing or contact support."></i></label>
                     <input type="text" name="town" value="{{ $listing->town }}" disabled/>
 
-                    <label for="postcode">Postcode:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" title="To change this field please create a new listing or contact support."></i></label>
+                    <label for="postcode">Postcode:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="To change this field please create a new listing or contact support."></i></label>
                     <input type="text" name="postcode" value="{{ $listing->postcode }}" disabled/>
 
                     <div class="properties-table split-content-2 space-top">
@@ -143,6 +143,8 @@
             @include('scripts.imageupload')
 
             @include('scripts.editexistingimages')
+
+            @include('scripts.tooltips')
 
         </div>
     </div>
