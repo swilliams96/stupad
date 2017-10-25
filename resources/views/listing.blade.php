@@ -138,21 +138,34 @@
         });
     </script>
 
-    <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover();
-        })
-
-        $()
-    </script>
-
-    @include('scripts.savebuttons')
-
+    <!-- Share buttons -->
     <script>
         $('#share-button').on('click', function() {
             return false;
-        })
+        });
+
+        $(document.body).on('click', '#share-button-messenger', function() {
+            FB.ui({
+                method: 'send',
+                link: 'https://www.stupad.co.uk/listings/{{ $listing->id }}',
+            });
+            return false;
+        });
+
+        $(document.body).on('click', '#share-button-facebook', function() {
+            FB.ui({
+                method: 'share',
+                mobile_iframe: true,
+                quote: 'Check out this student house I found on StuPad!',
+                href: 'https://www.stupad.co.uk/listings/{{ $listing->id }}',
+            });
+            return false;
+        });
     </script>
+
+    @include('scripts.popovers')
+
+    @include('scripts.savebuttons')
 
     @include('common.footer')
 
@@ -170,6 +183,4 @@
     <meta name="twitter:title" content="{{ $listing->title }}">
     <meta name="twitter:description" content="{{ $listing->short_description }}">
     <meta name="twitter:image" content="{{ $listing->header->file() }}">
-    <meta name="twitter:domain" content="StuPad.co.uk">
-    <meta name="twitter:site" content="StuPad.co.uk">
 @endpush

@@ -2,7 +2,7 @@
 
 // HOME CONTROLLER
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/landlord', 'HomeController@landlord')->name('landlord');
+Route::get('/landlord', 'HomeController@landlord')->name('landlord');   // TODO: landlord landing page
 
 // AUTH ROUTES
 Auth::routes();

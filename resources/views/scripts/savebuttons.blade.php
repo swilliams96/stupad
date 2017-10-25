@@ -11,6 +11,7 @@
                         $('#save-listing-button').html('Unsave<i class="fa fa-heart fa-pad-5l"></i>');
                         $('#save-listing-button').attr('id', 'unsave-listing-button');
                         console.log(response.message);
+                        FB.AppEvents.logEvent('SAVED_LISTING');
                     } else if (response.status == 402) {
                         window.location = '{{ route('login') }}';
                     } else {
@@ -40,6 +41,7 @@
                         $('#unsave-listing-button').html('Save<i class="fa fa-heart fa-pad-5l"></i>');
                         $('#unsave-listing-button').attr('id', 'save-listing-button');
                         console.log(response.message);
+                        FB.AppEvents.logEvent('UNSAVED_LISTING');
                     } else if (response.status == 402) {
                         window.location = '{{ route('login') }}';
                     } else {

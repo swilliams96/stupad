@@ -1,4 +1,4 @@
-<a href="https://www.facebook.com/sharer.php?p[url]=SHARE_URL&p[images][0]=SHARE_IMG_URL&p[title]=SHARE_TITLE&p[summary]=SHARE_SHORT_DESC" class="share-icon" target="_blank">
+<a href="#" class="share-icon" id="share-button-facebook">
     <img src="/img/icons/facebook.svg"/>
 </a>
 
@@ -12,7 +12,7 @@
 
 <br/>
 
-<a href="fb-messenger://share/?link=SHARE_URL" class="share-icon">
+<a href="#" class="share-icon" id="share-button-messenger">
     <img src="/img/icons/messenger.svg"/>
 </a>
 

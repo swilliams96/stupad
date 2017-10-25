@@ -11,9 +11,11 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta property="og:site_name" content="StuPad"/>
 
+    <meta property="og:site_name" content="StuPad"/>
     <meta property="fb:app_id" content="151197575489333"/>
+    <meta name="twitter:domain" content="StuPad.co.uk">
+    <meta name="twitter:site" content="StuPad.co.uk">
 @stack('seotags')
 
     <!-- jQuery -->
@@ -90,4 +92,5 @@
 
 </body>
 @include('scripts.disabledraggable')
+@include('scripts.facebooksdk')
 </html>
