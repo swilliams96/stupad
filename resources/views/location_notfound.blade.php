@@ -48,13 +48,13 @@
                         we launch functionality for this location. If you ever want to be removed from this please get in touch.
                     </p>
                 @endif
-                    <p>In the meantime, why not try <a href="{{ route('search') }}">searching somewhere else</a>.</p>
+                    <p style="padding-top: 20px;">In the meantime, why not try searching somewhere else...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="search" style="background-image: none; background-color: transparent; padding: 30px 0 80px; min-height: auto;">
+    <section id="search" style="background-image: none; background-color: transparent; padding: 0 0 80px; min-height: auto;">
         <div class="container">
             <div class="row">
                 <!-- FILTERS -->

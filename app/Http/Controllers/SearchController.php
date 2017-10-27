@@ -49,7 +49,7 @@ class SearchController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return 'ERROR: failed validator.';
+            return redirect(route('search'));
         }
 
         $COOKIE_LIFETIME = 1440 * 30;   // 30 days
@@ -133,18 +133,17 @@ class SearchController extends Controller
 
     public static function getsuggestions($search) {
         $search = strtolower($search);
-
         $diff_thresh = pow(5*strlen($search), 0.7)/3 - 1.1;
         $universities = University::where('active', true)->get();
-
         $suggestions = collect();
         foreach ($universities as $university) {
             $university_name = strtolower($university->name);
             $diff_val = strlen($search) + levenshtein($search, $university_name) - strlen($university_name);
+            $university->diff_val = $diff_val;
             if ($diff_val < $diff_thresh)
                 $suggestions->push($university);
         }
-
+        $suggestions = $suggestions->sortBy('diff_val');
         return $suggestions;
     }
 }
