@@ -1747,7 +1747,6 @@ p.small-text {
 #notfound form input {
 	display: inline-block;
 	float: left;
-	width: 300px;
 	font-size: 14px;
 	font-weight: 400;
 	padding: 6px 10px;
@@ -1766,7 +1765,6 @@ p.small-text {
 	font-size: 12px;
 	width: 20%;
 	display: inline-block;
-	float: center;
 }
 
 #notfound form button:hover {

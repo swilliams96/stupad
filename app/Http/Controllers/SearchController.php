@@ -52,22 +52,29 @@ class SearchController extends Controller
             return 'ERROR: failed validator.';
         }
 
-        $COOKIE_LIFETIME_DAYS = 30;
-        Cookie::queue('lastsearch_location', $request_location, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_rent_min', $rent_min, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_rent_max', $rent_max, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_bedrooms_min', $bedrooms_min, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_bedrooms_max', $bedrooms_max, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_bathrooms_min', $bathrooms_min, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_bathrooms_max', $bathrooms_max, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_distance', $distance, 1440 * $COOKIE_LIFETIME_DAYS);
-        Cookie::queue('lastsearch_place', $place, 1440 * $COOKIE_LIFETIME_DAYS);
+        $COOKIE_LIFETIME = 1440 * 30;   // 30 days
+        Cookie::queue('lastsearch_location', $request_location, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_rent_min', $rent_min, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_rent_max', $rent_max, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_bedrooms_min', $bedrooms_min, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_bedrooms_max', $bedrooms_max, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_bathrooms_min', $bathrooms_min, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_bathrooms_max', $bathrooms_max, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_distance', $distance, $COOKIE_LIFETIME);
+        Cookie::queue('lastsearch_place', $place, $COOKIE_LIFETIME);
 
         $loc = University::where('name', 'like', $request_location)
             ->orWhere('short_name', 'like', $request_location)
+            ->orWhereRaw("replace(short_name, 'Uni of ', '')  LIKE '". rawurlencode($request_location) . "'")
             ->orWhere('slug', 'like', $request_location)
             ->first();
-        if ($loc == null) return 'no valid location found'; // TODO: redirect to "did you mean X" page
+
+        if ($loc == null) {
+            $suggestions = self::getsuggestions($request_location);
+            return view('location_notfound')
+                ->with('search', $request_location)
+                ->with('suggestions', $suggestions);
+        }
 
         return redirect('/results/' . $loc->slug)
             ->with('rent_min', $rent_min)
@@ -97,7 +104,12 @@ class SearchController extends Controller
 
         // Get active listings that fit our search criteria
         $uni = University::where('slug', $slug)->first();
+        if($uni == null) $uni = Area::where('name', $slug)->first();
         if($uni == null) return redirect('/search');
+
+        $COOKIE_LIFETIME = 1440 * 30;   // 30 days
+        Cookie::queue('lastsearch_location', $uni->name, $COOKIE_LIFETIME);
+
         $listings = Listing::where('area_id', $uni->area->id)
             ->where('active_datetime', '<=', Carbon::now())
             ->where('inactive_datetime', '>=', Carbon::now())
@@ -117,5 +129,22 @@ class SearchController extends Controller
 
     public static function getlocations() {
         return University::where('active', true)->pluck('name');
+    }
+
+    public static function getsuggestions($search) {
+        $search = strtolower($search);
+
+        $diff_thresh = pow(5*strlen($search), 0.7)/3 - 1.1;
+        $universities = University::where('active', true)->get();
+
+        $suggestions = collect();
+        foreach ($universities as $university) {
+            $university_name = strtolower($university->name);
+            $diff_val = strlen($search) + levenshtein($search, $university_name) - strlen($university_name);
+            if ($diff_val < $diff_thresh)
+                $suggestions->push($university);
+        }
+
+        return $suggestions;
     }
 }

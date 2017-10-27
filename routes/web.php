@@ -29,7 +29,7 @@ Route::get('/dashboard/listings/delete/{id}', 'DashboardController@deletelisting
 Route::get('/dashboard/saved', 'DashboardController@savedlistings')->name('savedlistings');
 
 // LISTING CONTROLLER
-Route::get('/listings/{listing_id}/{slug?}', 'ListingController@show');
+Route::get('/listings/{id}/{slug?}', 'ListingController@show');
 Route::resource('listings', 'ListingController');
 
 Route::post('/listings/{id}/activate', 'ListingController@activate');
@@ -38,6 +38,9 @@ Route::post('/listings/{id}/renew', 'ListingController@renew');
 
 Route::post('/listings/{id}/save', 'ListingController@save');
 Route::post('/listings/{id}/unsave', 'ListingController@unsave');
+
+// SUBSCRIPTIONS CONTROLLER
+Route::post('/subscribe/{campaign}', 'SubscriptionsController@subscribe'); // TODO
 
 // TODO: UNIMPLEMENTED PAGES
 Route::get('/terms', 'HomeController@unimplemented')->name('termsandconditions');
