@@ -4,7 +4,7 @@
             $.ajax({
                 url: '/listings/{{ $listing->id }}/save',
                 type: 'POST',
-                data: {_token: CSRF_TOKEN},
+                //data: {_token: CSRF_TOKEN},
                 dataType: 'JSON',
                 success: function (response) {
                     if (response.status == 200) {
@@ -34,7 +34,7 @@
             $.ajax({
                 url: '/listings/{{ $listing->id }}/unsave',
                 type: 'POST',
-                data: {_token: CSRF_TOKEN},
+                //data: {_token: CSRF_TOKEN},
                 dataType: 'JSON',
                 success: function (response) {
                     if (response.status == 200) {

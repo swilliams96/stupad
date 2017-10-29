@@ -47,7 +47,7 @@
                          --><a href="/dashboard/listings/edit/{{ $listing->id }}"><i class="fa fa-pencil-square-o fa-pad-5 sr-icons"></i>Edit</a>&middot;<!--
                          --><a href="/dashboard/listings/delete/{{ $listing->id }}"><i class="fa fa-trash-o fa-pad-5 sr-icons"></i>Delete</a>
                             <br/>
-                            This listing will no longer appear in searches from <b{!! Carbon\Carbon::parse($listing->inactive_datetime) > Carbon\Carbon::now()->addHours(env('LISTING_RENEW_HOURS_BEFORE', 24)) ? ' title="Cannot be renewed until ' . env('LISTING_RENEW_HOURS_BEFORE', 24) . 'h before."' : '' !!}>{{ Carbon\Carbon::parse($listing->inactive_datetime)->setTimezone('Europe/London')->format('d/m/Y \a\t H:i') }}</b><i class="fa fa-info-circle fa-pad-5l sr-icons" data-toggle="tooltip" data-placement="top" title="To prevent bots and increase the quality of results, listings must be reactivated every {{ env('LISTING_RENEW_DAYS', 14) }} days."></i>
+                            This listing will no longer appear in searches from <b>{{ Carbon\Carbon::parse($listing->inactive_datetime)->setTimezone('Europe/London')->format('d/m/Y \a\t H:i') }}</b><i class="fa fa-info-circle fa-pad-5l sr-icons" data-toggle="tooltip" data-placement="top" title="Listings must be reactivated every {{ env('LISTING_RENEW_DAYS', 14) }} days and can be renewed up to {{ env('LISTING_RENEW_HOURS_BEFORE', 24) }} hours before this."></i>
                             {!! Carbon\Carbon::parse($listing->inactive_datetime) <= Carbon\Carbon::now()->addHours(env('LISTING_RENEW_HOURS_BEFORE', 24)) ? '(<a href="#" class="renew-activation-link" listing-id=' . $listing->id . '><i class="fa fa-calendar-plus-o fa-pad-5"></i>Extend for ' . env('LISTING_RENEW_DAYS', 14) . ' days</a>)' : '' !!}
                         </div>
                     </div>
@@ -56,7 +56,7 @@
             @endif
 
             @if (count($listings_inactive) > 0)
-                <h1>Inactive Listings<i class="fa fa-info-circle fa-pad-5l sr-icons" data-toggle="tooltip" data-placement="bottom" title="To prevent bots and increase the quality of results, listings must be reactivated every {{ env('LISTING_RENEW_DAYS', 14) }} days."></i></h1>
+                <h1>Inactive Listings<i class="fa fa-info-circle fa-pad-5l sr-icons" data-toggle="tooltip" data-placement="bottom" title="To ensure a high quality of search results, listings must be reactivated every {{ env('LISTING_RENEW_DAYS', 14) }} days."></i></h1>
                 <a href="{{ route('newlisting') }}" id="new-listing-btn"><i class="fa fa-plus fa-pad-5 sr-icons"></i>New Listing</a>
 
 
@@ -88,7 +88,7 @@
 
                                 <div class="listing-footer">
                                     Listing Options:
-                                    <a href="#" class="activation-link" listing-id="{{ $listing->id }}" data-toggle="tooltip" data-placement="bottom" title="To prevent bots and increase the quality of results, listings must be reactivated every {{ env('LISTING_RENEW_DAYS', 14) }} days."><i class="fa fa-power-off fa-pad-5 sr-icons"></i>Activate</a>&middot;
+                                    <a href="#" class="activation-link" listing-id="{{ $listing->id }}"><i class="fa fa-power-off fa-pad-5 sr-icons"></i>Activate</a>&middot;
                                     <a href="/listings/{{ $listing->id }}/{{ snake_case($listing->title, '-') }}"><i class="fa fa-eye fa-pad-5 sr-icons"></i>View</a>&middot;
                                     <a href="/dashboard/listings/edit/{{ $listing->id }}"><i class="fa fa-pencil-square-o fa-pad-5 sr-icons"></i>Edit</a>&middot;
                                     <a href="/dashboard/listings/delete/{{ $listing->id }}"><i class="fa fa-trash-o fa-pad-5 sr-icons"></i>Delete</a>
@@ -118,5 +118,9 @@
     @include('scripts.activationlinks')
 
     @include('scripts.tooltips')
+
+    <script>
+
+    </script>
 
 @endsection

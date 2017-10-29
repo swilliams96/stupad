@@ -116,19 +116,13 @@
 
     <!-- FILTERS PAGE SCROLLING -->
     <script>
-        var filters_base_scroll = 0;	// initialise
-        var max_margin_top = 0;			// initialise
-        $(document).ready(function() {
-            filters_base_scroll = parseInt($('#filters').css('margin-top'), 10);            // calculate
-            max_margin_top = $("#footer").offset().top - $("#filters").height() - 320;      // calculate
-            setTimeout(function(){ $(window).scroll() }, 500);
-           ;
-        });
-        $(window).scroll(function() {
-            if (window.matchMedia('(min-width: 1200px)').matches && $(window).width() >= 1200) {
-                $("#filters").css("margin-top", Math.min(filters_base_scroll + $(window).scrollTop(), max_margin_top) + "px");
-            }
-        });
+        if (window.matchMedia('(min-width: 1200px)').matches && $(window).width() >= 1200) {
+            const width = $('#filters').width();
+            $('#filters').width(width-4);
+            $('#filters').affix({
+                offset: 0
+            });
+        }
     </script>
 
     @include('scripts.autocomplete')
