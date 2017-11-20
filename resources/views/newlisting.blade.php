@@ -109,6 +109,12 @@
                         </div>
                     </div>
 
+                    <label for="contact_phone" class="space-top">Contact Phone Number:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="This information will not be shown to anyone until you share it with them."></i></label>
+                    <input type="tel" name="contact_phone"/>
+
+                    <label for="contact_email">Contact Email Address:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="This information will not be shown to anyone until you share it with them."></i></label>
+                    <input type="text" name="contact_email"/>
+
                     <label for="description" class="space-top">Description:</label>
                     <textarea rows="8" cols="20" name="description" required></textarea>
 

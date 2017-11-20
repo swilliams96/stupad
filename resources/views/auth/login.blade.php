@@ -15,7 +15,7 @@
                         @endif
                         <form method="POST" action="{{ route('login') }}">
                             {{ csrf_field() }}
-                            <input type="text" id="email" name="email" type="email" placeholder="Email" {{ $errors->has('email') ? 'class="has-error"' : '' }} required autofocus/>
+                            <input type="text" id="email" name="email" type="email" placeholder="Email Address" {{ $errors->has('email') ? 'class="has-error"' : '' }} required autofocus/>
                             <input type="password" id="password" name="password" placeholder="Password" required/>
                             <label style="line-height: 10px;"><input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me</label>
                             <button class="btn btn-primary btn-xl">Log In</button>

@@ -65,6 +65,8 @@ class ListingController extends Controller
             'furnished' => 'required|boolean',
             'bills' => 'required|boolean',
             'pets' => 'required|boolean',
+            'contact_phone' => 'required_without:contact_email|nullable|string|digits_between:10,11|numeric|regex:/^(0)[0-9]+$/|bail',
+            'contact_email' => 'nullable|string|email',
             'description' => 'required|string|max:4096',
             'images' => 'required',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
@@ -72,6 +74,11 @@ class ListingController extends Controller
         [
             'title.max' => 'Your title is too long! Please use less than 64 characters.',
             'postcode.*' => 'Please enter a valid UK postcode.',
+            'contact_phone.required_without' => 'Please enter a contact phone number or email address.',
+            'contact_phone.digits_between' => 'Please enter a valid contact phone number.',
+            'contact_phone.numeric' => 'Please enter a valid contact phone number.',
+            'contact_phone.regex' => 'Please enter a valid contact phone number.',
+            'contact_email.email' => 'Please enter a valid contact email address.',
             'description.max' => 'Your description is too long! Please use less than 4096 characters.',
             'images.*.image' => 'Image uploads must be either JPEG or PNG format.',
             'images.*.mimes' => 'Image uploads must be either JPEG or PNG format.',
@@ -148,6 +155,8 @@ class ListingController extends Controller
             'town' => $request->town,
             'postcode' => $request->postcode,
             'header_image' => 1,
+            'contact_phone' => $request->contact_phone,
+            'contact_email' => $request->contact_email,
         ]);
 
         $i = 1;
@@ -269,6 +278,8 @@ class ListingController extends Controller
             'furnished' => 'required|boolean',
             'bills' => 'required|boolean',
             'pets' => 'required|boolean',
+            'contact_phone' => 'required_without:contact_email|nullable|string|digits_between:10,11|numeric|regex:/^(0)[0-9]+$/|bail',
+            'contact_email' => 'nullable|string|email',
             'description' => 'required|string|max:4096',
             'header_image' => 'required|integer|min:0',
             'images' => 'nullable',
@@ -277,6 +288,11 @@ class ListingController extends Controller
             [
                 'title.max' => 'Your title is too long! Please use less than 64 characters.',
                 'postcode.*' => 'Please enter a valid UK postcode.',
+                'contact_phone.required_without' => 'Please enter a contact phone number or email address.',
+                'contact_phone.digits_between' => 'Please enter a valid contact phone number.',
+                'contact_phone.numeric' => 'Please enter a valid contact phone number.',
+                'contact_phone.regex' => 'Please enter a valid contact phone number.',
+                'contact_email.email' => 'Please enter a valid contact email address.',
                 'description.max' => 'Your description is too long! Please use less than 4096 characters.',
                 'images.*.image' => 'Image uploads must be either JPEG or PNG format.',
                 'images.*.mimes' => 'Image uploads must be either JPEG or PNG format.',
@@ -329,18 +345,20 @@ class ListingController extends Controller
         $short_description = $this->summarise($request->description);
         $description = str_replace(["\r\n", "\r", "\n"], '\n', $request->description);
 
-        $listing->saveOrFail([
-            'title' => $request->title,
-            'rent_value' => $request->rent_value,
-            'rent_period' => $request->rent_period,
-            'description' => $description,
-            'short_description' => $short_description,
-            'bedrooms' => $request->bedrooms,
-            'bathrooms' => $request->bathrooms,
-            'furnished' => $request->furnished,
-            'bills_included' => $request->bills,
-            'pets_allowed' => $request->pets,
-        ]);
+        // SAVE LISTING
+        $listing->title = $request->title;
+        $listing->rent_value = $request->rent_value;
+        $listing->rent_period = $request->rent_period;
+        $listing->description = $description;
+        $listing->short_description = $short_description;
+        $listing->bedrooms = $request->bedrooms;
+        $listing->bathrooms = $request->bathrooms;
+        $listing->furnished = $request->furnished;
+        $listing->bills_included = $request->bills;
+        $listing->pets_allowed = $request->pets;
+        $listing->contact_phone = $request->contact_phone;
+        $listing->contact_email = $request->contact_email;
+        $listing->saveOrFail();
 
         // Delete images that were flagged for deletion
         for ($i = 1; $i <= count($listing->images); $i++) {
@@ -387,7 +405,6 @@ class ListingController extends Controller
         $listing->save();
 
         return redirect(route('mylistings'));
-
     }
 
     /**
