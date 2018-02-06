@@ -1496,6 +1496,7 @@ div.listing div.listing-footer {
 	min-height: 400px;
 	padding: 20px 0;
 	background: #fff;
+    box-shadow: 0 -5px 60px rgba(0,0,0,0.7);
 }
 
 #listing-page-content h2 {
