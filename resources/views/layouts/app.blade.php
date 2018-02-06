@@ -76,6 +76,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
+                    <li><a class="page-scroll nav-btn" style="margin-right: 20px" href="{{ route('search') }}">Search</a></li>
                     <li>
                         <a class="page-scroll nav-btn" href="{{ route('login') }}">Log In</a>
                     </li>
