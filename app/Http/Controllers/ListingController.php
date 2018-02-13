@@ -65,6 +65,7 @@ class ListingController extends Controller
             'furnished' => 'required|boolean',
             'bills' => 'required|boolean',
             'pets' => 'required|boolean',
+            'contact_prefs' => 'required|integer|min:0',
             'contact_phone' => 'required_without:contact_email|nullable|string|digits_between:10,11|numeric|regex:/^(0)[0-9]+$/|bail',
             'contact_email' => 'nullable|string|email',
             'description' => 'required|string|max:4096',
@@ -95,8 +96,14 @@ class ListingController extends Controller
         $short_description = $this->summarise($request->description);
         $description = str_replace(["\r\n", "\r", "\n"], '\n', $request->description);
 
-        $json = file_get_contents('http://api.postcodes.io/postcodes/' . rawurlencode($request->postcode));
-        $postcodeio = json_decode($json);
+        $pcjson = @file_get_contents('http://api.postcodes.io/postcodes/' . rawurlencode($request->postcode));
+        if (!$pcjson) {
+            $bag = new MessageBag();
+            $bag->add('postcode.notfound', 'Postcode could not be found. Please check and try again. If you continue to have issues please contact support.');
+            return back()->withInput()->with('errors', session()->get('errors', new ViewErrorBag())->put('default', $bag));
+        }
+
+        $postcodeio = json_decode($pcjson);
         if ($postcodeio->status == 200) {
             $area = Area::where('admin_district', 'like', $postcodeio->result->admin_district)->first();
             if ($area == null) {                    // If we couldn't find it from the admin_district...
@@ -115,7 +122,7 @@ class ListingController extends Controller
             }
         } else {
             $bag = new MessageBag();
-            $bag->add('postcode.notfound', 'Postcode could not be found. Please check and try again. If you continue to have issues please contact support.');
+            $bag->add('postcode.notfound', 'There was an error processing your postcode. Please check it and try again. If you continue to have issues please contact support.');
             return back()->withInput()->with('errors', session()->get('errors', new ViewErrorBag())->put('default', $bag));
         }
 
@@ -155,6 +162,7 @@ class ListingController extends Controller
             'town' => $request->town,
             'postcode' => $request->postcode,
             'header_image' => 1,
+            'contact_prefs' => $request->contact_prefs,
             'contact_phone' => $request->contact_phone,
             'contact_email' => $request->contact_email,
         ]);
