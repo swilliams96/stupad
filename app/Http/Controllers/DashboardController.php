@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class DashboardController extends Controller
@@ -69,7 +70,9 @@ class DashboardController extends Controller
         if (!Auth::user()->landlord)
             return redirect(route('savedlistings'));
 
-        return view('newlisting');
+        $contact_prefs = DB::table('contact_prefs')->get();
+
+        return view('newlisting', ['contact_prefs' => $contact_prefs]);
     }
 
     public function editlisting(Request $request, $id) {

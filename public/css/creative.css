@@ -1878,7 +1878,7 @@ p.small-text {
     max-width: 400px;
 }
 
-.mainpage input:not([type=file]), .mainpage textarea, .mainpage select, .mainpage .input {
+.mainpage input:not([type=file]):not([type=radio]), .mainpage textarea, .mainpage select, .mainpage .input {
 	display: block;
 	font-size: 14px;
 	font-weight: 400;
@@ -1915,6 +1915,55 @@ p.small-text {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 7px 0 7px 6px;
+}
+
+.mainpage .radio-group {
+    max-width: 600px;
+    min-width: 250px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    margin-top: 3px;
+}
+
+.mainpage .radio-group input[type=radio] {
+    height: 1.2em;
+    width: 1.2em;
+}
+
+.mainpage .radio-group label {
+    padding: 8px 12px;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    transition: background-color .2s;
+}
+
+.mainpage .radio-group label.selected {
+    background: #eee;
+}
+
+.mainpage .radio-group label:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.mainpage .radio-group .radio-heading {
+    font-size: 14px;
+    font-family: "Open Sans", 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.5em;
+    height: 1.5em;
+    display: inline-block;
+    margin-bottom: 3px;
+    padding-left: 0.3em;
+}
+
+.mainpage .radio-group .radio-description {
+    font-weight: 400;
+    display: block;
+    font-size: 11px;
+    color: #777;
+    padding: 0 10px 4px 2em;
 }
 
 .mainpage input:disabled {

@@ -109,6 +109,17 @@
                         </div>
                     </div>
 
+                    <label class="space-top">Contact Preference:</label>
+                    <div class="radio-group">
+                        @foreach ($contact_prefs as $pref)
+                        <label>
+                            <input type="radio" name="contact_prefs" value="{{ $pref->id }}"{{ $loop->first ? ' checked' : '' }}>
+                            <span class="radio-heading">{{ $pref->title }}</span>
+                            <span class="radio-description">{{ $pref->description }}<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-info-circle sr-icons" data-toggle="tooltip" data-placement="top" title="{{ $pref->flavour }}"></i></span>
+                        </label>
+                        @endforeach
+                    </div>
+
                     <label for="contact_phone" class="space-top">Contact Phone Number:<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-lock float-right sr-icons" data-toggle="tooltip" data-placement="left" title="This information will not be shown to anyone until you share it with them."></i></label>
                     <input type="tel" name="contact_phone"/>
 
@@ -126,7 +137,7 @@
                             </div>
                         </div>
                     </div>
-                    <p style="font-size: 12px;">Use Shift and Control keys to select multiple images.</p>
+                    <p style="font-size: 12px;">Use the shift key to select multiple images.</p>
 
                     <button class="btn btn-primary btn-xl space-top">Create</button>
                 </form>
@@ -137,6 +148,8 @@
             @include('scripts.imageupload')
 
             @include('scripts.tooltips')
+
+            @include('scripts.radioselectionstyle')
 
         </div>
     </div>
