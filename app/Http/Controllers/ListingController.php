@@ -65,7 +65,7 @@ class ListingController extends Controller
             'furnished' => 'required|boolean',
             'bills' => 'required|boolean',
             'pets' => 'required|boolean',
-            'contact_prefs' => 'required|integer|min:0',
+            'contact_prefs' => 'required|integer|min:1',
             'contact_phone' => 'required_without:contact_email|nullable|string|digits_between:10,11|numeric|regex:/^(0)[0-9]+$/|bail',
             'contact_email' => 'nullable|string|email',
             'description' => 'required|string|max:4096',
