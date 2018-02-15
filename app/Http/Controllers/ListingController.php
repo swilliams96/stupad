@@ -286,6 +286,7 @@ class ListingController extends Controller
             'furnished' => 'required|boolean',
             'bills' => 'required|boolean',
             'pets' => 'required|boolean',
+            'contact_prefs' => 'required|integer|min:1',
             'contact_phone' => 'required_without:contact_email|nullable|string|digits_between:10,11|numeric|regex:/^(0)[0-9]+$/|bail',
             'contact_email' => 'nullable|string|email',
             'description' => 'required|string|max:4096',
@@ -364,6 +365,7 @@ class ListingController extends Controller
         $listing->furnished = $request->furnished;
         $listing->bills_included = $request->bills;
         $listing->pets_allowed = $request->pets;
+        $listing->contact_prefs = $request->contact_prefs;
         $listing->contact_phone = $request->contact_phone;
         $listing->contact_email = $request->contact_email;
         $listing->saveOrFail();
