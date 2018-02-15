@@ -109,7 +109,7 @@
                         </div>
                     </div>
 
-                    <label class="space-top">Contact Preference:</label>
+                    <label class="space-top">Contact Preferences:</label>
                     <div class="radio-group">
                         @foreach ($contact_prefs as $pref)
                         <label>

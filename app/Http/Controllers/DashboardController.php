@@ -81,8 +81,11 @@ class DashboardController extends Controller
         if (Auth::user() != $listing->owner || $listing == null)
             return redirect(route('mylistings'));
 
+        $contact_prefs = DB::table('contact_prefs')->get();
+
         return view('editlisting')
-            ->with('listing', $listing);
+            ->with('listing', $listing)
+            ->with('contact_prefs', $contact_prefs);
     }
 
     public function deletelisting(Request $request, $id) {
