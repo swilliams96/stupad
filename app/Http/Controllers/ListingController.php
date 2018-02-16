@@ -294,19 +294,19 @@ class ListingController extends Controller
             'images' => 'nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
         ],
-            [
-                'title.max' => 'Your title is too long! Please use less than 64 characters.',
-                'postcode.*' => 'Please enter a valid UK postcode.',
-                'contact_phone.required_without' => 'Please enter a contact phone number or email address.',
-                'contact_phone.digits_between' => 'Please enter a valid UK contact phone number.',
-                'contact_phone.numeric' => 'Please enter a valid UK contact phone number.',
-                'contact_phone.regex' => 'Please enter a valid UK contact phone number.',
-                'contact_email.email' => 'Please enter a valid contact email address.',
-                'description.max' => 'Your description is too long! Please use less than 4096 characters.',
-                'images.*.image' => 'Image uploads must be either JPEG or PNG format.',
-                'images.*.mimes' => 'Image uploads must be either JPEG or PNG format.',
-                'images.*.max' => 'Image uploads must be less than 5MB in size.',
-            ]);
+        [
+            'title.max' => 'Your title is too long! Please use less than 64 characters.',
+            'postcode.*' => 'Please enter a valid UK postcode.',
+            'contact_phone.required_without' => 'Please enter a contact phone number or email address.',
+            'contact_phone.digits_between' => 'Please enter a valid UK contact phone number.',
+            'contact_phone.numeric' => 'Please enter a valid UK contact phone number.',
+            'contact_phone.regex' => 'Please enter a valid UK contact phone number.',
+            'contact_email.email' => 'Please enter a valid contact email address.',
+            'description.max' => 'Your description is too long! Please use less than 4096 characters.',
+            'images.*.image' => 'Image uploads must be either JPEG or PNG format.',
+            'images.*.mimes' => 'Image uploads must be either JPEG or PNG format.',
+            'images.*.max' => 'Image uploads must be less than 5MB in size.',
+        ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator->errors())->withInput();
