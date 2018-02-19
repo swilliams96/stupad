@@ -200,7 +200,7 @@
                     console.log(response.message.toString());
                     if (response.status == 200) {               // CONTACT DETAILS RELEASED
                         FB.AppEvents.logEvent('CONTACT_DETAILS_VIEWED');
-                        $('#contact-details').html('').append('<p>Contact details for this listing can be found below:</p>');
+                        $('#contact-details').html('');
                         if (response.data.phone) $('#contact-details').append('<label>Phone:</label><pre>' + response.data.phone + '</pre>');
                         if (response.data.email) $('#contact-details').append('<label>Email:</label><pre>' + response.data.email + '</pre>');
                         if (response.data.phone || response.data.email) $('#contact-details').append('<p style="padding-top: 24px">Alternatively, you can send a message to the listing owner below:</p>');
@@ -235,6 +235,10 @@
             });
             $('#contactModal').modal();
         });
+
+        $('#contactModal').on('shown.bs.modal', function() {
+            $('#contact-msg-input').focus();
+        })
 
         $('body').on('click', '#request-contact-details-btn', function() {
             // AJAX REQUEST CONTACT DETAILS
