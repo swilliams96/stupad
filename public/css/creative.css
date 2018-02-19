@@ -1671,6 +1671,31 @@ div.listing div.listing-footer {
 	text-decoration: none;
 }
 
+.modal h3, .modal h4 {
+    display: inline-block;
+}
+
+.modal p {
+    font-size: 14px;
+}
+
+.modal .modal-body textarea {
+    height: 150px;
+    min-height: 100px;
+    max-height: 300px;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+.modal .modal-body textarea::placeholder {
+    color: #bbb;
+}
+
+.modal #send-message-btn {
+    margin: 10px 0 0 auto;
+}
+
 
 .fancybox-thumbs {
   top: auto;
@@ -1878,7 +1903,7 @@ p.small-text {
     max-width: 400px;
 }
 
-.mainpage input:not([type=file]):not([type=radio]), .mainpage textarea, .mainpage select, .mainpage .input {
+.mainpage input:not([type=file]):not([type=radio]), .mainpage textarea, .modal textarea, .mainpage select, .mainpage .input {
 	display: block;
 	font-size: 14px;
 	font-weight: 400;
