@@ -19,6 +19,8 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+
+    // PROFILE
     public function profile(Request $request) {
         return view('profile');
     }
@@ -58,6 +60,8 @@ class DashboardController extends Controller
         return back()->withErrors()->with('results', 'fail_password');
     }
 
+
+    // LISTINGS
     public function mylistings(Request $request) {
         $activelistings = Auth::user()->activelistings;
         $inactivelistings = Auth::user()->inactivelistings;
@@ -105,5 +109,34 @@ class DashboardController extends Controller
 
         return view('savedlistings')
             ->with('savedlistings', $savedlistings);
+    }
+
+
+    // MESSAGES
+    public function messages(Request $request) {
+        return view('messagelist')
+            ->with('chats', null);
+    }
+
+    public function viewmessage(Request $request, $userid=null) {
+        if (is_null($userid)) {
+            return redirect('messages');
+        } else {
+
+            // TODO
+
+        }
+    }
+
+    public function sendmessage(Request $request, $userid) {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'Not logged in.',
+            ]);
+        }
+
+        // TODO
+
     }
 }
