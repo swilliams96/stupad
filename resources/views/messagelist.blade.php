@@ -13,7 +13,10 @@
                 <h1>Messages</h1>
                 @if (count($chats) > 0)
                     @foreach ($chats as $chat)
-                        {{ $chat->name }}
+                    <a href="/dashboard/messages/{{ $chat->first()->other }}" class="chat {{ is_null($chat->first()->seen_at) ? 'chat-unread' : 'chat-read' }}">
+                        <h3>{{ $chat->first()->full_name }}</h3>
+                        <p>{{ $chat->first()->message }}</p>
+                    </a>
                     @endforeach
                 @else
                 <div>
@@ -24,14 +27,11 @@
                     </div>
                 </div>
                 @endif
-
             </div>
 
             <div class="col-lg-3 no-float"></div>
 
         </div>
     </div>
-
-    @include('scripts.passwordvalidation')
 
 @endsection

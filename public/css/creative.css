@@ -2159,3 +2159,50 @@ p.small-text {
     margin: 0 8px 2px 20px;
     vertical-align: middle;
 }
+
+
+.mainpage .chat {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border: 1px solid #aaa;
+    transition: all .1s;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.mainpage .chat.chat-unread {
+    background-color: #FCF3F3;
+    border-color: #b48080;
+}
+
+.mainpage .chat:hover, .mainpage .chat:active {
+    text-decoration: none;
+}
+
+.mainpage .chat.chat-unread:hover, .mainpage .chat.chat-unread:active {
+    background-color: #f5e9e9;
+    border-color: #b48080;
+}
+
+.mainpage .chat.chat-read:hover, .mainpage .chat.chat-read:active {
+    background-color: #faf5f5;
+    border-color: #918181;
+}
+
+.mainpage .chat * {
+    margin: 0;
+}
+
+.mainpage .chat h3 {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+.mainpage .chat.chat-read h3 {
+    font-weight: 600;
+    color: #333;
+}

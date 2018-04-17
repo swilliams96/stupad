@@ -114,8 +114,8 @@ class DashboardController extends Controller
 
     // MESSAGES
     public function messages(Request $request) {
-        return view('messagelist')
-            ->with('chats', null);
+        $chats = $request->user()->messages()->sortByDesc('sent_at')->groupBy('other')->all();
+        return view('messagelist')->with('chats', $chats);
     }
 
     public function viewmessage(Request $request, $userid=null) {
@@ -124,6 +124,7 @@ class DashboardController extends Controller
         } else {
 
             // TODO
+            return $userid;
 
         }
     }

@@ -48,4 +48,34 @@ class User extends Authenticatable
             ->whereNotNull('unsaved_datetime')
             ->orderBy('unsaved_datetime', 'desc');
     }
+
+
+    public function sentmessages($to = null) {
+        return is_null($to)
+            ? $this->hasMany(Message::class, 'from')
+            : $this->hasMany(Message::class, 'from')->where('to', $to);
+    }
+
+    public function receivedmessages($from = null) {
+        return is_null($from)
+            ? $this->hasMany(Message::class, 'to')
+            : $this->hasMany(Message::class, 'to')->where('from', $from);
+    }
+
+    public function messages() {
+        $sent = $this->sentmessages()->get();
+        $received = $this->receivedmessages()->get();
+        $messages = $sent->merge($received);
+        $messages->map(function ($message) {
+            $message['other'] = ($message['from'] == $this->id
+                ? $message['to']
+                : $message['from']);
+
+            $user = User::find($message['other']);
+            is_null($user)
+                ? $message['full_name'] = 'unknown'
+                : $message['full_name'] = $user->first_name . ' ' . $user->last_name;
+        });
+        return $messages;
+    }
 }
