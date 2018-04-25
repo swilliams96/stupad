@@ -1,5 +1,5 @@
             <!-- SIDEBAR -->
-            <div class="col-lg-3 leftsidebar">
+            <div class="col-lg-3 leftsidebar no-select">
                 <div id="sidebar">
                     <h1><i class="fa fa-bars fa-pad-10"></i>Dashboard</h1>
                     <ul>
