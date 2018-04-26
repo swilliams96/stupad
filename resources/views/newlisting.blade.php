@@ -112,11 +112,13 @@
                     <label class="space-top">Contact Preferences:</label>
                     <div class="radio-group">
                         @foreach ($contact_prefs as $pref)
+                        @if ($pref->title != 'Approval Required')
                         <label>
-                            <input type="radio" name="contact_prefs" value="{{ $pref->id }}"{{ $loop->first ? ' checked' : '' }}>
+                            <input type="radio" name="contact_prefs" value="{{ $pref->id }}"{{ $pref->id == 2 ? ' checked' : '' }}>
                             <span class="radio-heading">{{ $pref->title }}</span>
                             <span class="radio-description">{{ $pref->description }}<i class="fa fa-pad-5 fa-pad-5l fa-pad-5t fa-info-circle sr-icons" data-toggle="tooltip" data-placement="top" title="{{ $pref->flavour }}"></i></span>
                         </label>
+                        @endif
                         @endforeach
                     </div>
 
