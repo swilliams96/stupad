@@ -5,7 +5,7 @@
     <div class="container fullwidth fullheight">
         <div class="row" style="margin: 0; height: 100%; display: table-row;">
 
-            @include('common.dashboardsidebar', ['page' => 'view-message'])
+            @include('common.dashboardsidebar', ['page' => 'viewmessage'])
 
 
             <!-- MAIN PAGE -->
