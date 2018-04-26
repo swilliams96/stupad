@@ -49,7 +49,7 @@
 
             var options_bedrooms = ["Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms", "5 bedrooms", "6+ bedrooms"];
             var bedroom_defaults = [
-                {{ Cookie::get('lastsearch_bedrooms_min', 2) }},
+                {{ Cookie::get('lastsearch_bedrooms_min', 1) }},
                 {{ Cookie::get('lastsearch_bedrooms_max', 4) }}
             ];
             $("#bedrooms-min-label").html(options_bedrooms[bedroom_defaults[0]]);
@@ -86,7 +86,7 @@
             var options_bathrooms = ["1 bathroom", "2 bathrooms", "3 bathrooms", "4 bathrooms", "5+ bathrooms"];
             var bathroom_defaults = [
                 {{ Cookie::get('lastsearch_bathrooms_min', 1) }},
-                {{ Cookie::get('lastsearch_bathrooms_max', 4) }}
+                {{ Cookie::get('lastsearch_bathrooms_max', 3) }}
             ];
             $("#bathrooms-min-label").html(options_bathrooms[bathroom_defaults[0]-1]);
             $("#bathrooms-max-label").html(options_bathrooms[bathroom_defaults[1]-1]);

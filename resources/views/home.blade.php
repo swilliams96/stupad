@@ -7,7 +7,7 @@
                 <h1 id="homeHeading">Easy Accommodation for Students</h1>
                 <hr>
                 <form method="GET" action="{{ route('search') }}">
-                    <input type="text" id="locationselect" name="location" placeholder="What university are you at?" class="location-autocomplete"/>
+                    <input type="text" id="locationselect" name="location" placeholder="What university are you at?" value="University of Bath" class="location-autocomplete"/>
                     <button class="btn btn-primary btn-xl" type="submit">Search</button>
                 </form>
 
