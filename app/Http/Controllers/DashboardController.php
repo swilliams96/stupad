@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Listing;
+use App\Message;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -118,14 +119,22 @@ class DashboardController extends Controller
         return view('messagelist')->with('chats', $chats);
     }
 
-    public function viewmessage(Request $request, $userid=null) {
-        if (is_null($userid)) {
+    public function viewmessage(Request $request, $otherid=null) {
+        if (is_null($otherid)) {
             return redirect('messages');
         } else {
+            // TODO: mark all unseen messages in this chat as seen
 
-            // TODO
-            return $userid;
+            $other = User::find($otherid);
+            if (is_null($other))
+                return redirect('messages');
 
+            $messages = $request->user()->messages($otherid);
+
+            return view('message')
+                ->with('other', $other)
+                ->with('user', $request->user())
+                ->with('messages', $messages);
         }
     }
 

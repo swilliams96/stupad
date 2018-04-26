@@ -484,12 +484,10 @@ header .header-content .header-content-inner p {
 }
 
 img::selection {
-  color: #fff;
   background: 0 0;
 }
 
 img::-moz-selection {
-  color: #fff;
   background: 0 0;
 }
 
@@ -2205,4 +2203,75 @@ p.small-text {
 .mainpage .chat.chat-read h3 {
     font-weight: 600;
     color: #333;
+}
+
+.mainpage .message {
+    margin-bottom: 4px;
+    padding: 8px 12px;
+    max-width: 60%;
+    width: fit-content;
+    border-radius: 4px;
+}
+
+.mainpage .message * {
+    width: fit-content;
+}
+
+.mainpage .message.message-sent * {
+    margin-left: auto;
+}
+
+.mainpage .message.message-received * {
+    margin-right: auto;
+}
+
+.mainpage .message h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 3px;
+}
+
+.mainpage .message p {
+    margin-bottom: 5px;
+    height: auto;
+}
+
+.mainpage .message.message-sent {
+    text-align: right;
+    margin-left: auto;
+    background-color: #fae3e3;
+}
+
+.mainpage .message.message-received {
+    text-align: left;
+    margin-right: auto;
+    background-color: #eee;
+}
+
+.mainpage .message-textbox-container {
+    position: absolute; /* Might want to change to 'fixed' to improve mobile UX */
+    bottom: 10px;
+    width: calc(100% - 40px);
+    height: 60px;
+}
+
+.mainpage .message-textbox-container textarea.message-textbox {
+    resize: none;
+    margin: 0;
+    display: inline-block;
+    width: calc(100% - 100px);
+    min-width: unset;
+    max-width: unset;
+    height: 100%;
+    min-height: unset;
+    max-height: unset;
+}
+
+.mainpage .message-textbox-container .btn-send {
+    width: 94px;
+    height: 100%;
+    border-radius: 6px;
+    margin: auto 0px auto auto;
+    display: inline-block;
+    vertical-align: top;
 }

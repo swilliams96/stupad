@@ -62,10 +62,10 @@ class User extends Authenticatable
             : $this->hasMany(Message::class, 'to')->where('from', $from);
     }
 
-    public function messages() {
-        $sent = $this->sentmessages()->get();
-        $received = $this->receivedmessages()->get();
-        $messages = $sent->merge($received);
+    public function messages($other = null) {
+        $sent = $this->sentmessages($other)->get();
+        $received = $this->receivedmessages($other)->get();
+        $messages = $sent->merge($received)->sortBy('sent_at');
         $messages->map(function ($message) {
             $message['other'] = ($message['from'] == $this->id
                 ? $message['to']
@@ -75,7 +75,11 @@ class User extends Authenticatable
             is_null($user)
                 ? $message['full_name'] = 'unknown'
                 : $message['full_name'] = $user->first_name . ' ' . $user->last_name;
+
+            // TODO: convert the message string into HTML to allow line breaks (similar to listing descriptions)
+            // TODO: will also need to truncate this into a new "summary" field on each message (using the ListingController summarise function)
         });
         return $messages;
     }
+
 }
