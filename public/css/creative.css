@@ -484,12 +484,10 @@ header .header-content .header-content-inner p {
 }
 
 img::selection {
-  color: #fff;
   background: 0 0;
 }
 
 img::-moz-selection {
-  color: #fff;
   background: 0 0;
 }
 
@@ -1671,6 +1669,31 @@ div.listing div.listing-footer {
 	text-decoration: none;
 }
 
+.modal h3, .modal h4 {
+    display: inline-block;
+}
+
+.modal p {
+    font-size: 14px;
+}
+
+.modal .modal-body textarea {
+    height: 150px;
+    min-height: 100px;
+    max-height: 300px;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+.modal .modal-body textarea::placeholder {
+    color: #bbb;
+}
+
+.modal #send-message-btn {
+    margin: 10px 0 0 auto;
+}
+
 
 .fancybox-thumbs {
   top: auto;
@@ -1878,7 +1901,7 @@ p.small-text {
     max-width: 400px;
 }
 
-.mainpage input:not([type=file]), .mainpage textarea, .mainpage select, .mainpage .input {
+.mainpage input:not([type=file]):not([type=radio]), .mainpage textarea, .modal textarea, .mainpage select, .mainpage .input {
 	display: block;
 	font-size: 14px;
 	font-weight: 400;
@@ -1915,6 +1938,55 @@ p.small-text {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 7px 0 7px 6px;
+}
+
+.mainpage .radio-group {
+    max-width: 600px;
+    min-width: 250px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    margin-top: 3px;
+}
+
+.mainpage .radio-group input[type=radio] {
+    height: 1.2em;
+    width: 1.2em;
+}
+
+.mainpage .radio-group label {
+    padding: 8px 12px;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    transition: background-color .2s;
+}
+
+.mainpage .radio-group label.selected {
+    background: #eee;
+}
+
+.mainpage .radio-group label:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.mainpage .radio-group .radio-heading {
+    font-size: 14px;
+    font-family: "Open Sans", 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.5em;
+    height: 1.5em;
+    display: inline-block;
+    margin-bottom: 3px;
+    padding-left: 0.3em;
+}
+
+.mainpage .radio-group .radio-description {
+    font-weight: 400;
+    display: block;
+    font-size: 11px;
+    color: #777;
+    padding: 0 10px 4px 2em;
 }
 
 .mainpage input:disabled {
@@ -2084,4 +2156,122 @@ p.small-text {
     display: inline;
     margin: 0 8px 2px 20px;
     vertical-align: middle;
+}
+
+
+.mainpage .chat {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border: 1px solid #aaa;
+    transition: all .1s;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.mainpage .chat.chat-unread {
+    background-color: #FCF3F3;
+    border-color: #b48080;
+}
+
+.mainpage .chat:hover, .mainpage .chat:active {
+    text-decoration: none;
+}
+
+.mainpage .chat.chat-unread:hover, .mainpage .chat.chat-unread:active {
+    background-color: #f5e9e9;
+    border-color: #b48080;
+}
+
+.mainpage .chat.chat-read:hover, .mainpage .chat.chat-read:active {
+    background-color: #faf5f5;
+    border-color: #918181;
+}
+
+.mainpage .chat * {
+    margin: 0;
+}
+
+.mainpage .chat h3 {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+.mainpage .chat.chat-read h3 {
+    font-weight: 600;
+    color: #333;
+}
+
+.mainpage .message {
+    margin-bottom: 4px;
+    padding: 8px 12px;
+    max-width: 60%;
+    width: fit-content;
+    border-radius: 4px;
+}
+
+.mainpage .message * {
+    width: fit-content;
+}
+
+.mainpage .message.message-sent * {
+    margin-left: auto;
+}
+
+.mainpage .message.message-received * {
+    margin-right: auto;
+}
+
+.mainpage .message h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 3px;
+}
+
+.mainpage .message p {
+    margin-bottom: 5px;
+    height: auto;
+}
+
+.mainpage .message.message-sent {
+    text-align: right;
+    margin-left: auto;
+    background-color: #fae3e3;
+}
+
+.mainpage .message.message-received {
+    text-align: left;
+    margin-right: auto;
+    background-color: #eee;
+}
+
+.mainpage .message-textbox-container {
+    position: absolute; /* Might want to change to 'fixed' to improve mobile UX */
+    bottom: 10px;
+    width: calc(100% - 40px);
+    height: 60px;
+}
+
+.mainpage .message-textbox-container textarea.message-textbox {
+    resize: none;
+    margin: 0;
+    display: inline-block;
+    width: calc(100% - 100px);
+    min-width: unset;
+    max-width: unset;
+    height: 100%;
+    min-height: unset;
+    max-height: unset;
+}
+
+.mainpage .message-textbox-container .btn-send {
+    width: 94px;
+    height: 100%;
+    border-radius: 6px;
+    margin: auto 0px auto auto;
+    display: inline-block;
+    vertical-align: top;
 }

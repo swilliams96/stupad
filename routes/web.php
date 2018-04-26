@@ -39,6 +39,9 @@ Route::post('/listings/{id}/renew', 'ListingController@renew');
 Route::post('/listings/{id}/save', 'ListingController@save');
 Route::post('/listings/{id}/unsave', 'ListingController@unsave');
 
+Route::post('/listings/contact-details/{id}', 'ListingController@contact');
+Route::post('/listings/contact-details/{id}/request', 'ListingController@contactrequest');
+
 // SUBSCRIPTIONS CONTROLLER
 Route::post('/subscribe/{campaign}', 'SubscriptionsController@subscribe'); // TODO
 

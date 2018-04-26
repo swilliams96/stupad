@@ -48,4 +48,38 @@ class User extends Authenticatable
             ->whereNotNull('unsaved_datetime')
             ->orderBy('unsaved_datetime', 'desc');
     }
+
+
+    public function sentmessages($to = null) {
+        return is_null($to)
+            ? $this->hasMany(Message::class, 'from')
+            : $this->hasMany(Message::class, 'from')->where('to', $to);
+    }
+
+    public function receivedmessages($from = null) {
+        return is_null($from)
+            ? $this->hasMany(Message::class, 'to')
+            : $this->hasMany(Message::class, 'to')->where('from', $from);
+    }
+
+    public function messages($other = null) {
+        $sent = $this->sentmessages($other)->get();
+        $received = $this->receivedmessages($other)->get();
+        $messages = $sent->merge($received)->sortBy('sent_at');
+        $messages->map(function ($message) {
+            $message['other'] = ($message['from'] == $this->id
+                ? $message['to']
+                : $message['from']);
+
+            $user = User::find($message['other']);
+            is_null($user)
+                ? $message['full_name'] = 'unknown'
+                : $message['full_name'] = $user->first_name . ' ' . $user->last_name;
+
+            // TODO: convert the message string into HTML to allow line breaks (similar to listing descriptions)
+            // TODO: will also need to truncate this into a new "summary" field on each message (using the ListingController summarise function)
+        });
+        return $messages;
+    }
+
 }

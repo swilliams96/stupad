@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
 {
-    protected $fillable = ['title', 'landlord_id', 'rent_value', 'rent_period', 'description', 'short_description', 'area_id', 'lat', 'lng', 'bedrooms', 'bathrooms', 'town_distance', 'furnished', 'bills_included', 'pets_allowed', 'address1', 'address2', 'town', 'postcode', 'header_image', 'contact_phone', 'contact_email'];
+    protected $fillable = ['title', 'landlord_id', 'rent_value', 'rent_period', 'description', 'short_description', 'area_id', 'lat', 'lng', 'bedrooms', 'bathrooms', 'town_distance', 'furnished', 'bills_included', 'pets_allowed', 'address1', 'address2', 'town', 'postcode', 'header_image', 'contact_prefs', 'contact_phone', 'contact_email'];
 
     public function area() {
         return $this->belongsTo(Area::class);

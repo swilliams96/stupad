@@ -6,6 +6,7 @@ use App\Area;
 use App\Listing;
 use App\ListingImage;
 use App\SavedListing;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,7 @@ class ListingController extends Controller
             'furnished' => 'required|boolean',
             'bills' => 'required|boolean',
             'pets' => 'required|boolean',
+            'contact_prefs' => 'required|integer|min:1',
             'contact_phone' => 'required_without:contact_email|nullable|string|digits_between:10,11|numeric|regex:/^(0)[0-9]+$/|bail',
             'contact_email' => 'nullable|string|email',
             'description' => 'required|string|max:4096',
@@ -95,8 +97,14 @@ class ListingController extends Controller
         $short_description = $this->summarise($request->description);
         $description = str_replace(["\r\n", "\r", "\n"], '\n', $request->description);
 
-        $json = file_get_contents('http://api.postcodes.io/postcodes/' . rawurlencode($request->postcode));
-        $postcodeio = json_decode($json);
+        $pcjson = @file_get_contents('http://api.postcodes.io/postcodes/' . rawurlencode($request->postcode));
+        if (!$pcjson) {
+            $bag = new MessageBag();
+            $bag->add('postcode.notfound', 'Postcode could not be found. Please check and try again. If you continue to have issues please contact support.');
+            return back()->withInput()->with('errors', session()->get('errors', new ViewErrorBag())->put('default', $bag));
+        }
+
+        $postcodeio = json_decode($pcjson);
         if ($postcodeio->status == 200) {
             $area = Area::where('admin_district', 'like', $postcodeio->result->admin_district)->first();
             if ($area == null) {                    // If we couldn't find it from the admin_district...
@@ -115,7 +123,7 @@ class ListingController extends Controller
             }
         } else {
             $bag = new MessageBag();
-            $bag->add('postcode.notfound', 'Postcode could not be found. Please check and try again. If you continue to have issues please contact support.');
+            $bag->add('postcode.notfound', 'There was an error processing your postcode. Please check it and try again. If you continue to have issues please contact support.');
             return back()->withInput()->with('errors', session()->get('errors', new ViewErrorBag())->put('default', $bag));
         }
 
@@ -155,6 +163,7 @@ class ListingController extends Controller
             'town' => $request->town,
             'postcode' => $request->postcode,
             'header_image' => 1,
+            'contact_prefs' => $request->contact_prefs,
             'contact_phone' => $request->contact_phone,
             'contact_email' => $request->contact_email,
         ]);
@@ -278,6 +287,7 @@ class ListingController extends Controller
             'furnished' => 'required|boolean',
             'bills' => 'required|boolean',
             'pets' => 'required|boolean',
+            'contact_prefs' => 'required|integer|min:1',
             'contact_phone' => 'required_without:contact_email|nullable|string|digits_between:10,11|numeric|regex:/^(0)[0-9]+$/|bail',
             'contact_email' => 'nullable|string|email',
             'description' => 'required|string|max:4096',
@@ -285,19 +295,19 @@ class ListingController extends Controller
             'images' => 'nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
         ],
-            [
-                'title.max' => 'Your title is too long! Please use less than 64 characters.',
-                'postcode.*' => 'Please enter a valid UK postcode.',
-                'contact_phone.required_without' => 'Please enter a contact phone number or email address.',
-                'contact_phone.digits_between' => 'Please enter a valid UK contact phone number.',
-                'contact_phone.numeric' => 'Please enter a valid UK contact phone number.',
-                'contact_phone.regex' => 'Please enter a valid UK contact phone number.',
-                'contact_email.email' => 'Please enter a valid contact email address.',
-                'description.max' => 'Your description is too long! Please use less than 4096 characters.',
-                'images.*.image' => 'Image uploads must be either JPEG or PNG format.',
-                'images.*.mimes' => 'Image uploads must be either JPEG or PNG format.',
-                'images.*.max' => 'Image uploads must be less than 5MB in size.',
-            ]);
+        [
+            'title.max' => 'Your title is too long! Please use less than 64 characters.',
+            'postcode.*' => 'Please enter a valid UK postcode.',
+            'contact_phone.required_without' => 'Please enter a contact phone number or email address.',
+            'contact_phone.digits_between' => 'Please enter a valid UK contact phone number.',
+            'contact_phone.numeric' => 'Please enter a valid UK contact phone number.',
+            'contact_phone.regex' => 'Please enter a valid UK contact phone number.',
+            'contact_email.email' => 'Please enter a valid contact email address.',
+            'description.max' => 'Your description is too long! Please use less than 4096 characters.',
+            'images.*.image' => 'Image uploads must be either JPEG or PNG format.',
+            'images.*.mimes' => 'Image uploads must be either JPEG or PNG format.',
+            'images.*.max' => 'Image uploads must be less than 5MB in size.',
+        ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator->errors())->withInput();
@@ -356,6 +366,7 @@ class ListingController extends Controller
         $listing->furnished = $request->furnished;
         $listing->bills_included = $request->bills;
         $listing->pets_allowed = $request->pets;
+        $listing->contact_prefs = $request->contact_prefs;
         $listing->contact_phone = $request->contact_phone;
         $listing->contact_email = $request->contact_email;
         $listing->saveOrFail();
@@ -545,6 +556,109 @@ class ListingController extends Controller
     }
 
 
+    // CONTACT INFORMATION AJAX
+
+    public function contact(Request $request, $id) {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'Not logged in.',
+            ]);
+        }
+
+        $listing = Listing::find($id);
+
+        if (!$listing) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No listing with this ID could be found.',
+            ]);
+        }
+
+        $phone = $listing->contact_phone ?: '';
+        $email = $listing->contact_email ?: '';
+
+        switch($listing->contact_prefs) {
+            // APPROVAL REQUIRED
+            case 1:
+                // if a previous approval has been approved...
+                // then return the contact details.
+                // else if approval has not yet been granted for this listing to this account...
+                // then respond that approval is required...
+                return response()->json([
+                    'status' => 202,
+                    'message' => 'Viewing contact details requires approval from the listing owner.',
+                ]);
+
+                break;
+
+            // INSTANT RELEASE
+            case 2:
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Contact details for this listing have been provided.',
+                    'data' => [
+                        'phone' => $phone,
+                        'email' => $email,
+                    ]
+                ]);
+                break;
+
+            // MESSAGES ONLY
+            case 3:
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'This listing\' contact preferences prevent release of any details. Please use the site\'s messaging service to contact this listing owner.',
+                ]);
+
+                break;
+
+            default:
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Listing has invalid contact preferences.',
+                ]);
+                break;
+        }
+    }
+
+    public function contactrequest(Request $request, $id) {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'Not logged in.',
+            ]);
+        }
+
+        $listing = Listing::find($id);
+
+        if (!$listing) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No listing with this ID could be found.',
+            ]);
+        }
+
+        $phone = $listing->contact_phone ?: '';
+        $email = $listing->contact_email ?: '';
+
+        // The request is from the listing owner so they automatically have approval
+        if ($listing->landlord() == $request->user()) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contact details for this listing have been provided.',
+                'data' => [
+                    'phone' => $phone,
+                    'email' => $email,
+                ]
+            ]);
+        }
+
+        // If a request has already been approved in the last X days
+        //      then release the contact details
+        // Else submit a contact request and notify the listing owner via email
+        //      and return a 202 response to say the request has been made successfully
+    }
 
 
 

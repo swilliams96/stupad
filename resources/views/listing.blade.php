@@ -23,7 +23,7 @@
                         @else
                         <a href="#" class="btn btn-white btn-xl" id="save-listing-button">Save<i class="fa fa-heart fa-pad-5l"></i></a>
                         @endif
-                        <a href="#" class="btn btn-primary btn-xl">Contact<i class="fa fa-user-circle fa-pad-5l"></i></a>
+                        <a href="#" class="btn btn-primary btn-xl" id="contact-button">Contact<i class="fa fa-user-circle fa-pad-5l"></i></a>
                     </div>
 
                     <div class="listing-page-description">
@@ -125,6 +125,30 @@
         </div>
     </section>
 
+    @if (Auth::check())
+    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Get in Touch</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <i class="fa fa-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="contact-details">
+                        <pre>Loading details...</pre>
+                        <p>If the details do not load, please send a message to the listing owner instead:</p>
+                    </div>
+                    <label>Message:</label>
+                    <textarea id="contact-msg-input" placeholder="Send a message..."></textarea>
+                    <button class="btn btn-sm btn-grey" id="send-message-btn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Fancybox -->
     <script type="text/javascript">
         $("[data-fancybox]").fancybox({
@@ -160,6 +184,64 @@
                 href: 'https://www.stupad.co.uk/listings/{{ $listing->id }}',
             });
             return false;
+        });
+    </script>
+
+    <script>
+        $('#contact-button').on('click', function() {
+            FB.AppEvents.logEvent('CONTACT_BUTTON_PRESSED');
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '/listings/contact-details/{{ $listing->id }}',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN},
+                dataType: 'JSON',
+                success: function (response) {
+                    console.log(response.message.toString());
+                    if (response.status == 200) {               // CONTACT DETAILS RELEASED
+                        FB.AppEvents.logEvent('CONTACT_DETAILS_VIEWED');
+                        $('#contact-details').html('');
+                        if (response.data.phone) $('#contact-details').append('<label>Phone:</label><pre>' + response.data.phone + '</pre>');
+                        if (response.data.email) $('#contact-details').append('<label>Email:</label><pre>' + response.data.email + '</pre>');
+                        if (response.data.phone || response.data.email) $('#contact-details').append('<p style="padding-top: 24px">Alternatively, you can send a message to the listing owner below:</p>');
+                        else $('#contact-details').append('<p><i>An error occurred. No contact details could be found for this listing. Please contact the listing owner by sending a message below instead:</i></p>');
+
+                    } else if (response.status == 202) {        // APPROVAL REQUIRED
+                        $('#contact-details').html('').append('<p style="margin-bottom: 0;">Approval is required to view the contact details for this listing. Please press the button below to request them from the listing owner.</p>')
+                            .append('<button class="btn btn-primary" id="request-contact-details-btn" style="margin: 16px auto">Request Contact Details</button>')
+                            .append('<p>If you just have a question about the listing, or want to get in touch straight away, you can send a message to the listing owner below:</p>');
+
+                    } else if (response.status == 403) {        // MESSAGES ONLY
+                        $('#contact-details').html('').append('<p>Contact details are private for this listing. To contact the listing owner, please send them a message below:</p>');
+
+                    } else if (response.status == 402) {        // NOT LOGGED IN
+                        window.location = '{{ route('login') }}';
+
+                    }  else if (response.status == 404) {        // COULDN'T FIND LISTING
+                        console.error('This listing could not be found... Refreshing the page...');
+                        setTimeout(function() { location.reload(true); }, 1000);
+
+                    } else {
+                        console.error('An error occurred while retrieving contact details for this listing.');
+                        console.error('Error ' + response.status);
+                        console.error(response.responseText);
+                    }
+                },
+                error: function(e) {
+                    console.error('An error occurred while retrieving contact details for this listing.');
+                    console.log('Refreshing page...');
+                    setTimeout(function() { location.reload(true); }, 1000);
+                }
+            });
+            $('#contactModal').modal();
+        });
+
+        $('#contactModal').on('shown.bs.modal', function() {
+            $('#contact-msg-input').focus();
+        })
+
+        $('body').on('click', '#request-contact-details-btn', function() {
+            // AJAX REQUEST CONTACT DETAILS
         });
     </script>
 

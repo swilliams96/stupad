@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Listing;
+use App\Message;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class DashboardController extends Controller
@@ -18,6 +20,8 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+
+    // PROFILE
     public function profile(Request $request) {
         return view('profile');
     }
@@ -57,6 +61,8 @@ class DashboardController extends Controller
         return back()->withErrors()->with('results', 'fail_password');
     }
 
+
+    // LISTINGS
     public function mylistings(Request $request) {
         $activelistings = Auth::user()->activelistings;
         $inactivelistings = Auth::user()->inactivelistings;
@@ -69,7 +75,9 @@ class DashboardController extends Controller
         if (!Auth::user()->landlord)
             return redirect(route('savedlistings'));
 
-        return view('newlisting');
+        $contact_prefs = DB::table('contact_prefs')->get();
+
+        return view('newlisting', ['contact_prefs' => $contact_prefs]);
     }
 
     public function editlisting(Request $request, $id) {
@@ -78,8 +86,11 @@ class DashboardController extends Controller
         if (Auth::user() != $listing->owner || $listing == null)
             return redirect(route('mylistings'));
 
+        $contact_prefs = DB::table('contact_prefs')->get();
+
         return view('editlisting')
-            ->with('listing', $listing);
+            ->with('listing', $listing)
+            ->with('contact_prefs', $contact_prefs);
     }
 
     public function deletelisting(Request $request, $id) {
@@ -99,5 +110,43 @@ class DashboardController extends Controller
 
         return view('savedlistings')
             ->with('savedlistings', $savedlistings);
+    }
+
+
+    // MESSAGES
+    public function messages(Request $request) {
+        $chats = $request->user()->messages()->sortByDesc('sent_at')->groupBy('other')->all();
+        return view('messagelist')->with('chats', $chats);
+    }
+
+    public function viewmessage(Request $request, $otherid=null) {
+        if (is_null($otherid)) {
+            return redirect('messages');
+        } else {
+            // TODO: mark all unseen messages in this chat as seen
+
+            $other = User::find($otherid);
+            if (is_null($other))
+                return redirect('messages');
+
+            $messages = $request->user()->messages($otherid);
+
+            return view('message')
+                ->with('other', $other)
+                ->with('user', $request->user())
+                ->with('messages', $messages);
+        }
+    }
+
+    public function sendmessage(Request $request, $userid) {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'Not logged in.',
+            ]);
+        }
+
+        // TODO
+
     }
 }
