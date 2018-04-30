@@ -654,6 +654,7 @@ class ListingController extends Controller
             ]);
         }
 
+        // TODO
         // If a request has already been approved in the last X days
         //      then release the contact details
         // Else submit a contact request and notify the listing owner via email
@@ -664,8 +665,7 @@ class ListingController extends Controller
 
     // SUPPORT FUNCTIONS
 
-    function summarise(string $long, int $length = 190)
-    {
+    function summarise(string $long, int $length = 190) {
         $long = preg_replace('/\s+/', ' ', trim($long));
 
         $short = substr($long, 0, $length);

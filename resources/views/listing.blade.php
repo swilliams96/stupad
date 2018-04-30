@@ -141,7 +141,7 @@
                         <p>If the details do not load, please send a message to the listing owner instead:</p>
                     </div>
                     <label>Message:</label>
-                    <textarea id="contact-msg-input" placeholder="Send a message..."></textarea>
+                    <textarea id="message-input-text" placeholder="Send a message..."></textarea>
                     <button class="btn btn-sm btn-grey" id="send-message-btn">Send</button>
                 </div>
             </div>
@@ -236,13 +236,13 @@
             $('#contactModal').modal();
         });
 
+        $('body').on('click', '#request-contact-details-btn', function() {
+            // TODO: AJAX REQUEST CONTACT DETAILS
+        });
+
         $('#contactModal').on('shown.bs.modal', function() {
             $('#contact-msg-input').focus();
         })
-
-        $('body').on('click', '#request-contact-details-btn', function() {
-            // AJAX REQUEST CONTACT DETAILS
-        });
     </script>
 
     @include('scripts.popovers')

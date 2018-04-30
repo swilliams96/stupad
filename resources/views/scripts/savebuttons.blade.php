@@ -1,6 +1,7 @@
     <script>
+        const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
         $('body').on('click', '#save-listing-button', function() {
-            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: '/listings/{{ $listing->id }}/save',
                 type: 'POST',
@@ -30,7 +31,6 @@
         });
 
         $('body').on('click', '#unsave-listing-button', function() {
-            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: '/listings/{{ $listing->id }}/unsave',
                 type: 'POST',
