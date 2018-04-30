@@ -11,16 +11,18 @@
             <!-- MAIN PAGE -->
             <div class="col-lg-6 mainpage no-float" style="padding-bottom: 74px;">
                 <h1>Messages - {{ $other->first_name . ' ' . $other->last_name }}</h1>
+                <div id="message-container">
                 @foreach ($messages as $message)
                     <div class="message message-{{ $message->from == $user->id ? 'sent' : 'received' }}">
                         <h3>{{ $message->from == $user->id ? 'You' : ($message->from == $other->id ? ($other->first_name . ' ' . $other->last_name) : 'Unknown') }}:</h3>
-                        <p>{{ $message->message }}</p>
+                        @foreach ($message->message as $paragraph)<p>{{ $paragraph }}</p>@endforeach
+                        {{--<p>{{ $message->message }}</p>--}}
                     </div>
                 @endforeach
-
+                </div>
                 <div class="message-textbox-container">
-                    <textarea class="message-textbox" placeholder="Type a message..." autofocus></textarea>
-                    <button class="btn btn-primary btn-send">Send</button>
+                    <textarea id="message-input-text" class="message-textbox" name="message" placeholder="Type a message..." autofocus></textarea>
+                    <button id="send-message-btn" class="btn btn-primary btn-send">Send</button>
                 </div>
             </div>
 
@@ -28,5 +30,7 @@
 
         </div>
     </div>
+
+    @include('scripts.messages')
 
 @endsection

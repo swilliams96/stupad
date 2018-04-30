@@ -123,13 +123,18 @@ class DashboardController extends Controller
         if (is_null($otherid)) {
             return redirect('messages');
         } else {
-            // TODO: mark all unseen messages in this chat as seen
-
             $other = User::find($otherid);
-            if (is_null($other))
+            if (!$other)
                 return redirect('messages');
 
             $messages = $request->user()->messages($otherid);
+
+            // TODO: mark all unseen messages in this chat as seen
+
+            // Split the messages up by encoded newlines, ready to render as paragraphs...
+            foreach ($messages as $message) {
+                $message->message = $this->decompress($message->message);
+            }
 
             return view('message')
                 ->with('other', $other)
@@ -138,7 +143,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function sendmessage(Request $request, $userid) {
+    public function sendmessage(Request $request, $otherid) {
         if (!Auth::check()) {
             return response()->json([
                 'status' => 402,
@@ -146,7 +151,54 @@ class DashboardController extends Controller
             ]);
         }
 
-        // TODO
+        $other = User::find($otherid);
 
+        if (!$other) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No user with this ID could be found.',
+            ]);
+        }
+
+        $msg = $request->message;
+
+        if (strlen($msg) == 0) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'There was no message.',
+            ]);
+        }
+
+        $message = new Message();
+        $message->from = Auth::id();
+        $message->to = $otherid;
+        $message->sent_at = Carbon::now();
+        $message->seen_at = null;
+        $message->message = $this->compress($msg);
+        $message->save();
+
+        return response()->json([
+            'status' => 201,
+            'message' => $message->message,
+        ]);
+    }
+
+
+    // SUPPORT FUNCTIONS
+
+    function compress(string $str) {
+        $str = trim($str);
+        $str = str_replace("\r\n", '\n', $str);                     // Escape linebreaks
+        $str = str_replace("\r", '\n', $str);                     // Escape linebreaks
+        $str = str_replace("\n", '\n', $str);                     // Escape linebreaks
+        $str = preg_replace('/\s+/', ' ', $str);                // Single spaces + trim
+        //$str = preg_replace('/(\\n)+/', '\n', $str);            // Single linebreaks
+        return $str;
+    }
+
+    function decompress(string $str) {
+        $parts = explode('\n', $str);
+        $parts = array_filter($parts, 'strlen');          // Remove empty paragraphs from $parts
+        return $parts;
     }
 }

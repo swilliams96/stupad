@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
+    public $timestamps = false;
+
     protected $guarded = ['id'];
 
     public function from() {

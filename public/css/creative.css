@@ -2205,9 +2205,34 @@ p.small-text {
     color: #333;
 }
 
+.mainpage #message-container {
+    max-height: 80vh;
+    max-height: calc(100vh - 180px);
+    padding: 10px 5px 0 0;
+    overflow-x: visible;
+    overflow-y: auto;
+}
+
+.mainpage #message-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.mainpage #message-container::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0);
+}
+
+.mainpage #message-container::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.2);
+    border-radius: 5px;
+}
+
+.mainpage #message-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.25);
+}
+
 .mainpage .message {
     margin-bottom: 4px;
-    padding: 8px 12px;
+    padding: 8px 12px 4px;
     max-width: 60%;
     width: fit-content;
     border-radius: 4px;
@@ -2232,8 +2257,9 @@ p.small-text {
 }
 
 .mainpage .message p {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     height: auto;
+    min-height: 4px;
 }
 
 .mainpage .message.message-sent {
