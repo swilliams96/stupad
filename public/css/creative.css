@@ -2257,6 +2257,7 @@ p.small-text {
 }
 
 .mainpage .message p {
+    text-align: left;
     margin-bottom: 8px;
     height: auto;
     min-height: 4px;

@@ -1,6 +1,4 @@
     <script>
-        const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
         $('body').on('click', '#save-listing-button', function() {
             $.ajax({
                 url: '/listings/{{ $listing->id }}/save',

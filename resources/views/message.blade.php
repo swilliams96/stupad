@@ -31,6 +31,14 @@
         </div>
     </div>
 
+    @include('scripts.csrftoken')
+
     @include('scripts.messages')
+
+    <script>
+        $(document).ready(function() {
+            $('#message-container').scrollTop($('#message-container')[0].scrollHeight - $('#message-container')[0].clientHeight);
+        });
+    </script>
 
 @endsection

@@ -125,7 +125,7 @@
         </div>
     </section>
 
-    @if (Auth::check())
+    @if(Auth::check())
     <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -149,43 +149,12 @@
     </div>
     @endif
 
-    <!-- Fancybox -->
-    <script type="text/javascript">
-        $("[data-fancybox]").fancybox({
-            protect : true,
-            speed : 300,
-            loop : false,
-            thumbs : {
-                showOnStart : true
-            },
-            slideShow  : false
-        });
-    </script>
 
-    <!-- Share buttons -->
-    <script>
-        $('#share-button').on('click', function() {
-            return false;
-        });
+    @include('scripts.csrftoken')
 
-        $(document.body).on('click', '#share-button-messenger', function() {
-            FB.ui({
-                method: 'send',
-                link: 'https://www.stupad.co.uk/listings/{{ $listing->id }}',
-            });
-            return false;
-        });
+    @include('scripts.fancybox')
 
-        $(document.body).on('click', '#share-button-facebook', function() {
-            FB.ui({
-                method: 'share',
-                mobile_iframe: true,
-                quote: 'Check out this student house I found on StuPad!',
-                href: 'https://www.stupad.co.uk/listings/{{ $listing->id }}',
-            });
-            return false;
-        });
-    </script>
+    @include('scripts.sharebuttons')
 
     <script>
         $('#contact-button').on('click', function() {
@@ -236,18 +205,20 @@
             $('#contactModal').modal();
         });
 
-        $('body').on('click', '#request-contact-details-btn', function() {
+        /* $('body').on('click', '#request-contact-details-btn', function() {
             // TODO: AJAX REQUEST CONTACT DETAILS
-        });
+        }); */
 
         $('#contactModal').on('shown.bs.modal', function() {
             $('#contact-msg-input').focus();
-        })
+        });
     </script>
 
     @include('scripts.popovers')
 
     @include('scripts.savebuttons')
+
+    @include('scripts.messages')
 
     @include('common.footer')
 
